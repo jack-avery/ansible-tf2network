@@ -1,0 +1,11 @@
+{% for k, v in rinstagib.items() %}
+{% if 'rinstagib' in item %}
+{% if k in item.rinstagib %}
+{{ k }} "{{ item.rinstagib[k] }}"
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% endfor %}

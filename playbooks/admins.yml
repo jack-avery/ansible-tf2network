@@ -1,0 +1,5 @@
+---
+- name: (Re)load admins_simple.ini
+  hosts: tf2
+  roles:
+    - admins

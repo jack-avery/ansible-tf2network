@@ -1,0 +1,60 @@
+hostname "{{ item.0.hostname }}"
+
+rcon_password "{{ item.1.rcon_pass }}"
+sv_downloadurl "{{ fastdl_url }}"
+
+motdfile_text motd.txt
+
+{% set li = namespace(sv_tags=[]) %}
+{% if 'tags' in item.0 %}
+{% for taglist in [global_tags, item.0.tags] %}
+{% set li.sv_tags = li.sv_tags + taglist %}
+{% endfor %}
+sv_tags "{{ ','.join(li.sv_tags)|safe }}"
+{% else %}
+sv_tags "{{ ','.join(global_tags)|safe }}"
+{% endif %}
+
+log off
+sv_logbans 0
+sv_logecho 0
+sv_logfile 0
+sv_log_onefile 0
+
+sv_vote_issue_nextlevel_allowed 0
+sv_vote_issue_extendlevel_allowed 0
+sv_vote_issue_kick_allowed 0
+sv_vote_issue_scramble_teams_allowed 0
+sv_vote_kick_ban_duration 0
+
+sv_minrate 65535
+sv_maxrate 0
+sv_maxupdaterate 66
+sv_minupdaterate 30
+sv_maxcmdrate 66
+sv_mincmdrate 30
+sv_client_min_interp_ratio 1
+sv_client_max_interp_ratio 2
+sv_client_cmdrate_difference 0
+sv_client_predict 1
+net_chan_limit_msec 128
+net_disconnect_reason 1
+
+mp_idledealmethod 2
+mp_spectators_restricted 1
+mp_allowspectators 0
+mp_autoteambalance 0
+
+{% for cmd in rulesets[item.0.ruleset|default("standard")] %}
+{{ cmd }}
+{% endfor %}
+
+mp_timelimit {{ item.0.timelimit }}
+mp_winlimit {{ item.0.winlimit }}
+mp_maxrounds {{ item.0.maxrounds }}
+
+{% if 'servercfg' in item %}
+{% for cmd in item.0.servercfg %}
+{{ cmd }}
+{% endfor %}
+{% endif %}

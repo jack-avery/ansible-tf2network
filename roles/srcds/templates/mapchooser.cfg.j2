@@ -1,0 +1,11 @@
+{% for k, v in mapchooser.items() %}
+{% if 'mapchooser' in item %}
+{% if k in item.mapchooser %}
+{{ k }} "{{ item.mapchooser[k] }}"
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% endfor %}

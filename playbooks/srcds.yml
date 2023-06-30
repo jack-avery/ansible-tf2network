@@ -1,0 +1,5 @@
+---
+- name: Deploy instances to hosts
+  hosts: tf2
+  roles:
+    - srcds

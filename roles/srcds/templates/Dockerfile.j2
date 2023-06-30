@@ -1,0 +1,8 @@
+FROM jackavery/base-tf2server:latest
+
+# Copy in instance source
+WORKDIR ${HOMEDIR}/tf-dedicated
+COPY --chown=steam:steam . .
+
+USER steam
+ENTRYPOINT [ "/bin/bash", "./run.sh" ]

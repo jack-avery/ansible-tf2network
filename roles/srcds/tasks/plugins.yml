@@ -1,0 +1,6 @@
+---
+- name: Copy enabled plugins to plugin directory
+  ansible.builtin.shell: mv /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
+    /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
+  loop: "{{ instance.plugins }}"
+  delegate_to: "{{ inventory_hostname }}"

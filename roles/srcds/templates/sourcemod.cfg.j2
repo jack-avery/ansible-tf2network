@@ -1,0 +1,11 @@
+{% for k, v in sourcemod.items() %}
+{% if 'sourcemod' in item %}
+{% if k in item.sourcemod %}
+{{ k }} "{{ item.sourcemod[k] }}"
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% endfor %}

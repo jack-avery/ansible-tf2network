@@ -1,0 +1,9 @@
+{% if 'privaccess' in item %}
+{% for id in item.privaccess %}
+"{{ id }}" "0:a"
+{% endfor %}
+{% endif %}
+
+{% for id, perms in admins.items() %}
+"{{ id }}" "{{ perms }}"
+{% endfor %}

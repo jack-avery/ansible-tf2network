@@ -1,0 +1,11 @@
+{% for k, v in advancedinfiniteammo.items() %}
+{% if 'advancedinfiniteammo' in item %}
+{% if k in item.advancedinfiniteammo %}
+{{ k }} "{{ item.advancedinfiniteammo[k] }}"
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% endfor %}

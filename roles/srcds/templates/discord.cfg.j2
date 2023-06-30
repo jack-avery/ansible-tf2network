@@ -1,0 +1,9 @@
+"Discord"
+{
+{% for k, v in discord_webhooks.items() %}
+	"{{ k }}"
+	{
+		"url"	"{{ v }}"
+	}
+{% endfor %}
+}
