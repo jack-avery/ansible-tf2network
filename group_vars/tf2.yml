@@ -17,18 +17,14 @@ base_plugins:
   - basecomm
   - basecommands
   - basetriggers
-  - basevotes
   - clientprefs
   - discord
   - funcommands
   - funvotes
-  - mapchooser
   - nextmap
-  - nominations
   - playercommands
   - raspyverse_commands
   - reservedslots
-  - rockthevote
   - sbpp_admcfg
   - sbpp_checker
   - sbpp_comms
@@ -42,6 +38,13 @@ base_plugins:
   - swag
   - tf2centerprojectiles
   - waitingdoors
+  - nativevotes
+  - nativevotes-basevotes
+  - nativevotes-basecommands
+  - nativevotes_kickvote_immunity
+  - nativevotes_mapchooser
+  - nativevotes_nominations
+  - nativevotes_rockthevote
 
 classrestrict:
   sm_crh_blu_demomen: "-1"
@@ -110,7 +113,7 @@ mapchooser:
   # -
   # Default: "0"
   # Minimum: "0.000000"
-  sm_mapvote_extend: "2"
+  sm_mapvote_extend: "1"
 
   # Specifies how many maps to include in the vote.
   # -
@@ -118,6 +121,13 @@ mapchooser:
   # Minimum: "2.000000"
   # Maximum: "6.000000"
   sm_mapvote_include: "5"
+
+  # Specifies whether to use the curated maplist for default map votes.
+  # -
+  # Default: "1"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  sm_mapvote_curate: "0"
 
   # Specifies whether or not MapChooser should pick a map if no votes are received.
   # -
@@ -170,6 +180,41 @@ mapchooser:
   # Default: "20"
   # Minimum: "5.000000"
   sm_mapvote_voteduration: "15"
+
+nativevotes:
+  # Show current vote progress as chat messages
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_chat: "0"
+
+  # Show current vote progress as console messages to clients
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_client_console: "0"
+
+  # Show current vote progress as console messages
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_console: "1"
+
+  # Show current vote progress in a hint box
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_hintbox: "1"
+
+  # Sets the recommended time in between public votes
+  # -
+  # Default: "30"
+  # Minimum: "0.000000"
+  nativevotes_vote_delay: "30"
 
 sourcemod:
   # Specifies how admin activity should be relayed to users.  Add up the values

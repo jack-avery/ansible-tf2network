@@ -5,7 +5,7 @@ instances:
     maxplayers: 8
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
-    timelimit: 20
+    timelimit: 15
     winlimit: 0
     maxrounds: 0
     tags:
@@ -76,7 +76,7 @@ instances:
     maxplayers: 8
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
-    timelimit: 20
+    timelimit: 15
     winlimit: 0
     maxrounds: 0
     tags:
