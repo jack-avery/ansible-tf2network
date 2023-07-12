@@ -485,7 +485,7 @@ advancedinfiniteammo:
   # Show Advanced Infinite Ammo changes in chat
   # -
   # Default: "1"
-  sm_aia_chat: "1"
+  sm_aia_chat: "0"
 
   # Infinite Clip will be globally disabled
   # -
