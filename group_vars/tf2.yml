@@ -21,6 +21,7 @@ base_plugins:
   - discord
   - funcommands
   - funvotes
+  - mapconfigs
   - nextmap
   - playercommands
   - raspyverse_commands
@@ -575,6 +576,9 @@ rulesets:
     - sv_alltalk 1
     - mp_friendlyfire 1
     - tf_forced_holiday 2
+    - tf_arena_use_queue 0
+    - tf_arena_first_blood 0
+    - mp_tournament 1
   casual:
     - tf_weapon_criticals 1
     - tf_use_fixed_weaponspreads 0
@@ -585,17 +589,16 @@ rulesets:
 
 mapcycles:
   rinstagib:
-    - cp_badlands
     - cp_process_final
     - cp_sunshine
     - pl_upward
     - plr_hightower
     - cp_orange_gamerland_classic
     - koth_lakeside_final
-    - pl_swiftwater_final
-    - cp_granary
-    - cp_snakewater_final1
-  
+    - arena_watchtower
+    - arena_badlands
+    - arena_granary
+
   all:
     # ad
     - cp_altitude

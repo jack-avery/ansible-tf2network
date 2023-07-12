@@ -24,7 +24,7 @@
   ansible.builtin.file:
     path: ~/build/{{ item.name }}
     state: directory
-    mode: 0775
+    mode: 0755
   loop: "{{ instances }}"
 
 - name: Copy SourceMod to /tf
@@ -181,6 +181,22 @@
   ansible.builtin.template:
     src: sourcesleuth_whitelist.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/sourcebans/sourcesleuth_whitelist.cfg
+    mode: 0755
+  loop: "{{ instances }}"
+  loop_control:
+    index_var: loop0
+
+- name: Make map-cfg directory
+  ansible.builtin.file:
+    path: ~/build/{{ item.name }}/tf/cfg/sourcemod/map-cfg
+    state: directory
+    mode: 0755
+  loop: "{{ instances }}"
+
+- name: /tf/cfg/sourcemod/map-cfg/arena_.cfg
+  ansible.builtin.template:
+    src: arena_.cfg.j2
+    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/map-cfg/arena_.cfg
     mode: 0755
   loop: "{{ instances }}"
   loop_control:
