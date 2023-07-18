@@ -579,6 +579,7 @@ rulesets:
     - tf_arena_use_queue 0
     - tf_arena_first_blood 0
     - mp_tournament 1
+    - mp_chattime 0
   casual:
     - tf_weapon_criticals 1
     - tf_use_fixed_weaponspreads 0

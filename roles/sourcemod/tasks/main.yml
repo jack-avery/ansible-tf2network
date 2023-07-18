@@ -8,14 +8,14 @@
 - name: Save latest MetaMod version to file
   ignore_errors: true # don't freak out if something happens
   ansible.builtin.get_url:
-    url: "https://mms.alliedmods.net/mmsdrop/1.12/mmsource-latest-linux"
+    url: "https://mms.alliedmods.net/mmsdrop/1.11/mmsource-latest-linux"
     dest: ~/build/mm_version
   register: mm_file
 
 - name: Save latest SourceMod version to file
   ignore_errors: true
   ansible.builtin.get_url:
-    url: "https://sm.alliedmods.net/smdrop/1.12/sourcemod-latest-linux"
+    url: "https://sm.alliedmods.net/smdrop/1.11/sourcemod-latest-linux"
     dest: ~/build/sm_version
   register: sm_file
 
@@ -43,14 +43,14 @@
 
 - name: Download latest MetaMod (if new version)
   ansible.builtin.unarchive:
-    src: https://mms.alliedmods.net/mmsdrop/1.12/{{ mm_version }}
+    src: https://mms.alliedmods.net/mmsdrop/1.11/{{ mm_version }}
     dest: ~/build/sm
     remote_src: true
   when: (mm_file.changed)
 
 - name: Download latest SourceMod (if new version)
   ansible.builtin.unarchive:
-    src: https://sm.alliedmods.net/smdrop/1.12/{{ sm_version }}
+    src: https://sm.alliedmods.net/smdrop/1.11/{{ sm_version }}
     dest: ~/build/sm
     remote_src: true
   when: (sm_file.changed)
