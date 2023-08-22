@@ -17,6 +17,7 @@ base_plugins:
   - basecomm
   - basecommands
   - basetriggers
+  - basevotes
   - clientprefs
   - discord
   - funcommands
@@ -35,19 +36,21 @@ base_plugins:
   - sounds
   - spraytrace
   - stac
-  - supstats2
   - swag
   - tf2centerprojectiles
   - waitingdoors
-  - nativevotes
-  - nativevotes-basevotes
-  - nativevotes-basecommands
-  - nativevotes_kickvote_immunity
-  - nativevotes_mapchooser
-  - nativevotes_nominations
-  - nativevotes_rockthevote
-  - votedelay_changelevel
-  - votefailed
+  - mapchooser
+  - rockthevote
+  - nominations
+  # - nativevotes
+  # - nativevotes-basevotes
+  # - nativevotes-basecommands
+  # - nativevotes_kickvote_immunity
+  # - nativevotes_mapchooser
+  # - nativevotes_nominations
+  # - nativevotes_rockthevote
+  # - votedelay_changelevel
+  # - votefailed
 
 classrestrict:
   sm_crh_blu_demomen: "-1"
