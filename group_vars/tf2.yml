@@ -46,6 +46,8 @@ base_plugins:
   - nativevotes_mapchooser
   - nativevotes_nominations
   - nativevotes_rockthevote
+  - votedelay_changelevel
+  - votefailed
 
 classrestrict:
   sm_crh_blu_demomen: "-1"
