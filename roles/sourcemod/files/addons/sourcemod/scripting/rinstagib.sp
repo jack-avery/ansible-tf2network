@@ -34,7 +34,7 @@ public Plugin myinfo = {
     name = "rinstagib",
     author = "raspy",
     description = "rinstagib gamemode.",
-    version = "1.8.1",
+    version = "1.9.1",
     url = "https://jackavery.ca/tf2/#rinstagib"
 };
 
