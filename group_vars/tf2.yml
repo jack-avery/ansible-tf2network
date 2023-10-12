@@ -546,7 +546,7 @@ advancedinfiniteammo:
 rinstagib:
   ri_enabled: "0"
   ri_leaderboard: "1"
-  ri_launcher_damage: "1.8"
+  ri_launcher_damage: "5"
   ri_launcher_consistent: "1.0"
   ri_launcher_projspeed: "1.0"
   ri_launcher_freerj: "1.0"
@@ -602,7 +602,6 @@ mapcycles:
     - cp_orange_gamerland_classic
     - koth_lakeside_final
     - arena_watchtower
-    - arena_badlands
     - arena_granary
 
   all:
