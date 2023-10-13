@@ -1,7 +1,6 @@
 srcds_base_port: 27015
 fastdl_url: "https://jackavery.ca/fastdl/tf/"
 global_tags:
-  - raspyverse
   - raspy
 
 sourcebans:
@@ -42,15 +41,16 @@ base_plugins:
   - mapchooser
   - rockthevote
   - nominations
-  # - nativevotes
-  # - nativevotes-basevotes
-  # - nativevotes-basecommands
-  # - nativevotes_kickvote_immunity
-  # - nativevotes_mapchooser
-  # - nativevotes_nominations
-  # - nativevotes_rockthevote
-  # - votedelay_changelevel
-  # - votefailed
+
+  - nativevotes
+  - nativevotes-basevotes
+  - nativevotes-basecommands
+  - nativevotes_kickvote_immunity
+  - nativevotes_mapchooser
+  - nativevotes_nominations
+  - nativevotes_rockthevote
+  - votedelay_changelevel
+  - votefailed
 
 classrestrict:
   sm_crh_blu_demomen: "-1"
@@ -601,8 +601,6 @@ mapcycles:
     - plr_hightower
     - cp_orange_gamerland_classic
     - koth_lakeside_final
-    - arena_watchtower
-    - arena_granary
 
   all:
     # ad

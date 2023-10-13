@@ -46,6 +46,8 @@ instances:
       - tf-bhop
       - tf2attributes
       - unrestricted_fov
+    mapchooser:
+      sm_mapvote_start: "1.0"
     classrestrict:
       sm_crh_blu_demomen: "0"
       sm_crh_blu_engineers: "0"
