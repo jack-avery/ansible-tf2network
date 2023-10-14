@@ -2,10 +2,10 @@ instances:
   - name: "ri1"
     hostname: "rINSTAGIB | NA East"
     region: 0
-    maxplayers: 8
+    maxplayers: 12
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
-    timelimit: 15
+    timelimit: 20
     winlimit: 0
     maxrounds: 0
     tags:
@@ -26,7 +26,7 @@ instances:
       -- WELCOME TO RAS INSTAGIB. --
 
       YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS.
-      YOUR AIRSHOTS WILL ONE-HIT KILL.
+      YOUR ROCKET HITS WILL ALWAYS ONE-HIT KILL.
 
       YOUR SECONDARY IS REPLACED WITH A RAILGUN.
       MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE.
