@@ -249,21 +249,6 @@
   loop_control:
     index_var: loop0
 
-- name: Set up restart cronjob (6AM UTC)
-  become: true
-  become_method: su
-  become_user: root
-  ansible.builtin.cron:
-    name: "tf2-restart-{{ item.name }}"
-    weekday: "*"
-    minute: "0"
-    hour: "6"
-    job: "docker restart srcds-{{ item.name }}"
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-  when: ansible_distribution == 'Ubuntu'
-
 - name: Wait 30s for servers to start proper before loading admins
   ansible.builtin.wait_for:
     timeout: 30
