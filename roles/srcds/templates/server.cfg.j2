@@ -45,6 +45,23 @@ mp_spectators_restricted 1
 mp_allowspectators 0
 mp_autoteambalance 0
 
+{% if item.0.stv_enabled|default(stv_enabled) %}
+tv_enable 1
+tv_autorecord 0
+tv_maxclients 5
+tv_transmitall 1
+tv_delaymapchange 0
+tv_delay 0
+tv_maxrate 0
+tv_port "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}"
+tv_allow_camera_man 1
+tv_password "{{ item.1.stv_pass }}"
+// Hostname
+tv_name "{{ item.0.stv_name|default(item.0.hostname + ' | STV') }}"
+// In-game name -- doesnt work?
+tv_title "SourceTV"
+{% endif %}
+
 {% for cmd in rulesets[item.0.ruleset|default("standard")] %}
 {{ cmd }}
 {% endfor %}

@@ -8,6 +8,7 @@ instances:
     timelimit: 20
     winlimit: 0
     maxrounds: 0
+    stv_enabled: true
     tags:
       - instagib
       - rinstagib

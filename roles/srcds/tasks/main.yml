@@ -6,7 +6,7 @@
   ignore_errors: true
   rcon:
     address: "{{ inventory_hostname }}"
-    port: "{{ srcds_base_port + (loop0 * 10) }}"
+    port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
     password: "{{ item.rcon_pass }}"
     command: 'sm_csay Update triggered, restart soon...;sm_say Update triggered, restart soon...'
   loop: "{{ instances_secrets }}"
@@ -57,6 +57,10 @@
     mode: 0755
   loop: "{{ instances }}"
 
+- name: Generate admins
+  include_tasks: gen_admins.yml
+  loop: "{{ instances_secrets }}"
+
 # Copy enabled plugins to plugin directory
 - include_tasks: plugins.yml
   loop: "{{ instances }}"
@@ -81,6 +85,8 @@
     dest: ~/build/{{ item.0.name }}/tf/cfg/server.cfg
     mode: 0755
   loop: "{{ instances|zip(instances_secrets) }}"
+  loop_control:
+    index_var: loop0
 
 - name: /tf/cfg/mapcycle.txt
   ansible.builtin.template:
@@ -213,7 +219,7 @@
 - name: Build images
   community.docker.docker_image:
     name: "srcds-{{ item.name }}"
-    tag: "{{ item.name }}-latest"
+    tag: "latest"
     source: build
     build:
       path: ~/build/{{ item.name }}
@@ -227,7 +233,7 @@
   ignore_errors: true
   rcon:
     address: "{{ inventory_hostname }}"
-    port: "{{ srcds_base_port + (loop0 * 10) }}"
+    port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
     password: "{{ item.rcon_pass }}"
     command: 'sm_csay Server is restarting for updates.;sm_say Server is restarting for updates.'
   loop: "{{ instances_secrets }}"
@@ -238,23 +244,15 @@
 - name: Start
   community.docker.docker_container:
     name: "srcds-{{ item.name }}"
-    image: "srcds-{{ item.name }}:{{ item.name }}-latest"
+    image: "srcds-{{ item.name }}:latest"
     state: started
     restart: true
     restart_policy: "unless-stopped"
     cpuset_cpus: "{{ loop0 }}"
     ports:
-    - "{{ srcds_base_port + (loop0 * 10) }}:{{ srcds_base_port + (loop0 * 10) }}"
-    - "{{ srcds_base_port + (loop0 * 10) }}:{{ srcds_base_port + (loop0 * 10) }}/udp"
+    - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
+    - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}/udp"
+    - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}/udp"
   loop: "{{ instances }}"
   loop_control:
     index_var: loop0
-
-- name: Wait 30s for servers to start proper before loading admins
-  ansible.builtin.wait_for:
-    timeout: 30
-  delegate_to: localhost
-
-- name: Load admins + reserved slots
-  ansible.builtin.include_role:
-    name: admins

@@ -2,14 +2,9 @@
 - name: Load secrets
   ansible.builtin.include_tasks: secrets.yml
 
-- name: Make admins_simple.ini
-  ansible.builtin.template:
-    src: admins_simple.ini.j2
-    dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/admins_simple.ini
-    mode: 0755
+- name: Generate admins
+  include_tasks: gen_admins.yml
   loop: "{{ instances_secrets }}"
-  loop_control:
-    index_var: loop0
 
 - name: Move into container
   community.docker.docker_container_copy_into:
@@ -22,7 +17,7 @@
 - name: Tell servers to reload admins
   rcon:
     address: "{{ inventory_hostname }}"
-    port: "{{ srcds_base_port + (loop0 * 10) }}"
+    port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
     password: "{{ item.rcon_pass }}"
     command: 'sm_reloadadmins'
   loop: "{{ instances_secrets }}"

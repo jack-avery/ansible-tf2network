@@ -1,12 +1,138 @@
 srcds_base_port: 27015
-fastdl_url: "https://yourwebsite.com/fastdl/tf/"
+srcds_reserve_ports: 10
+
+# FastDL Base URL
+fastdl_url: "https://mytf2website.com/fastdl/tf/"
 global_tags:
-  - yournetworkname
-  - othertags
+  - mytf2server
 
+# Link to SourceBans website
 sourcebans:
-  website: "https://yourwebsite.com/bans/"
+  website: "https://mytf2website.com/bans/"
 
+# Whether to enable STV by default
+stv_enabled: false
+
+# Common "rulesets"
+rulesets:
+  standard:
+    - tf_weapon_criticals 0
+    - tf_use_fixed_weaponspreads 1
+    - tf_spawn_glows_duration 0
+    - tf_spec_xray 0
+    - tf_preround_push_from_damage_enable 1
+    - tf_avoidteammates_pushaway 0
+  rinstagib:
+    - tf_weapon_criticals 0
+    - tf_use_fixed_weaponspreads 1
+    - tf_spawn_glows_duration 0
+    - tf_spec_xray 0
+    - tf_preround_push_from_damage_enable 1
+    - tf_avoidteammates_pushaway 0
+    - sv_airaccelerate 150
+    - sv_gravity 700
+    - sv_alltalk 1
+    - mp_friendlyfire 1
+    - tf_forced_holiday 2
+    - tf_arena_use_queue 0
+    - tf_arena_first_blood 0
+    - mp_tournament 1
+    - mp_chattime 0
+  casual:
+    - tf_weapon_criticals 1
+    - tf_use_fixed_weaponspreads 0
+    - tf_spawn_glows_duration 10
+    - tf_spec_xray 1
+    - tf_preround_push_from_damage_enable 0
+    - tf_avoidteammates_pushaway 1
+
+# List of maps
+mapcycles:
+  rinstagib:
+    - cp_process_final
+    - cp_sunshine
+    - pl_upward
+    - plr_hightower
+    - cp_orange_gamerland_classic
+    - koth_lakeside_final
+
+  all:
+    # ad
+    - cp_altitude
+    - cp_dustbowl
+    - cp_egypt_final
+    - cp_gorge
+    - cp_gravelpit
+    - cp_junction_final
+    - cp_mercenarypark
+    - cp_mossrock
+    - cp_mountainlab
+    - cp_steel
+    # 5cp
+    - cp_5gorge
+    - cp_badlands
+    - cp_coldfront
+    - cp_fastlane
+    - cp_foundry
+    - cp_freight_final1
+    - cp_granary
+    - cp_gullywash_final1
+    - cp_metalworks
+    - cp_process_final
+    - cp_snakewater_final1
+    - cp_standin_final
+    - cp_sunshine
+    - cp_vanguard
+    - cp_well
+    - cp_yukon_final
+    # 3cp
+    - cp_powerhouse
+    # koth
+    - koth_badlands
+    - koth_highpass
+    - koth_king
+    - koth_lakeside_final
+    - koth_harvest_final
+    - koth_suijin
+    - koth_viaduct
+    - koth_cascade
+    - koth_brazil
+    - koth_lazarus
+    - koth_sawmill
+    - koth_nucleus
+    - koth_harvest_final
+    # payload
+    - pl_badwater
+    - pl_barnblitz
+    - pl_borneo
+    - pl_enclosure_final
+    - pl_frontier_final
+    - pl_goldrush
+    - pl_hoodoo_final
+    - pl_pier
+    - pl_rumford_event
+    - pl_snowycoast
+    - pl_swiftwater_final1
+    - pl_thundermountain
+    - pl_upward
+    # payload (evil version)
+    - plr_bananabay
+    - plr_hightower
+    - plr_nightfall_final
+    - plr_pipeline
+    # ctf
+    - ctf_2fort
+    - ctf_doublecross
+    - ctf_landfall
+    - ctf_sawmill
+    - ctf_turbine
+    - ctf_well
+    # pass time
+    - pass_brickyard
+    - pass_timbertown
+    - pass_district
+
+# Plugins to include on every server
 base_plugins:
   - admin-flatfile
   - adminhelp
@@ -22,13 +148,11 @@ base_plugins:
   - discord
   - funcommands
   - funvotes
-  - mapchooser
+  - mapconfigs
   - nextmap
-  - nominations
   - playercommands
   - raspyverse_commands
   - reservedslots
-  - rockthevote
   - sbpp_admcfg
   - sbpp_checker
   - sbpp_comms
@@ -38,10 +162,26 @@ base_plugins:
   - sounds
   - spraytrace
   - stac
-  - supstats2
   - swag
   - tf2centerprojectiles
   - waitingdoors
+  - mapchooser
+  - rockthevote
+  - nominations
+
+  - nativevotes
+  - nativevotes-basevotes
+  - nativevotes-basecommands
+  - nativevotes_kickvote_immunity
+  - nativevotes_mapchooser
+  - nativevotes_nominations
+  - nativevotes_rockthevote
+  - votedelay_changelevel
+  - votefailed
+
+###
+# Plugin default configurations
+###
 
 classrestrict:
   sm_crh_blu_demomen: "-1"
@@ -110,7 +250,7 @@ mapchooser:
   # -
   # Default: "0"
   # Minimum: "0.000000"
-  sm_mapvote_extend: "2"
+  sm_mapvote_extend: "1"
 
   # Specifies how many maps to include in the vote.
   # -
@@ -170,6 +310,41 @@ mapchooser:
   # Default: "20"
   # Minimum: "5.000000"
   sm_mapvote_voteduration: "15"
+
+nativevotes:
+  # Show current vote progress as chat messages
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_chat: "0"
+
+  # Show current vote progress as console messages to clients
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_client_console: "0"
+
+  # Show current vote progress as console messages
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_console: "1"
+
+  # Show current vote progress in a hint box
+  # -
+  # Default: "0"
+  # Minimum: "0.000000"
+  # Maximum: "1.000000"
+  nativevotes_progress_hintbox: "1"
+
+  # Sets the recommended time in between public votes
+  # -
+  # Default: "30"
+  # Minimum: "0.000000"
+  nativevotes_vote_delay: "30"
 
 sourcemod:
   # Specifies how admin activity should be relayed to users.  Add up the values
@@ -440,7 +615,7 @@ advancedinfiniteammo:
   # Show Advanced Infinite Ammo changes in chat
   # -
   # Default: "1"
-  sm_aia_chat: "1"
+  sm_aia_chat: "0"
 
   # Infinite Clip will be globally disabled
   # -
@@ -495,7 +670,7 @@ advancedinfiniteammo:
 rinstagib:
   ri_enabled: "0"
   ri_leaderboard: "1"
-  ri_launcher_damage: "1.8"
+  ri_launcher_damage: "5"
   ri_launcher_consistent: "1.0"
   ri_launcher_projspeed: "1.0"
   ri_launcher_freerj: "1.0"
@@ -509,120 +684,3 @@ rinstagib:
   ri_rail_speed_floor: "300"
   ri_rail_speed_horizontal: "1"
   ri_rail_speed_bonus: "20"
-
-rulesets:
-  standard:
-    - tf_weapon_criticals 0
-    - tf_use_fixed_weaponspreads 1
-    - tf_spawn_glows_duration 0
-    - tf_spec_xray 0
-    - tf_preround_push_from_damage_enable 1
-    - tf_avoidteammates_pushaway 0
-  rinstagib:
-    - tf_weapon_criticals 0
-    - tf_use_fixed_weaponspreads 1
-    - tf_spawn_glows_duration 0
-    - tf_spec_xray 0
-    - tf_preround_push_from_damage_enable 1
-    - tf_avoidteammates_pushaway 0
-    - sv_airaccelerate 150
-    - sv_gravity 700
-    - sv_alltalk 1
-    - mp_friendlyfire 1
-    - tf_forced_holiday 2
-  casual:
-    - tf_weapon_criticals 1
-    - tf_use_fixed_weaponspreads 0
-    - tf_spawn_glows_duration 10
-    - tf_spec_xray 1
-    - tf_preround_push_from_damage_enable 0
-    - tf_avoidteammates_pushaway 1
-
-mapcycles:
-  rinstagib:
-    - cp_badlands
-    - cp_process_final
-    - cp_sunshine
-    - pl_upward
-    - plr_hightower
-    - cp_orange_gamerland_classic
-    - koth_lakeside_final
-    - pl_swiftwater_final
-    - cp_granary
-    - cp_snakewater_final1
-  
-  all:
-    # ad
-    - cp_altitude
-    - cp_dustbowl
-    - cp_egypt_final
-    - cp_gorge
-    - cp_gravelpit
-    - cp_junction_final
-    - cp_mercenarypark
-    - cp_mossrock
-    - cp_mountainlab
-    - cp_steel
-    # 5cp
-    - cp_5gorge
-    - cp_badlands
-    - cp_coldfront
-    - cp_fastlane
-    - cp_foundry
-    - cp_freight_final1
-    - cp_granary
-    - cp_gullywash_final1
-    - cp_metalworks
-    - cp_process_final
-    - cp_snakewater_final1
-    - cp_standin_final
-    - cp_sunshine
-    - cp_vanguard
-    - cp_well
-    - cp_yukon_final
-    # 3cp
-    - cp_powerhouse
-    # koth
-    - koth_badlands
-    - koth_highpass
-    - koth_king
-    - koth_lakeside_final
-    - koth_harvest_final
-    - koth_suijin
-    - koth_viaduct
-    - koth_cascade
-    - koth_brazil
-    - koth_lazarus
-    - koth_sawmill
-    - koth_nucleus
-    - koth_harvest_final
-    # payload
-    - pl_badwater
-    - pl_barnblitz
-    - pl_borneo
-    - pl_enclosure_final
-    - pl_frontier_final
-    - pl_goldrush
-    - pl_hoodoo_final
-    - pl_pier
-    - pl_rumford_event
-    - pl_snowycoast
-    - pl_swiftwater_final1
-    - pl_thundermountain
-    - pl_upward
-    # payload (evil version)
-    - plr_bananabay
-    - plr_hightower
-    - plr_nightfall_final
-    - plr_pipeline
-    # ctf
-    - ctf_2fort
-    - ctf_doublecross
-    - ctf_landfall
-    - ctf_sawmill
-    - ctf_turbine
-    - ctf_well
-    # pass time
-    - pass_brickyard
-    - pass_timbertown
-    - pass_district
