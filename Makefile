@@ -1,6 +1,6 @@
 .PHONY: all base admins sm srcds
 
-all: sm srcds cron
+all: sm srcds deploy cron
 
 base:
 	@ansible-playbook playbooks/base-tf2server.yml
@@ -11,8 +11,12 @@ admins:
 sm:
 	@ansible-playbook playbooks/sourcemod.yml
 
+srcds:
+	@ansible-playbook playbooks/srcds.yml
+
+deploy:
+	@ansible-playbook playbooks/deploy.yml
+
 cron:
 	@ansible-playbook playbooks/cron.yml
 
-srcds:
-	@ansible-playbook playbooks/srcds.yml
