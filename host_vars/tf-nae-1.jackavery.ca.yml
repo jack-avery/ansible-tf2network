@@ -1,6 +1,6 @@
 instances:
   - name: "ri1"
-    hostname: "rINSTAGIB | NA East"
+    hostname: "rINSTAGIB | NA West"
     region: 0
     maxplayers: 12
     mapcycle: "rinstagib"
