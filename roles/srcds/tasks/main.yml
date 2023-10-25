@@ -2,18 +2,6 @@
 - name: Load secrets
   ansible.builtin.include_tasks: secrets.yml
 
-- name: Announce update
-  ignore_errors: true
-  rcon:
-    address: "{{ inventory_hostname }}"
-    port: "{{ srcds_base_port + (loop0 * 10) }}"
-    password: "{{ item.rcon_pass }}"
-    command: 'sm_csay Update triggered, restart soon...;sm_say Update triggered, restart soon...'
-  loop: "{{ instances_secrets }}"
-  loop_control:
-    index_var: loop0
-  delegate_to: localhost
-
 - name: Delete old build data
   ansible.builtin.file:
     state: absent
@@ -24,7 +12,7 @@
   ansible.builtin.file:
     path: ~/build/{{ item.name }}
     state: directory
-    mode: 0775
+    mode: 0755
   loop: "{{ instances }}"
 
 - name: Copy SourceMod to /tf
@@ -33,7 +21,7 @@
     dest: /home/tf2server/build/{{ item.name }}/tf
     recursive: true
   loop: "{{ instances }}"
-  delegate_to: "{{ inventory_hostname }}"
+  delegate_to: "{{ ansible_host }}"
 
 - name: Copy maps to /tf/maps
   ignore_errors: true # do not freak out if there's no custom maps
@@ -57,11 +45,9 @@
     mode: 0755
   loop: "{{ instances }}"
 
-# Copy enabled plugins to plugin directory
-- include_tasks: plugins.yml
-  loop: "{{ instances }}"
-  loop_control:
-    loop_var: instance
+- name: Generate admins
+  include_tasks: gen_admins.yml
+  loop: "{{ instances_secrets }}"
 
 ##
 # Begin templates
@@ -81,6 +67,8 @@
     dest: ~/build/{{ item.0.name }}/tf/cfg/server.cfg
     mode: 0755
   loop: "{{ instances|zip(instances_secrets) }}"
+  loop_control:
+    index_var: loop0
 
 - name: /tf/cfg/mapcycle.txt
   ansible.builtin.template:
@@ -95,60 +83,6 @@
     dest: ~/build/{{ item.name }}/tf/cfg/motd.txt
     mode: 0755
   loop: "{{ instances }}"
-
-- name: /tf/cfg/sourcemod/sourcemod.cfg
-  ansible.builtin.template:
-    src: sourcemod.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/sourcemod.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/mapchooser.cfg
-  ansible.builtin.template:
-    src: mapchooser.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/mapchooser.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/rinstagib.cfg
-  ansible.builtin.template:
-    src: rinstagib.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/rinstagib.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/Class_Restrictions_For_Humans.cfg
-  ansible.builtin.template:
-    src: Class_Restrictions_For_Humans.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/Class_Restrictions_For_Humans.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/AdvancedInfiniteAmmo.cfg
-  ansible.builtin.template:
-    src: AdvancedInfiniteAmmo.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/AdvancedInfiniteAmmo.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/soap_tf2dm.cfg
-  ansible.builtin.template:
-    src: soap_tf2dm.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/soap_tf2dm.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
 
 - name: /tf/addons/sourcemod/configs/databases.cfg
   ansible.builtin.template:
@@ -186,6 +120,12 @@
   loop_control:
     index_var: loop0
 
+- name: Copy enabled plugins to plugin directory & template configs
+  include_tasks: plugins.yml
+  loop: "{{ instances }}"
+  loop_control:
+    loop_var: instance
+
 ##
 # End Templates
 
@@ -197,7 +137,7 @@
 - name: Build images
   community.docker.docker_image:
     name: "srcds-{{ item.name }}"
-    tag: "{{ item.name }}-latest"
+    tag: "latest"
     source: build
     build:
       path: ~/build/{{ item.name }}
@@ -206,52 +146,3 @@
     force_source: true
     force_tag: true
   loop: "{{ instances }}"
-
-- name: Announce update now!!
-  ignore_errors: true
-  rcon:
-    address: "{{ inventory_hostname }}"
-    port: "{{ srcds_base_port + (loop0 * 10) }}"
-    password: "{{ item.rcon_pass }}"
-    command: 'sm_csay Server is restarting for updates.;sm_say Server is restarting for updates.'
-  loop: "{{ instances_secrets }}"
-  loop_control:
-    index_var: loop0
-  delegate_to: localhost
-
-- name: Start
-  community.docker.docker_container:
-    name: "srcds-{{ item.name }}"
-    image: "srcds-{{ item.name }}:{{ item.name }}-latest"
-    state: started
-    restart: true
-    ports:
-    - "{{ srcds_base_port + (loop0 * 10) }}:{{ srcds_base_port + (loop0 * 10) }}"
-    - "{{ srcds_base_port + (loop0 * 10) }}:{{ srcds_base_port + (loop0 * 10) }}/udp"
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: Set up restart cronjob (6AM UTC)
-  become: true
-  become_method: su
-  become_user: root
-  ansible.builtin.cron:
-    name: "tf2-restart-{{ item.name }}"
-    weekday: "*"
-    minute: "0"
-    hour: "6"
-    job: "docker restart srcds-{{ item.name }}"
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-  when: ansible_distribution == 'Ubuntu'
-
-- name: Wait 30s for servers to start proper before loading admins
-  ansible.builtin.wait_for:
-    timeout: 30
-  delegate_to: localhost
-
-- name: Load admins + reserved slots
-  ansible.builtin.include_role:
-    name: admins
