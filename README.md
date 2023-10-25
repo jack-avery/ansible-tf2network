@@ -47,9 +47,6 @@ Ansible requires Linux. If you're running Windows, consider setting up WSL.
 * `{host}.yml`<br/>
 -- Server settings, plugin configuration overrides.<br/>
 
-**See Jinja2 files in `roles/srcds/templates` for which plugins support overrides currently.**<br/>
-If you know Jinja2 and want to add more, note each template will also need a matching `ansible.builtin.template` directive in `roles/srcds/tasks/main.yml`.
-
 ## Pre-commit
 
 There is a pre-commit hook that you should enable to ensure you don't commit any unencrypted secret:<br/>
