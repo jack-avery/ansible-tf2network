@@ -62,16 +62,14 @@ tv_name "{{ item.0.stv_name|default(item.0.hostname + ' | STV') }}"
 tv_title "SourceTV"
 {% endif %}
 
-{% for cmd in rulesets[item.0.ruleset|default("standard")] %}
-{{ cmd }}
-{% endfor %}
-
 mp_timelimit {{ item.0.timelimit }}
 mp_winlimit {{ item.0.winlimit }}
 mp_maxrounds {{ item.0.maxrounds }}
 
-{% if 'servercfg' in item %}
-{% for cmd in item.0.servercfg %}
+{% for cmd in rulesets[item.0.ruleset|default("standard")].servercfg %}
 {{ cmd }}
 {% endfor %}
-{% endif %}
+
+{% for cmd in item.0.servercfg | default([]) %}
+{{ cmd }}
+{% endfor %}

@@ -1,0 +1,14 @@
+{% macro plugincfg(name, item, rulesets, def_cfg) %}
+{% for k, v in def_cfg.items() %}
+{# instance #}
+{% if name in item and k in item[name] %}
+{{ k }} "{{ item[name][k] }}"
+{# ruleset #}
+{% elif name in rulesets[item.ruleset] and k in rulesets[item.ruleset][name] %}
+{{ k }} "{{ rulesets[item.ruleset][name][k] }}"
+{# default #}
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% endfor %}
+{% endmacro %}

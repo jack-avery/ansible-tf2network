@@ -1,7 +1,8 @@
+srcds_region: 1
+
 instances:
   - name: "ri1"
     hostname: "rINSTAGIB | NA West"
-    region: 0
     maxplayers: 12
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
@@ -37,38 +38,3 @@ instances:
       YOUR BUNNYHOPPING IS AUTOMATIC.
       YOUR AIR CONTROL IS STRONGER.
       YOUR AMMUNITION IS INFINITE.
-    plugins:
-      - soap_tf2dm
-      - chillydm
-      - AdvancedInfiniteAmmo
-      - ClassRestrictionsForHumans
-      - rinstagib
-      - speedo
-      - tf-bhop
-      - tf2attributes
-      - unrestricted_fov
-    mapchooser:
-      sm_mapvote_start: "1.0"
-    classrestrict:
-      sm_crh_blu_demomen: "0"
-      sm_crh_blu_engineers: "0"
-      sm_crh_blu_heavies: "0"
-      sm_crh_blu_medics: "0"
-      sm_crh_blu_pyros: "0"
-      sm_crh_blu_scouts: "0"
-      sm_crh_blu_snipers: "0"
-      sm_crh_blu_soldiers: "-1"
-      sm_crh_blu_spies: "0"
-      sm_crh_classmenu: "0"
-      sm_crh_enabled: "1"
-      sm_crh_red_demomen: "0"
-      sm_crh_red_engineers: "0"
-      sm_crh_red_heavies: "0"
-      sm_crh_red_medics: "0"
-      sm_crh_red_pyros: "0"
-      sm_crh_red_scouts: "0"
-      sm_crh_red_snipers: "0"
-      sm_crh_red_soldiers: "-1"
-      sm_crh_red_spies: "0"
-    rinstagib:
-      ri_enabled: "1"

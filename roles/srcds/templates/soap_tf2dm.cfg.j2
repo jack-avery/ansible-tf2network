@@ -1,11 +1,2 @@
-{% for k, v in soap_tf2dm.items() %}
-{% if 'soap_tf2dm' in item %}
-{% if k in item.soap_tf2dm %}
-{{ k }} "{{ item.soap_tf2dm[k] }}"
-{% else %}
-{{ k }} "{{ v }}"
-{% endif %}
-{% else %}
-{{ k }} "{{ v }}"
-{% endif %}
-{% endfor %}
+{% from 'plugincfg.j2' import plugincfg %}
+{{ plugincfg("soap_tf2dm", item, rulesets, soap_tf2dm) }}
