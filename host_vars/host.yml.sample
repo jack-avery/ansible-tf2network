@@ -1,7 +1,8 @@
+srcds_region: 1 https://developer.valvesoftware.com/wiki/Sv_region
+
 instances:
   - name: "unique-internal-name"
     hostname: "My Team Fortress 2 Server"
-    region: 0 # https://developer.valvesoftware.com/wiki/Sv_region
     maxplayers: 24
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
@@ -18,38 +19,16 @@ instances:
       rules
 
       don't be rude
-    plugins: # list of extra plugins to load on top of tf2.yml: base_plugins
-      - soap_tf2dm
-      - chillydm
-      - AdvancedInfiniteAmmo
-      - ClassRestrictionsForHumans
-      - rinstagib
-      - speedo
-      - tf-bhop
-      - tf2attributes
-      - unrestricted_fov
-    # you can override plugin configs defined in tf2.yml like so:
-    classrestrict:
-      sm_crh_blu_demomen: "0"
-      sm_crh_blu_engineers: "0"
-      sm_crh_blu_heavies: "0"
-      sm_crh_blu_medics: "0"
-      sm_crh_blu_pyros: "0"
-      sm_crh_blu_scouts: "0"
-      sm_crh_blu_snipers: "0"
-      sm_crh_blu_soldiers: "-1"
-      sm_crh_blu_spies: "0"
-      sm_crh_classmenu: "0"
-      sm_crh_enabled: "1"
-      sm_crh_red_demomen: "0"
-      sm_crh_red_engineers: "0"
-      sm_crh_red_heavies: "0"
-      sm_crh_red_medics: "0"
-      sm_crh_red_pyros: "0"
-      sm_crh_red_scouts: "0"
-      sm_crh_red_snipers: "0"
-      sm_crh_red_soldiers: "-1"
-      sm_crh_red_spies: "0"
-    # you only need to add the things you're overriding:
+
+    plugins: # list of extra plugins to load on top of base_plugins and ruleset plugins
+      - my_fun_plugin
+
+    # you can override configs from default_cfg and ruleset config like so:
+    # you only need to add the things you're overriding
+
+    ClassRestrictionsForHumans:
+      sm_crh_blu_snipers: "-1"
+      sm_crh_red_snipers: "-1"
+
     rinstagib:
-      ri_enabled: "1"
+      ri_rail_damage: "200"

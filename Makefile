@@ -1,18 +1,20 @@
-.PHONY: all base admins sm srcds
+.PHONY: all base admins sm srcds deploy
 
 all: sm srcds deploy
+
+PROD_OPTS := --limit prod
 
 base:
 	@ansible-playbook playbooks/base-tf2server.yml
 
 admins:
-	@ansible-playbook playbooks/admins.yml
+	@ansible-playbook $(PROD_OPTS) playbooks/admins.yml
 
 sm:
-	@ansible-playbook playbooks/sourcemod.yml
+	@ansible-playbook $(PROD_OPTS) playbooks/sourcemod.yml
 
 srcds:
-	@ansible-playbook playbooks/srcds.yml
+	@ansible-playbook $(PROD_OPTS) playbooks/srcds.yml
 
 deploy:
-	@ansible-playbook playbooks/deploy.yml
+	@ansible-playbook $(PROD_OPTS) playbooks/deploy.yml

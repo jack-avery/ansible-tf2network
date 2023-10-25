@@ -3,7 +3,7 @@
   ansible.builtin.file:
     path: ~/build/sm
     state: directory
-    mode: 0775
+    mode: 0755
 
 # - name: Save latest MetaMod version to file
 #   ignore_errors: true # don't freak out if something happens
