@@ -1,5 +1,5 @@
 ---
 - name: Build base server image and upload to DockerHub
-  hosts: development
+  hosts: build
   roles:
     - base-tf2server
