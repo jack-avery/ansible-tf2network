@@ -10,4 +10,12 @@
   ansible.builtin.shell: mv /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
     /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
   loop: "{{ instance.plugins }}"
+  when: '"plugins" in instance'
   delegate_to: "{{ ansible_host }}"
+
+- name: Template configs
+  ansible.builtin.template:
+    src: "cfg.j2"
+    dest: "~/build/{{ instance.name }}{{ default_cfgs[item].location }}"
+    mode: 0755
+  loop: "{{ default_cfgs.keys() }}"

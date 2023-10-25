@@ -1,0 +1,12 @@
+{% for k, v in default_cfgs[item].default.items() %}
+{# instance #}
+{% if item in instance and k in instance[item] %}
+{{ k }} "{{ instance[item][k] }}"
+{# ruleset #}
+{% elif item in rulesets[instance.ruleset] and k in rulesets[instance.ruleset][item] %}
+{{ k }} "{{ rulesets[instance.ruleset][item][k] }}"
+{# default #}
+{% else %}
+{{ k }} "{{ v }}"
+{% endif %}
+{% endfor %}

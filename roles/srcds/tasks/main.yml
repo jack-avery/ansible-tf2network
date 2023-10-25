@@ -49,12 +49,6 @@
   include_tasks: gen_admins.yml
   loop: "{{ instances_secrets }}"
 
-# Copy enabled plugins to plugin directory
-- include_tasks: plugins.yml
-  loop: "{{ instances }}"
-  loop_control:
-    loop_var: instance
-
 ##
 # Begin templates
 
@@ -89,60 +83,6 @@
     dest: ~/build/{{ item.name }}/tf/cfg/motd.txt
     mode: 0755
   loop: "{{ instances }}"
-
-- name: /tf/cfg/sourcemod/sourcemod.cfg
-  ansible.builtin.template:
-    src: sourcemod.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/sourcemod.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/mapchooser.cfg
-  ansible.builtin.template:
-    src: mapchooser.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/mapchooser.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/rinstagib.cfg
-  ansible.builtin.template:
-    src: rinstagib.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/rinstagib.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/Class_Restrictions_For_Humans.cfg
-  ansible.builtin.template:
-    src: Class_Restrictions_For_Humans.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/Class_Restrictions_For_Humans.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/AdvancedInfiniteAmmo.cfg
-  ansible.builtin.template:
-    src: AdvancedInfiniteAmmo.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/AdvancedInfiniteAmmo.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
-
-- name: /tf/cfg/sourcemod/soap_tf2dm.cfg
-  ansible.builtin.template:
-    src: soap_tf2dm.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/soap_tf2dm.cfg
-    mode: 0755
-  loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
 
 - name: /tf/addons/sourcemod/configs/databases.cfg
   ansible.builtin.template:
@@ -180,21 +120,11 @@
   loop_control:
     index_var: loop0
 
-- name: Make map-cfg directory
-  ansible.builtin.file:
-    path: ~/build/{{ item.name }}/tf/cfg/sourcemod/map-cfg
-    state: directory
-    mode: 0755
-  loop: "{{ instances }}"
-
-- name: /tf/cfg/sourcemod/map-cfg/arena_.cfg
-  ansible.builtin.template:
-    src: arena_.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/sourcemod/map-cfg/arena_.cfg
-    mode: 0755
+- name: Copy enabled plugins to plugin directory & template configs
+  include_tasks: plugins.yml
   loop: "{{ instances }}"
   loop_control:
-    index_var: loop0
+    loop_var: instance
 
 ##
 # End Templates
