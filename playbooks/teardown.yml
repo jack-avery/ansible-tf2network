@@ -1,0 +1,20 @@
+---
+- name: Teardown instances and remove cron
+  hosts: tf2
+  tasks:
+    - name: Load secrets
+      ansible.builtin.include_tasks: secrets.yml
+
+    - name: Stop container
+      community.docker.docker_container:
+        name: "srcds-{{ item.name }}"
+        state: absent
+      loop: "{{ instances }}"
+      loop_control:
+        index_var: loop0
+    
+    - name: Remove cronjob
+      ansible.builtin.cron:
+        name: "srcds-restart"
+        state: absent
+      when: ansible_distribution == 'Ubuntu'

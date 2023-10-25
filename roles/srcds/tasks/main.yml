@@ -21,7 +21,7 @@
     dest: /home/tf2server/build/{{ item.name }}/tf
     recursive: true
   loop: "{{ instances }}"
-  delegate_to: "{{ inventory_hostname }}"
+  delegate_to: "{{ ansible_host }}"
 
 - name: Copy maps to /tf/maps
   ignore_errors: true # do not freak out if there's no custom maps

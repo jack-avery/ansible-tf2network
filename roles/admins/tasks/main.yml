@@ -12,11 +12,11 @@
     path: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/admins_simple.ini
     container_path: /home/steam/tf-dedicated/tf/addons/sourcemod/configs/admins_simple.ini
   loop: "{{ instances_secrets }}"
-  delegate_to: "{{ inventory_hostname }}"
+  delegate_to: "{{ ansible_host }}"
 
 - name: Tell servers to reload admins
   rcon:
-    address: "{{ inventory_hostname }}"
+    address: "{{ ansible_host }}"
     port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
     password: "{{ item.rcon_pass }}"
     command: 'sm_reloadadmins'

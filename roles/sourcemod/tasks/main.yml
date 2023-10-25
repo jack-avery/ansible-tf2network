@@ -72,4 +72,4 @@
   ansible.builtin.shell: mv /home/tf2server/build/sm/addons/sourcemod/plugins/disabled/{{ item }}.smx \
     /home/tf2server/build/sm/addons/sourcemod/plugins/ || true
   loop: "{{ base_plugins }}"
-  delegate_to: "{{ inventory_hostname }}"
+  delegate_to: "{{ ansible_host }}"

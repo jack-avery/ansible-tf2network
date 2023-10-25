@@ -1,5 +1,5 @@
 ---
-- name: Generate restart cronjob and install
+- name: Deploy instances to hosts and generate cron
   hosts: tf2
   tasks:
     - name: Load secrets
@@ -8,7 +8,7 @@
     - name: Announce update
       ignore_errors: true
       rcon:
-        address: "{{ inventory_hostname }}"
+        address: "{{ ansible_host }}"
         port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
         password: "{{ item.rcon_pass }}"
         command: 'sm_csay Server is restarting for updates.;sm_say Server is restarting for updates.'
@@ -22,7 +22,28 @@
         name: "srcds-{{ item.name }}"
         image: "srcds-{{ item.name }}:latest"
         state: started
-        auto_remove: true
+        restart: true
+        restart_policy: "unless-stopped"
+        cpuset_cpus: "{{ loop0 }}"
+        ports:
+        - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
+        - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}/udp"
+        - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}/udp"
       loop: "{{ instances }}"
       loop_control:
         index_var: loop0
+
+    - name: Add servers to cron
+      set_fact:
+        cron: |
+          docker restart {% for item in instances %}
+          srcds-{{ item.name }} {% endfor %}
+
+    - name: Install cronjob (6AM UTC)
+      ansible.builtin.cron:
+        name: "srcds-restart"
+        weekday: "*"
+        minute: "0"
+        hour: "6"
+        job: "{{ cron }}"
+      when: ansible_distribution == 'Ubuntu'
