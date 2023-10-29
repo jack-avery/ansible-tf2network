@@ -89,7 +89,7 @@
     src: databases.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/databases.cfg
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ instances_secrets }}"
   loop_control:
     index_var: loop0
 
@@ -98,7 +98,7 @@
     src: discord.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/discord.cfg
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ instances_secrets }}"
   loop_control:
     index_var: loop0
 
