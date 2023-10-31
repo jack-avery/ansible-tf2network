@@ -1,0 +1,13 @@
+"Phrases"
+{
+	"Smite player"
+	{
+		"en"			"Smite player"
+	}
+	
+	"Smote target"
+	{
+		"#format"		"{1:t}"
+		"en"			"Summoned the power of Zeus and smote {1}!"
+	}
+}

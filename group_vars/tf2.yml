@@ -3,6 +3,8 @@ srcds_reserve_ports: 10
 
 # FastDL Base URL
 fastdl_url: "https://boxes4foxes.site.nfoservers.com/tf/"
+
+# Tags to include on all servers
 global_tags:
   - community
   - moderation
@@ -15,12 +17,32 @@ global_tags:
   - boxes
   - foxes
 
+# Default MOTD
+motd: |
+  • Don't use discrimination/hatespeech (slurs, racism, bigotry, nazism, etc.)
+  • Don't spray or talk about illicit material (beastiality, gore, loli, etc.)
+  • Don't use exploits in the maps/games/plugins
+  • Don't harass/threaten players or Admins
+  • Don't mic-spam just to annoy people
+  • Don't abuse the /call system
+
+  ★ Admins have prefixes and unusual-colored names
+  ★ Please be kind and respectful to other players
+  ★ Votekicks are a 1-hour temporary ban
+  ★ Cheating will result in a permanent ban
+
+  Type !helpmenu for a list of things and plugin commands
+
+  Website (!website): boxesforfoxes.net
+  Discord (!discord): discord.gg/6rTTw8gUER
+  Steam Group (!group): steamcommunity.com/groups/BoxesForFoxes
+
 # Link to SourceBans website
 sourcebans:
   website: "https://boxes4foxes.site.nfoservers.com/sourcebans/"
 
 # Whether to enable STV by default
-stv_enabled: false
+stv_enabled: true
 
 # Common "rulesets"
 rulesets:
@@ -85,11 +107,50 @@ rulesets:
       - thirdperson
 
     AdvancedInfiniteAmmo:
-      sm_aia_extrastuff: "0"
-      sm_aia_roundwin: "0"
+      sm_aia_extrastuff: "1"
       sm_aia_waitingforplayers: "0"
       sm_aia_clip: "0"
       sm_aia_cloak: "0"
+    
+    helpmenu:
+      Help:
+        Plugin Commands:
+          title: Plugin Commands
+          items:
+            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+            "1": "Type 'dropitem' in console to drop your currently held weapon"
+            "2": "!pads - Allows you to choose different types of teleporters"
+            "3": "!piggy - Settings for piggybacking"
+            "4": "!pdrop - Drop whoever is piggybacking on you"
+            "5": "!pitch - Set your mercenaries voice pitch range"
+            "6": "!lowpitch - Lower the pitch of your mercenaries voice"
+            "7": "!highpitch - Raise the pitch of your mercenaries voice"
+            "8": "!resetpitch - Reset your mercenaries voice pitch"
+            "9": "!pose - Freeze/Slow your current taunt"
+            "a": "!poser - Freeze/Slow your current taunt"
+            "b": "!taunts - Bring up a taunt menu"
+            "c": "!bhop - Enables/Disables automatic bunnyhopping (on by default)"
+            "d": "!cakevich 0, 1, or 2 - Heavy will drop a cake instead of a sandvich"
+            "e": "!resizeme - Resize yourself with a menu"
+            "f": "!thirdperson - Enable thirdperson"
+            "g": "!firstperson - Enable firstperson"
+            "h": "!civ - Enable the civillian or A-Pose"
+            "i": "!settings - Configure stuff like PvP, piggyback settings, and more"
+        PvP Commands:
+          title: PvP Opt-in
+          items:
+            "0": "!pvp - Enables/Disables Global PvP"
+            "1": "!pvp playername - Send a duel request towards another player"
+            "2": "!stoppvp - Stop the current on-going duel or Global PvP"
+            "3": "!mirrorme - Mirror damage done to others"
+        Other Stuff:
+          title: Extras
+          items:
+            "0": "Pyros can airblast jump"
+            "1": "Air acceleration has been greatly increased for bhopping"
+            "2": "Objectives are disabled"
+            "3": "Rock the Vote becomes available after 5 minutes of map time"
+            "4": "You can't drown in water anymore"
 
   rinstagib:
     servercfg:
@@ -103,7 +164,7 @@ rulesets:
       - sv_gravity 700
       - sv_alltalk 1
       - mp_friendlyfire 1
-      - tf_forced_holiday 2
+      - mp_match_end_at_timelimit 1
       - tf_arena_use_queue 0
       - tf_arena_first_blood 0
       - mp_tournament 1
@@ -126,34 +187,35 @@ rulesets:
       - tf2attributes
       - unrestricted_fov
       - sw_gamedesc_override
+      - hwn_cosmetic_enabler
 
     mapchooser:
       sm_mapvote_start: "1.0"
 
     ClassRestrictionsForHumans:
-      sm_crh_blu_demomen: "0"
-      sm_crh_blu_engineers: "0"
-      sm_crh_blu_heavies: "0"
-      sm_crh_blu_medics: "0"
-      sm_crh_blu_pyros: "0"
-      sm_crh_blu_scouts: "0"
-      sm_crh_blu_snipers: "0"
       sm_crh_blu_soldiers: "-1"
-      sm_crh_blu_spies: "0"
-      sm_crh_classmenu: "0"
-      sm_crh_enabled: "1"
-      sm_crh_red_demomen: "0"
-      sm_crh_red_engineers: "0"
-      sm_crh_red_heavies: "0"
-      sm_crh_red_medics: "0"
-      sm_crh_red_pyros: "0"
-      sm_crh_red_scouts: "0"
-      sm_crh_red_snipers: "0"
       sm_crh_red_soldiers: "-1"
-      sm_crh_red_spies: "0"
-
-    rinstagib:
-      ri_enabled: "1"
+      sm_crh_classmenu: "0"
+    
+    helpmenu:
+      Help:
+        Plugin Commands:
+          title: Plugin Commands
+          items:
+            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+            "0": "!fov - Set your FOV (30-130)"
+            "1": "!centerprojectiles - Center your projectiles (Original style)"
+            "2": "!speedo - Speedometer settings"
+        Gamemode Info:
+          title: WELCOME TO rINSTAGIB
+          items:
+            "0": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
+            "1": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
+            "2": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
+            "3": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
+            "4": "YOUR BUNNYHOPPING IS AUTOMATIC."
+            "5": "YOUR AIR CONTROL IS STRONGER."
+            "6": "YOUR AMMUNITION IS INFINITE."
 
 # List of maps
 mapcycles:
@@ -288,6 +350,7 @@ base_plugins:
   - fixstvslot
   - funcommands
   - funvotes
+  - helpmenu
   - links
   - mapconfigs
   - nextmap
@@ -324,11 +387,28 @@ base_plugins:
   - votedelay_changelevel
   - votefailed
 
-links:
-  group: https://steamcommunity.com/groups/BoxesForFoxes
-  discord: https://discord.gg/6rTTw8gUER
-  sourcebans: https://boxes4foxes.site.nfoservers.com/sourcebans/
-  website: https://boxesforfoxes.net
+default_vdfs:
+  links:
+    location: /tf/addons/sourcemod/configs/links.cfg
+    default:
+      Links:
+        "1":
+          command: sm_group
+          link: https://steamcommunity.com/groups/BoxesForFoxes
+        "2": 
+          command: sm_discord
+          link: https://discord.gg/6rTTw8gUER
+        "3":
+          command: sm_sourcebans
+          link: https://boxes4foxes.site.nfoservers.com/sourcebans/
+        "4":
+          command: sm_website
+          link: https://boxesforfoxes.net
+  
+  helpmenu:
+    location: /tf/addons/sourcemod/configs/helpmenu.cfg
+    default:
+      "": ""
 
 ###
 # Plugin default configurations
@@ -344,7 +424,7 @@ default_cfgs:
     default:
       # Enables/disables restricting classes in TF2 for Human players
       # 1
-      sm_crh_enabled: "0"
+      sm_crh_enabled: "1"
 
       # Admin flag/s for immunity to restricting classes. If multiple flags are provided, one validated flag is enough to be immune.
       # b
@@ -362,24 +442,24 @@ default_cfgs:
       # 0
       sm_crh_sounds: "1"
 
-      sm_crh_blu_demomen: "-1"
-      sm_crh_blu_engineers: "-1"
-      sm_crh_blu_heavies: "-1"
-      sm_crh_blu_medics: "-1"
-      sm_crh_blu_pyros: "-1"
-      sm_crh_blu_scouts: "-1"
-      sm_crh_blu_snipers: "-1"
-      sm_crh_blu_soldiers: "-1"
-      sm_crh_blu_spies: "-1"
-      sm_crh_red_demomen: "-1"
-      sm_crh_red_engineers: "-1"
-      sm_crh_red_heavies: "-1"
-      sm_crh_red_medics: "-1"
-      sm_crh_red_pyros: "-1"
-      sm_crh_red_scouts: "-1"
-      sm_crh_red_snipers: "-1"
-      sm_crh_red_soldiers: "-1"
-      sm_crh_red_spies: "-1"
+      sm_crh_blu_demomen: "0"
+      sm_crh_blu_engineers: "0"
+      sm_crh_blu_heavies: "0"
+      sm_crh_blu_medics: "0"
+      sm_crh_blu_pyros: "0"
+      sm_crh_blu_scouts: "0"
+      sm_crh_blu_snipers: "0"
+      sm_crh_blu_soldiers: "0"
+      sm_crh_blu_spies: "0"
+      sm_crh_red_demomen: "0"
+      sm_crh_red_engineers: "0"
+      sm_crh_red_heavies: "0"
+      sm_crh_red_medics: "0"
+      sm_crh_red_pyros: "0"
+      sm_crh_red_scouts: "0"
+      sm_crh_red_snipers: "0"
+      sm_crh_red_soldiers: "0"
+      sm_crh_red_spies: "0"
 
   mapchooser:
     location: /tf/cfg/sourcemod/mapchooser.cfg
@@ -715,7 +795,7 @@ default_cfgs:
     default:
       # Enable rinstagib mode.
       # 1, 0..1
-      ri_enabled: "0"
+      ri_enabled: "1"
 
       # Enable the rinstagib damage leaderboard and announcements.
       # 1, 0..1

@@ -83,13 +83,6 @@
     mode: 0755
   loop: "{{ instances_secrets }}"
 
-- name: /tf/addons/sourcemod/configs/links.cfg
-  ansible.builtin.template:
-    src: links.cfg.j2
-    dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/links.cfg
-    mode: 0755
-  loop: "{{ instances_secrets }}"
-
 - name: /tf/addons/sourcemod/configs/custom-chatcolors.cfg
   ansible.builtin.template:
     src: custom-chatcolors.cfg.j2

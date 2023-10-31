@@ -1,67 +1,18 @@
 srcds_region: 1
 
 instances:
-  # - name: "ri1"
-  #   hostname: "rINSTAGIB | NA West"
-  #   maxplayers: 12
-  #   mapcycle: "rinstagib"
-  #   ruleset: "rinstagib"
-  #   timelimit: 20
-  #   stv_enabled: true
-  #   tags:
-  #     - instagib
-  #     - rinstagib
-  #     - ras
-  #   motd: |
-  #     -- RULES. --
-
-  #     DO NOT BE A BIGOT.
-  #     DO NOT BE TOXIC.
-  #     DO NOT ABUSE EXPLOITS OR CHEAT.
-  #     DO NOT THINK YOU CAN SKIRT AROUND THE RULES.
-  #     YOU WILL BE PUNISHED.
-
-  #     YOU MAY JOIN OUR DISCORD: https://discord.gg/V5Z29SXtsY
-
-  #     -- WELCOME TO RAS INSTAGIB. --
-
-  #     YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS.
-  #     YOUR ROCKET HITS WILL ALWAYS ONE-HIT KILL.
-
-  #     YOUR SECONDARY IS REPLACED WITH A RAILGUN.
-  #     MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE.
-
-  #     YOUR MELEE HITS WILL ALWAYS ONE-HIT KILL.
-
-  #     YOUR BUNNYHOPPING IS AUTOMATIC.
-  #     YOUR AIR CONTROL IS STRONGER.
-  #     YOUR AMMUNITION IS INFINITE.
-
   - name: "boxfort"
-    hostname: "Boxes For Foxes | Hangout | Migration Test Server"
-    maxplayers: 12
+    hostname: "Boxes For Foxes | The Box Fort"
+    maxplayers: 24
     mapcycle: "hangout"
     ruleset: "hangout"
     timelimit: 60
-    stv_enabled: true
     stv_name: "/call to report players"
-    motd: |
-      This is an in-development test server as Boxes for Foxes migrates to a new structure.
 
-      • Don't use discrimination/hatespeech (slurs, racism, bigotry, nazism, etc.)
-      • Don't spray or talk about illicit material (beastiality, gore, loli, etc.)
-      • Don't use exploits in the maps/games/plugins
-      • Don't harass/threaten players or Admins
-      • Don't mic-spam just to annoy people
-      • Don't abuse the /call system
-
-      ★ Admins have prefixes and unusual-colored names
-      ★ Please be kind and respectful to other players
-      ★ Votekicks are a 1-hour temporary ban
-      ★ Cheating will result in a permanent ban
-
-      Type !helpmenu for a list of things and plugin commands
-
-      Website (!website): boxesforfoxes.net
-      Discord (!discord): discord.gg/6rTTw8gUER
-      Steam Group (!group): steamcommunity.com/groups/BoxesForFoxes
+  - name: "ri"
+    hostname: "Boxes For Foxes | rINSTAGIB"
+    maxplayers: 12
+    mapcycle: "rinstagib"
+    ruleset: "rinstagib"
+    timelimit: 20
+    stv_name: "/call to report players"
