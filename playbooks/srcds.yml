@@ -1,5 +1,5 @@
 ---
-- name: Deploy instances to hosts
+- name: Build SRCDS images
   hosts: tf2
   roles:
     - srcds

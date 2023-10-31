@@ -2,13 +2,22 @@ srcds_base_port: 27015
 srcds_reserve_ports: 10
 
 # FastDL Base URL
-fastdl_url: "https://jackavery.ca/fastdl/tf/"
+fastdl_url: "https://boxes4foxes.site.nfoservers.com/tf/"
 global_tags:
-  - raspy
+  - community
+  - moderation
+  - furry
+  - lgbtq
+  - lgbtq+
+  - lgbt
+  - box
+  - boxes4foxes
+  - boxes
+  - foxes
 
 # Link to SourceBans website
 sourcebans:
-  website: "https://jackavery.ca/bans/"
+  website: "https://boxes4foxes.site.nfoservers.com/sourcebans/"
 
 # Whether to enable STV by default
 stv_enabled: false
@@ -33,6 +42,54 @@ rulesets:
       - tf_preround_push_from_damage_enable 0
       - tf_avoidteammates_pushaway 1
 
+  hangout:
+    servercfg:
+      - tf_weapon_criticals 0
+      - tf_use_fixed_weaponspreads 1
+      - tf_spawn_glows_duration 10
+      - tf_spec_xray 0
+      - tf_preround_push_from_damage_enable 1
+      - tf_grapplinghook_enable 1
+      - tf_avoidteammates_pushaway 0
+      - mp_disable_respawn_times 1
+      - sw_gamedesc_override "Hangout Server"
+      - sm_cvar mp_waitingforplayers_time "0"
+      - sm_cap_disable
+      - sv_alltalk 1
+    
+    tags:
+      - alltalk
+      - chill
+      - chilling
+      - hangout
+      - wacky
+      - wacky maps
+      - silly
+      - silly server
+      - silly maps
+
+    plugins:
+      - AdvancedInfiniteAmmo
+      - bothteleport
+      - civilian
+      - hwn_cosmetic_enabler
+      - kartify
+      - piggyback
+      - pvpoptin
+      - ResizePlayers
+      - sw_gamedesc_override
+      - swBlockCap
+      - tf-bhop
+      - tf2pyroairjump
+      - thirdperson
+
+    AdvancedInfiniteAmmo:
+      sm_aia_extrastuff: "0"
+      sm_aia_roundwin: "0"
+      sm_aia_waitingforplayers: "0"
+      sm_aia_clip: "0"
+      sm_aia_cloak: "0"
+
   rinstagib:
     servercfg:
       - tf_weapon_criticals 0
@@ -51,6 +108,11 @@ rulesets:
       - mp_tournament 1
       - mp_chattime 0
       - sw_gamedesc_override "rINSTAGIB"
+    
+    tags:
+      - alltalk
+      - instagib
+      - rinstagib
 
     plugins:
       - soap_tf2dm
@@ -101,6 +163,27 @@ mapcycles:
     - plr_hightower
     - cp_orange_gamerland_classic
     - koth_lakeside_final
+
+  2fortplus:
+    - ctf_2fort_extended_bffedit
+
+  turbineplus:
+    - ctf_turbine_extended_bffedit
+
+  hightowerplus:
+    - plr_hightower_extended_bffedit
+
+  hangout:
+    - 2fart
+    - hikikomori_mall_a4
+    - ennui_box
+    - mercs_paradise_v2
+    - tower_of_power_v5
+    - trade_badsand_rc8
+    - trade_balloonfarm
+    - trade_boozehound_v4
+    - trade_dome
+    - trade_imagination_figment_a10b
 
   all:
     # ad
@@ -181,35 +264,48 @@ mapcycles:
 # Plugins to include on every server
 base_plugins:
   - admin-flatfile
+  - admingrab
   - adminhelp
   - adminmenu
   - antiflood
+  - AutoKickProtector
   - basebans
   - basechat
   - basecomm
   - basecommands
   - basetriggers
+  - calladmin
   - clientprefs
+  - custom-chatcolors
+  - custom-chatcolors-mysql
+  - custom-chatcolors-toggle
   - discord
+  - discord_calladmin
+  - discord_relay
+  - discord_sourcebans
+  - discord_sourcecomms
   - fixstvslot
   - funcommands
   - funvotes
+  - links
   - mapconfigs
   - nextmap
   - playercommands
-  - raspyverse_commands
   - reservedslots
   - sbpp_admcfg
   - sbpp_checker
   - sbpp_comms
   - sbpp_main
   - sbpp_sleuth
+  - simple-chatprocessor
   - sm_nocontracker
   - sounds
   - spraytrace
   - stac
   - swag
+  - tf2attributes
   - tf2centerprojectiles
+  - tf2utils
   - waitingdoors
 
   # - basevotes
@@ -227,6 +323,12 @@ base_plugins:
   - votedelay_changelevel
   - votefailed
 
+links:
+  group: https://steamcommunity.com/groups/BoxesForFoxes
+  discord: https://discord.gg/6rTTw8gUER
+  sourcebans: https://boxes4foxes.site.nfoservers.com/sourcebans/
+  website: https://boxesforfoxes.net
+
 ###
 # Plugin default configurations
 ###
@@ -236,7 +338,7 @@ base_plugins:
 # (as declared by the plugin, NOT tf2.yml)
 
 default_cfgs:
-  ClassRestrictionForHumans:
+  ClassRestrictionsForHumans:
     location: /tf/cfg/sourcemod/Class_Restrictions_For_Humans.cfg
     default:
       # Enables/disables restricting classes in TF2 for Human players
@@ -565,13 +667,13 @@ default_cfgs:
 
       # Show Advanced Infinite Ammo changes in chat
       # 1, 0..1
-      sm_aia_chat: "0"
+      sm_aia_chat: "1"
 
-      # Infinite Clip will be globally disabled
+      # Infinite Clip will be globally enabled
       # 1, 0..1
       sm_aia_clip: "1"
 
-      # Infinite Cloak will be globally disabled
+      # Infinite Cloak will be globally enabled
       # 1, 0..1
       sm_aia_cloak: "1"
 
@@ -579,7 +681,7 @@ default_cfgs:
       #
       sm_aia_disabledweapons: ""
 
-      # Infinite Extra Stuff will be globally disabled
+      # Infinite Extra Stuff will be globally enabled
       # 1, 0..1
       sm_aia_extrastuff: "0"
 
@@ -677,3 +779,57 @@ default_cfgs:
       # Melee damage multiplier.
       # 4, 1..10
       ri_melee_damage: "4"
+
+  discord_sourcebans:
+    location: /tf/cfg/sourcemod/discord_sourcebans.cfg
+    default:
+      # Discord/Slack attachment color.
+      # #ff2222
+      discord_sourcebans_color: "#ff2222"
+
+      # This allows you to mention reports, leave blank to disable.
+      # @here
+      discord_sourcebans_mention: "@here"
+
+      # Link to sourcebans.
+      # https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}
+      discord_sourcebans_url: "https://boxes4foxes.site.nfoservers.com/sourcebans/index.php?p=banlist&searchText={STEAMID}"
+
+      # Config key from configs/discord.cfg.
+      # sourcebans
+      discord_sourcebans_webhook: "sourcebans"
+  
+  discord_sourcecomms:
+    location: /tf/cfg/sourcemod/discord_sourcecomms.cfg
+    default:
+      # Discord/Slack attachment gag color.
+      # #ffff22
+      discord_sourcecomms_color_gag: "#ffff22"
+
+      # Discord/Slack attachment mute color.
+      # #2222ff
+      discord_sourcecomms_color_mute: "#2222ff"
+
+      # Discord/Slack attachment silence color.
+      # #ff22ff
+      discord_sourcecomms_color_silence: "#ff22ff"
+
+      # This allows you to mention reports, leave blank to disable.
+      # @here
+      discord_sourcecomms_mention: "@here"
+
+      # Link to sourcebans.
+      # https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}
+      discord_sourcecomms_url: "https://boxes4foxes.site.nfoservers.com/sourcebans/index.php?p=commslist&searchText={STEAMID}"
+
+      # Config key from configs/discord.cfg.
+      # sourcecomms
+      discord_sourcecomms_webhook_gag: "sourcecomms"
+      discord_sourcecomms_webhook_mute: "sourcecomms"
+      discord_sourcecomms_webhook_silence: "sourcecomms"
+      discord_sourcecomms_webhook_ungag: "sourcecomms"
+      discord_sourcecomms_webhook_ungag_tmp: "sourcecomms"
+      discord_sourcecomms_webhook_unmute: "sourcecomms"
+      discord_sourcecomms_webhook_unmute_tmp: "sourcecomms"
+      discord_sourcecomms_webhook_unsilence: "sourcecomms"
+      discord_sourcecomms_webhook_unsilence_tmp: "sourcecomms"

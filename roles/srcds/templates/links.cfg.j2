@@ -1,0 +1,10 @@
+"Links"
+{
+{% for link, url in links.items() %}
+	"{{ loop.index }}"
+	{
+		"command"		"sm_{{ link }}"
+		"link"			"{{ url }}"
+	}
+{% endfor %}
+}

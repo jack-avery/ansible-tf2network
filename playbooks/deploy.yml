@@ -16,6 +16,7 @@
       loop_control:
         index_var: loop0
       delegate_to: localhost
+      timeout: 10
 
     - name: Start
       community.docker.docker_container:
@@ -26,9 +27,9 @@
         restart_policy: "unless-stopped"
         cpuset_cpus: "{{ loop0 }}"
         ports:
-        - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
-        - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}/udp"
-        - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}/udp"
+          - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
+          - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}/udp"
+          - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}/udp"
       loop: "{{ instances }}"
       loop_control:
         index_var: loop0

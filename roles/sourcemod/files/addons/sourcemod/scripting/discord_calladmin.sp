@@ -1,10 +1,10 @@
 #include <sourcemod>
 #include <calladmin>
-#include "include/discord.inc"
+#include <discord>
 
-#define PLUGIN_VERSION "1.1"
+#define PLUGIN_VERSION "1.2"
 
-#define REPORT_MSG "{\"username\":\"{BOTNAME}\", \"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"{HOSTNAME} (steam://connect/{SERVER_IP}:{SERVER_PORT}){REFER_ID}\",\"fields\": [{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true},{\"title\": \"Reporter\",\"value\": \"{REPORTER_NAME} ({REPORTER_ID})\",\"short\": true},{\"title\": \"Target\",\"value\": \"{TARGET_NAME} ({TARGET_ID})\",\"short\": true}]}]}"
+#define REPORT_MSG "{\"username\":\"{BOTNAME}\", \"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"{HOSTNAME} (steam://connect/{SERVER_IP}:{SERVER_PORT}){REFER_ID}\",\"fields\": [{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true},{\"title\": \"Reporter\",\"value\": \"{REPORTER_NAME} [{REPORTER_ID}](https://steamid.io/lookup/{REPORTER_ID})\",\"short\": true},{\"title\": \"Target\",\"value\": \"{TARGET_NAME} [{TARGET_ID}](https://steamid.io/lookup/{TARGET_ID})\",\"short\": true}]}]}"
 #define CLAIM_MSG "{\"username\":\"{BOTNAME}\", \"content\":\"{MSG}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"{HOSTNAME} (steam://connect/{SERVER_IP}:{SERVER_PORT})\",\"fields\": [{\"title\": \"Admin\",\"value\": \"{ADMIN}\",\"short\": false}]}]}"
 
 char sSymbols[25][1] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
@@ -27,10 +27,10 @@ ConVar g_cIP = null;
 public Plugin myinfo = 
 {
 	name = "Discord: CallAdmin",
-	author = ".#Zipcore",
-	description = "",
+	author = ".#Zipcore, Dragonisser",
+	description = "Calladmin submodule for Discord Plugin",
 	version = PLUGIN_VERSION,
-	url = "www.zipcore.net"
+	url = "https://forums.alliedmods.net/showthread.php?t=292663"
 }
 
 public void OnPluginStart()
@@ -191,7 +191,6 @@ public void CallAdmin_OnReportPost(int client, int target, const char[] reason)
 	if (!StrEqual(sRemove, ""))
 		ReplaceString(g_sServerName, sizeof(g_sServerName), sRemove, "");
 
-	
 	Discord_EscapeString(g_sServerName, sizeof(g_sServerName));
 	
 	char sMention[512];

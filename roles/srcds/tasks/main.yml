@@ -23,14 +23,6 @@
   loop: "{{ instances }}"
   delegate_to: "{{ ansible_host }}"
 
-- name: Copy maps to /tf/maps
-  ignore_errors: true # do not freak out if there's no custom maps
-  ansible.posix.synchronize:
-    src: "{{ role_path }}/files/maps/"
-    dest: ~/build/{{ item.name }}/tf/maps
-    recursive: true
-  loop: "{{ instances }}"
-
 - name: Move Dockerfile
   ansible.builtin.template:
     src: Dockerfile.j2
@@ -90,8 +82,20 @@
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/databases.cfg
     mode: 0755
   loop: "{{ instances_secrets }}"
-  loop_control:
-    index_var: loop0
+
+- name: /tf/addons/sourcemod/configs/links.cfg
+  ansible.builtin.template:
+    src: links.cfg.j2
+    dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/links.cfg
+    mode: 0755
+  loop: "{{ instances_secrets }}"
+
+- name: /tf/addons/sourcemod/configs/custom-chatcolors.cfg
+  ansible.builtin.template:
+    src: custom-chatcolors.cfg.j2
+    dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/custom-chatcolors.cfg
+    mode: 0755
+  loop: "{{ instances_secrets }}"
 
 - name: /tf/addons/sourcemod/configs/discord.cfg
   ansible.builtin.template:
@@ -99,8 +103,6 @@
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/discord.cfg
     mode: 0755
   loop: "{{ instances_secrets }}"
-  loop_control:
-    index_var: loop0
 
 - name: /tf/addons/sourcemod/configs/sourcebans/sourcebans.cfg
   ansible.builtin.template:
@@ -108,8 +110,6 @@
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/sourcebans/sourcebans.cfg
     mode: 0755
   loop: "{{ instances_secrets }}"
-  loop_control:
-    index_var: loop0
 
 - name: /tf/addons/sourcemod/configs/sourcebans/sourcesleuth_whitelist.cfg
   ansible.builtin.template:
@@ -117,11 +117,9 @@
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/sourcebans/sourcesleuth_whitelist.cfg
     mode: 0755
   loop: "{{ instances }}"
-  loop_control:
-    index_var: loop0
 
-- name: Copy enabled plugins to plugin directory & template configs
-  include_tasks: plugins.yml
+- name: Do instance loops (plugin configs, custom maps, etc.)
+  include_tasks: instance_loops.yml
   loop: "{{ instances }}"
   loop_control:
     loop_var: instance

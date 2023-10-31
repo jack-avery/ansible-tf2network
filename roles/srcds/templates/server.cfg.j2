@@ -1,19 +1,21 @@
 hostname "{{ item.0.hostname }}"
 
 rcon_password "{{ item.1.rcon_pass }}"
-sv_downloadurl "{{ fastdl_url }}"
+sv_password "{{ item.1.pass | default('') }}"
+
+sv_downloadurl "{{ fastdl_url | default('') }}"
 
 motdfile_text motd.txt
 
 {% set li = namespace(sv_tags=[]) %}
+{% set li.sv_tags = global_tags %}
 {% if 'tags' in item.0 %}
-{% for taglist in [global_tags, item.0.tags] %}
-{% set li.sv_tags = li.sv_tags + taglist %}
-{% endfor %}
-sv_tags "{{ ','.join(li.sv_tags)|safe }}"
-{% else %}
-sv_tags "{{ ','.join(global_tags)|safe }}"
+{% set li.sv_tags = li.sv_tags + item.0.tags %}
 {% endif %}
+{% if 'tags' in rulesets[item.0.ruleset] %}
+{% set li.sv_tags = li.sv_tags + rulesets[item.0.ruleset].tags %}
+{% endif %}
+sv_tags "{{ ','.join(li.sv_tags)|safe }}"
 
 log off
 sv_logbans 0
@@ -21,11 +23,15 @@ sv_logecho 0
 sv_logfile 0
 sv_log_onefile 0
 
+sv_allow_votes 1
+sv_vote_ui_hide_disabled_issues 1
+sv_vote_quorum_ratio 0.6
+sv_vote_allow_spectators 0
 sv_vote_issue_nextlevel_allowed 0
 sv_vote_issue_extendlevel_allowed 0
-sv_vote_issue_kick_allowed 0
 sv_vote_issue_scramble_teams_allowed 0
-sv_vote_kick_ban_duration 0
+sv_vote_issue_kick_allowed 1
+sv_vote_kick_ban_duration 60
 
 sv_minrate 65535
 sv_maxrate 0
@@ -62,14 +68,21 @@ tv_name "{{ item.0.stv_name|default(item.0.hostname + ' | STV') }}"
 tv_title "SourceTV"
 {% endif %}
 
-mp_timelimit {{ item.0.timelimit }}
-mp_winlimit {{ item.0.winlimit }}
-mp_maxrounds {{ item.0.maxrounds }}
+mp_timelimit {{ item.0.timelimit|default(0) }}
+mp_winlimit {{ item.0.winlimit|default(0) }}
+mp_maxrounds {{ item.0.maxrounds|default(0) }}
 
+// Ruleset config
 {% for cmd in rulesets[item.0.ruleset|default("standard")].servercfg %}
 {{ cmd }}
 {% endfor %}
 
+// Instance config
 {% for cmd in item.0.servercfg | default([]) %}
+{{ cmd }}
+{% endfor %}
+
+// Instance secret config
+{% for cmd in item.1.servercfg | default([]) %}
 {{ cmd }}
 {% endfor %}

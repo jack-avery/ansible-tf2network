@@ -1,9 +1,9 @@
 #include <sourcemod>
 #include <discord>
 
-#define PLUGIN_VERSION "1.1"
+#define PLUGIN_VERSION "1.2"
 
-#define MSG_BAN "{\"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"View on Sourcebans\",\"title_link\": \"{SOURCEBANS}\",\"fields\": [{\"title\": \"Player\",\"value\": \"{NICKNAME} ( {STEAMID} )\",\"true\": false},{\"title\": \"Admin\",\"value\": \"{ADMIN}\",\"short\": true},{\"title\": \"{COMMTYPE} Length\",\"value\": \"{BANLENGTH}\",\"short\": true},{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true}]}]}"
+#define MSG_BAN "{\"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"View on Sourcebans\",\"title_link\": \"{SOURCEBANS}\",\"fields\": [{\"title\": \"Player\",\"value\": \"{NICKNAME} [{STEAMID}](https://steamid.io/lookup/{STEAMID})\",\"true\": false},{\"title\": \"Admin\",\"value\": \"{ADMIN}\",\"short\": true},{\"title\": \"{COMMTYPE} Length\",\"value\": \"{BANLENGTH}\",\"short\": true},{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true}]}]}"
 
 ConVar g_cColorGag = null;
 ConVar g_cColorMute = null;
@@ -23,10 +23,10 @@ ConVar g_cMention = null;
 public Plugin myinfo = 
 {
 	name = "Discord: SourceComms",
-	author = ".#Zipcore",
-	description = "",
+	author = ".#Zipcore, Dragonisser",
+	description = "SourceComms submodule for Discord Plugin",
 	version = PLUGIN_VERSION,
-	url = "www.zipcore.net"
+	url = "https://forums.alliedmods.net/showthread.php?t=292663"
 }
 
 public void OnPluginStart()
@@ -36,7 +36,7 @@ public void OnPluginStart()
 	g_cColorGag = CreateConVar("discord_sourcecomms_color_gag", "#ffff22", "Discord/Slack attachment gag color.");
 	g_cColorMute = CreateConVar("discord_sourcecomms_color_mute", "#2222ff", "Discord/Slack attachment mute color.");
 	g_cColorSilence = CreateConVar("discord_sourcecomms_color_silence", "#ff22ff", "Discord/Slack attachment silence color.");
-	g_cSourcebans = CreateConVar("discord_sourcecomms_url", "https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}", "Link to sourcebans.");
+	g_cSourcebans = CreateConVar("discord_sourcecomms_url", "https://boxes4foxes.site.nfoservers.com/sourcebans/index.php?p=commslist&searchText={STEAMID}", "Link to sourcebans.");
 	g_cWebhookGag = CreateConVar("discord_sourcecomms_webhook_gag", "sourcecomms", "Config key from configs/discord.cfg.");
 	g_cWebhookMute = CreateConVar("discord_sourcecomms_webhook_mute", "sourcecomms", "Config key from configs/discord.cfg.");
 	g_cWebhookSilence = CreateConVar("discord_sourcecomms_webhook_silence", "sourcecomms", "Config key from configs/discord.cfg.");
@@ -51,16 +51,17 @@ public void OnPluginStart()
 	AutoExecConfig(true, "discord_sourcecomms");
 }
 
+//Forward doesnt exist
 public int SourceComms_OnMutePlayer(int client, int target, int time, char[] reason)
 {
 	PrePareMsg(client, target, time, 1, reason);
 }
-
+//Forward doesnt exist
 public int SourceComms_OnGagPlayer(int client, int target, int time, char[] reason)
 {
 	PrePareMsg(client, target, time, 2, reason);
 }
-
+//Forward doesnt exist
 public int SourceComms_OnSilencePlayer(int client, int target, int time, char[] reason)
 {
 	PrePareMsg(client, target, time, 3, reason);
@@ -180,6 +181,10 @@ public int PrePareMsg(int client, int target, int time, int commstype, char[] re
 			return;
 		}
 	}
+
+	ReplaceString(sColor, sizeof(sColor), "#", "");
+	int iColor = StringToInt(sColor, 16);
+	IntToString(iColor, sColor, sizeof(sColor));
 	
 	char sReason[64];
 	strcopy(sReason, sizeof(sReason), reason);

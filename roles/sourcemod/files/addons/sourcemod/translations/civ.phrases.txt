@@ -1,0 +1,48 @@
+"Phrases"
+{
+	"BecameCiv"
+	{
+		"pt"	"Você se tornou um Civil!"
+		"pt_p"	"Você se tornou um Civil!"
+		"en"	"You turned into a Civilian!"
+		"es"	"¡Te has convertido en un civil!"
+		"fr"	"Tu es devenu un civil !"
+		"it"	"Sei diventato un civile!"
+		"de"	"Sie sind Zivilist geworden!"
+		"ru"	"Vy stali shtatskim!"
+		"jp"	"Anata wa minkan hito ni narimashita!"
+		"chi"	"Nǐ biànchéng píngmínle!"
+	}
+	
+	"IsConsole"
+	{
+		"pt"	"Executor do comando é o console, este comando não tem efeito"
+		"pt_p"	"Executor do comando é o console, este comando não tem efeito"
+		"en"	"Command caller is console, this command won't have any effect"
+		"es"	"El ejecutor del comando es la consola, este comando no tiene efecto"
+	}
+	
+	"IsDead"
+	{
+		"pt"	"Você está morto, tente quando estiver vivo"
+		"pt_p"	"Você está morto, tente quando estiver vivo"
+		"en"	"You're dead, try again when you're alive
+		"es"	"Estás muerto, inténtalo cuando estes vivo"
+	}
+	
+	"AlwaysCivE"
+	{
+		"pt"	"Você vai sempre renascer como Civil"
+		"pt_p"	"Você vai sempre renascer como Civil"
+		"en"	"You will always respawn as Civilian"
+		"es"	"Siempre renacerás como Civil"
+	}
+	
+	"AlwaysCivD"
+	{
+		"pt"	"Você não vai mais renascer como Civil"
+		"pt_p"	"Você não vai mais renascer como Civil"
+		"en"	"You won't respawn as Civilian"
+		"es"	"Ya no renacerás como Civil"
+	}
+}
