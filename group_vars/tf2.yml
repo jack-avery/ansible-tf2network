@@ -100,8 +100,11 @@ rulesets:
       - piggyback
       - pvpoptin
       - ResizePlayers
+      - setclass
+      - setspeed
       - sw_gamedesc_override
       - swBlockCap
+      - tf_rof
       - tf-bhop
       - tf2pyroairjump
       - thirdperson
@@ -330,6 +333,7 @@ base_plugins:
   - admingrab
   - adminhelp
   - adminmenu
+  - adminsmite
   - antiflood
   - AutoKickProtector
   - basebans
@@ -353,6 +357,7 @@ base_plugins:
   - helpmenu
   - links
   - mapconfigs
+  - necromash
   - nextmap
   - playercommands
   - reservedslots
