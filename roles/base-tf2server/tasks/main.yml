@@ -30,5 +30,5 @@
       rm: true
       dockerfile: Dockerfile
       platform: linux/amd64
-      path: ~/build/
+      path: ~/build/base
     state: present
