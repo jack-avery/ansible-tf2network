@@ -21,8 +21,8 @@ Ansible requires Linux. If you're running Windows, consider setting up WSL.
 3. Trigger `make sm` to distribute and build SourceMod on hosts.
 4. Trigger `make srcds` to build images.
 5. Trigger `make deploy` to start up the new images.
-> You can use `make` instead to do `sm` then `srcds`</br>
-> You can narrow which images to build/deploy by passing the `ONLY` variable in `make`, e.g. `make srcds ONLY=myserver,myotherserver`</br>
+> You can use `make` as an alias for `make sm srcds deploy`</br>
+> You can narrow which instances passing `ONLY`, e.g. `make srcds ONLY=myserver,myotherserver`</br>
 > You will need to run `make base` for each update; this is not included in `make (all)`</br>
 
 ### Updating admins/reserveslots
