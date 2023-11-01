@@ -2,33 +2,27 @@
 - name: Delete old build data
   ansible.builtin.file:
     state: absent
-    path: ~/build
+    path: ~/build/base
 
 - name: Create build directory
   ansible.builtin.file:
-    path: ~/build
+    path: ~/build/base
     state: directory
-    mode: "0777"
+    mode: 0755
 
 - name: Copy build sources
   ansible.builtin.synchronize:
     src: ./
-    dest: ~/build/
+    dest: ~/build/base
     archive: false
     recursive: true
 
-- name: Log in to Docker Hub
-  community.docker.docker_login:
-    username: "{{ dockerhub.username }}"
-    password: "{{ dockerhub.password }}"
-
-- name: Build image & upload
+- name: Build base image
   community.docker.docker_image:
     name: jackavery/base-tf2server
     tag: latest
     source: build
     force_tag: true
-    push: true
     force_source: true
     build:
       nocache: true

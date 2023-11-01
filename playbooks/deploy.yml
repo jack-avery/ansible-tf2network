@@ -2,8 +2,8 @@
 - name: Deploy instances to hosts and generate cron
   hosts: tf2
   tasks:
-    - name: Load secrets
-      ansible.builtin.include_tasks: secrets.yml
+    - name: Perform setup (secrets, target narrowing)
+      ansible.builtin.include_tasks: setup.yml
 
     - name: Announce update
       ignore_errors: true
@@ -12,7 +12,7 @@
         port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
         password: "{{ item.rcon_pass }}"
         command: 'sm_csay Server is restarting for updates.;sm_say Server is restarting for updates.'
-      loop: "{{ instances_secrets }}"
+      loop: "{{ targets_secrets }}"
       loop_control:
         index_var: loop0
       delegate_to: localhost
@@ -30,7 +30,7 @@
           - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
           - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}/udp"
           - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}/udp"
-      loop: "{{ instances }}"
+      loop: "{{ targets }}"
       loop_control:
         index_var: loop0
 
