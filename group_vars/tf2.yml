@@ -112,6 +112,7 @@ rulesets:
       - tf-bhop
       - tf2pyroairjump
       - thirdperson
+      - NoTimeLimit
 
     AdvancedInfiniteAmmo:
       sm_aia_extrastuff: "1"

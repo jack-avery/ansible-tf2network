@@ -71,6 +71,7 @@ tv_title "SourceTV"
 mp_timelimit {{ item.0.timelimit|default(0) }}
 mp_winlimit {{ item.0.winlimit|default(0) }}
 mp_maxrounds {{ item.0.maxrounds|default(0) }}
+mp_mapcycle_empty_timeout_seconds {{ item.0.timelimit * 60 }}
 
 // Ruleset config
 {% for cmd in rulesets[item.0.ruleset|default("standard")].servercfg %}
