@@ -125,39 +125,34 @@ rulesets:
           title: Plugin Commands
           items:
             "": "You can use a slash (/) instead of exclamation (!) to run these commands"
-            "1": "Type 'dropitem' in console to drop your currently held weapon"
-            "2": "!pads - Allows you to choose different types of teleporters"
-            "3": "!piggy - Settings for piggybacking"
-            "4": "!pdrop - Drop whoever is piggybacking on you"
-            "5": "!pitch - Set your mercenaries voice pitch range"
-            "6": "!lowpitch - Lower the pitch of your mercenaries voice"
-            "7": "!highpitch - Raise the pitch of your mercenaries voice"
-            "8": "!resetpitch - Reset your mercenaries voice pitch"
-            "9": "!pose - Freeze/Slow your current taunt"
-            "a": "!poser - Freeze/Slow your current taunt"
-            "b": "!taunts - Bring up a taunt menu"
-            "c": "!bhop - Enables/Disables automatic bunnyhopping (on by default)"
-            "d": "!cakevich 0, 1, or 2 - Heavy will drop a cake instead of a sandvich"
-            "e": "!resizeme - Resize yourself with a menu"
-            "f": "!thirdperson - Enable thirdperson"
-            "g": "!firstperson - Enable firstperson"
-            "h": "!civ - Enable the civillian or A-Pose"
-            "i": "!settings - Configure stuff like PvP, piggyback settings, and more"
+            "2": "Type 'dropitem' in console to drop your currently held weapon"
+            "3": "!pitch - Set your mercenaries voice pitch range"
+            "4": "!lowpitch - Lower the pitch of your mercenaries voice"
+            "5": "!highpitch - Raise the pitch of your mercenaries voice"
+            "6": "!resetpitch - Reset your mercenaries voice pitch"
+            "7": "!pose - Freeze/Slow your current taunt"
+            "11": "!poser - Freeze/Slow your current taunt"
+            "12": "!taunts - Bring up a taunt menu"
+            "13": "!bhop - Enables/Disables automatic bunnyhopping (on by default)"
+            "14": "!resizeme - Resize yourself with a menu"
+            "15": "!tp/fp - Toggle thirdperson/firstperson"
+            "16": "!civ - Enable the civillian or A-Pose"
+            "17": "!settings - Manage your personal plugin settings"
         PvP Commands:
           title: PvP Opt-in
           items:
-            "0": "!pvp - Enables/Disables Global PvP"
-            "1": "!pvp playername - Send a duel request towards another player"
-            "2": "!stoppvp - Stop the current on-going duel or Global PvP"
-            "3": "!mirrorme - Mirror damage done to others"
+            "1": "!pvp - Enables/Disables Global PvP"
+            "2": "!pvp playername - Send a duel request towards another player"
+            "3": "!stoppvp - Stop the current on-going duel or Global PvP"
+            "4": "!mirrorme - Mirror damage done to others"
         Other Stuff:
           title: Extras
           items:
-            "0": "Pyros can airblast jump"
-            "1": "Air acceleration has been greatly increased for bhopping"
-            "2": "Objectives are disabled"
-            "3": "Rock the Vote becomes available after 5 minutes of map time"
-            "4": "You can't drown in water anymore"
+            "1": "Pyros can airblast jump"
+            "2": "Air acceleration has been greatly increased for bhopping"
+            "3": "Objectives are disabled"
+            "4": "Rock the Vote becomes available after 5 minutes of map time"
+            "5": "You can't drown in water anymore"
 
   rinstagib:
     servercfg:
@@ -210,19 +205,19 @@ rulesets:
           title: Plugin Commands
           items:
             "": "You can use a slash (/) instead of exclamation (!) to run these commands"
-            "0": "!fov - Set your FOV (30-130)"
-            "1": "!centerprojectiles - Center your projectiles (Original style)"
-            "2": "!speedo - Speedometer settings"
+            "2": "!fov - Set your FOV (30-130)"
+            "3": "!centerprojectiles - Center your projectiles (Original style)"
+            "4": "!speedo - Speedometer settings"
         Gamemode Info:
           title: WELCOME TO rINSTAGIB
           items:
-            "0": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
-            "1": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
-            "2": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
-            "3": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
-            "4": "YOUR BUNNYHOPPING IS AUTOMATIC."
-            "5": "YOUR AIR CONTROL IS STRONGER."
-            "6": "YOUR AMMUNITION IS INFINITE."
+            "1": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
+            "2": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
+            "3": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
+            "4": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
+            "5": "YOUR BUNNYHOPPING IS AUTOMATIC."
+            "6": "YOUR AIR CONTROL IS STRONGER."
+            "7": "YOUR AMMUNITION IS INFINITE."
 
 # List of maps
 mapcycles:
