@@ -3,7 +3,7 @@
   hosts: tf2
   tasks:
     - name: Load secrets
-      ansible.builtin.include_tasks: setup.yml
+      ansible.builtin.include_tasks: secrets.yml
 
     - name: Stop container
       community.docker.docker_container:
