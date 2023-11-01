@@ -63,13 +63,14 @@
     recursive: true
     archive: false
 
-- name: Build plugins
+- name: Template build.sh
+  ansible.builtin.template:
+    src: build.sh.j2
+    dest: ~/build/sm/addons/sourcemod/scripting/build.sh
+    mode: 0755
+
+- name: Build SourceMod
   ansible.builtin.command:
     chdir: ~/build/sm/addons/sourcemod/scripting
     cmd: bash build.sh
-
-- name: Enable base plugins
-  ansible.builtin.shell: mv /home/tf2server/build/sm/addons/sourcemod/plugins/disabled/{{ item }}.smx \
-    /home/tf2server/build/sm/addons/sourcemod/plugins/
-  loop: "{{ base_plugins }}"
-  delegate_to: "{{ ansible_host }}"
+  timeout: 30 # this can hang for no reason but adding a timeout seems to have fixed it

@@ -15,3 +15,8 @@ for file in $(ls compiled); do
         mv ./compiled/$file ../plugins/disabled
     fi
 done
+
+# move in base plugins
+{% for plugin in base_plugins %}
+mv "../plugins/disabled/{{ plugin }}.smx" "../plugins/"
+{% endfor %}
