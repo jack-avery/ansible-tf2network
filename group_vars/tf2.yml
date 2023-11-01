@@ -371,6 +371,7 @@ base_plugins:
   - sbpp_main
   - sbpp_sleuth
   - simple-chatprocessor
+  - slurkiller_perma
   - sm_nocontracker
   - sounds
   - spraytrace
