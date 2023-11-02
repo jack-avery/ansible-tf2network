@@ -132,7 +132,6 @@
     source: build
     build:
       path: ~/build/{{ item.name }}
-      pull: true
     state: present
     force_source: true
     force_tag: true
