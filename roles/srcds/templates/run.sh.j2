@@ -2,9 +2,9 @@ bash ./srcds_run -console \
   -strictportbind \
   -usercon \
   -secured \
-  -port "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}" \
-  +maxplayers {{ item.0.maxplayers|default(24) }} \
-  +sv_setsteamaccount "{{ item.1.gslt }}" \
-  +map "{{ mapcycles[item.0.mapcycle|default("all")] | random }}" \
+  -port "{{ item.port }}" \
+  +maxplayers {{ item.maxplayers|default(24) }} \
+  +sv_setsteamaccount "{{ item.secrets.gslt }}" \
+  +map "{{ mapcycles[item.mapcycle|default("all")] | random }}" \
   +sv_region "{{ srcds_region | quote }}" \
   +ip 0.0.0.0

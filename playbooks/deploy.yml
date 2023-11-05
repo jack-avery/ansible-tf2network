@@ -2,17 +2,17 @@
 - name: Deploy instances to hosts and generate cron
   hosts: tf2
   tasks:
-    - name: Load secrets
-      ansible.builtin.include_tasks: secrets.yml
+    - name: Perform setup
+      ansible.builtin.include_tasks: setup.yml
 
     - name: Announce update
       ignore_errors: true
       rcon:
         address: "{{ ansible_host }}"
-        port: "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
-        password: "{{ item.rcon_pass }}"
+        port: "{{ item.port }}"
+        password: "{{ item.secrets.rcon_pass }}"
         command: 'sm_csay Server is restarting for updates.;sm_say Server is restarting for updates.'
-      loop: "{{ instances_secrets }}"
+      loop: "{{ targets.instances }}"
       loop_control:
         index_var: loop0
       delegate_to: localhost
@@ -27,10 +27,10 @@
         restart_policy: "unless-stopped"
         cpuset_cpus: "{{ loop0 }}"
         ports:
-          - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
-          - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}/udp"
-          - "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}:{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}/udp"
-      loop: "{{ instances }}"
+          - "{{ item.port }}:{{ item.port }}"
+          - "{{ item.port }}:{{ item.port }}/udp"
+          - "{{ item.port + 5 }}:{{ item.port + 5 }}/udp"
+      loop: "{{ targets.instances }}"
       loop_control:
         index_var: loop0
 

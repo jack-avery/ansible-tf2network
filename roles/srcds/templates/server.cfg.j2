@@ -1,7 +1,7 @@
-hostname "{{ item.0.hostname }}"
+hostname "{{ item.hostname }}"
 
-rcon_password "{{ item.1.rcon_pass }}"
-sv_password "{{ item.1.pass | default('') }}"
+rcon_password "{{ item.secrets.rcon_pass }}"
+sv_password "{{ item.secrets.pass | default('') }}"
 
 sv_downloadurl "{{ fastdl_url | default('') }}"
 
@@ -9,11 +9,11 @@ motdfile_text motd.txt
 
 {% set li = namespace(sv_tags=[]) %}
 {% set li.sv_tags = global_tags %}
-{% if 'tags' in item.0 %}
-{% set li.sv_tags = li.sv_tags + item.0.tags %}
+{% if 'tags' in item %}
+{% set li.sv_tags = li.sv_tags + item.tags %}
 {% endif %}
-{% if 'tags' in rulesets[item.0.ruleset] %}
-{% set li.sv_tags = li.sv_tags + rulesets[item.0.ruleset].tags %}
+{% if 'tags' in rulesets[item.ruleset] %}
+{% set li.sv_tags = li.sv_tags + rulesets[item.ruleset].tags %}
 {% endif %}
 sv_tags "{{ ','.join(li.sv_tags)|safe }}"
 
@@ -51,39 +51,40 @@ mp_spectators_restricted 1
 mp_allowspectators 0
 mp_autoteambalance 0
 
-{% if item.0.stv_enabled|default(stv_enabled) %}
+{% if item.stv_enabled|default(stv_enabled) %}
 tv_enable 1
 tv_autorecord 0
-tv_maxclients 5
+tv_maxclients 4
 tv_transmitall 1
 tv_delaymapchange 0
 tv_delay 0
 tv_maxrate 0
-tv_port "{{ srcds_base_port + (loop0 * srcds_reserve_ports) + 5 }}"
+tv_snapshotrate 66
+tv_port "{{ item.port + 5 }}"
 tv_allow_camera_man 1
-tv_password "{{ item.1.stv_pass }}"
+tv_password "{{ item.secrets.stv_pass }}"
 // Hostname
-tv_name "{{ item.0.stv_name|default(item.0.hostname + ' | STV') }}"
+tv_name "{{ item.stv_name|default(item.hostname + ' | STV') }}"
 // In-game name -- doesnt work?
 tv_title "SourceTV"
 {% endif %}
 
-mp_timelimit {{ item.0.timelimit|default(0) }}
-mp_winlimit {{ item.0.winlimit|default(0) }}
-mp_maxrounds {{ item.0.maxrounds|default(0) }}
-mp_mapcycle_empty_timeout_seconds {{ item.0.timelimit * 60 }}
+mp_timelimit {{ item.timelimit|default(0) }}
+mp_winlimit {{ item.winlimit|default(0) }}
+mp_maxrounds {{ item.maxrounds|default(0) }}
+mp_mapcycle_empty_timeout_seconds {{ item.timelimit|default(0) * 60 }}
 
 // Ruleset config
-{% for cmd in rulesets[item.0.ruleset|default("standard")].servercfg %}
+{% for cmd in rulesets[item.ruleset|default("standard")].servercfg %}
 {{ cmd }}
 {% endfor %}
 
 // Instance config
-{% for cmd in item.0.servercfg | default([]) %}
+{% for cmd in item.servercfg | default([]) %}
 {{ cmd }}
 {% endfor %}
 
 // Instance secret config
-{% for cmd in item.1.servercfg | default([]) %}
+{% for cmd in item.secrets.servercfg | default([]) %}
 {{ cmd }}
 {% endfor %}

@@ -41,3 +41,18 @@
   ansible.builtin.include_vars:
     file: "../host_vars/{{ inventory_hostname }}.secret.yml"
   when: stat.stat.exists
+
+#
+
+- name: Set targets
+  narrow:
+    items: "{{ instances }}"
+    items_secrets: "{{ instances_secrets }}"
+    narrow: "{{ only }}"
+    base_port: "{{ srcds_base_port }}"
+    rsrv_port: "{{ srcds_reserve_ports }}"
+  register: targets
+
+- name: debug
+  debug:
+    var: targets

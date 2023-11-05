@@ -1,26 +1,26 @@
 ---
-- name: Load secrets
-  ansible.builtin.include_tasks: secrets.yml
+- name: Perform setup
+  ansible.builtin.include_tasks: setup.yml
 
 - name: Delete old build data
   ansible.builtin.file:
     state: absent
     path: ~/build/{{ item.name }}
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: Create build directory
   ansible.builtin.file:
     path: ~/build/{{ item.name }}
     state: directory
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: Copy SourceMod to /tf
   ansible.posix.synchronize:
     src: /home/tf2server/build/sm/
     dest: /home/tf2server/build/{{ item.name }}/tf
     recursive: true
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
   delegate_to: "{{ ansible_host }}"
 
 - name: Move Dockerfile
@@ -28,18 +28,18 @@
     src: Dockerfile.j2
     dest: ~/build/{{ item.name }}/Dockerfile
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: Move pure_server_whitelist.txt
   ansible.builtin.template:
     src: pure_server_whitelist.txt.j2
     dest: ~/build/{{ item.name }}/tf/cfg/pure_server_whitelist.txt
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: Generate admins
   include_tasks: gen_admins.yml
-  loop: "{{ instances_secrets }}"
+  loop: "{{ targets.instances }}"
 
 ##
 # Begin templates
@@ -47,18 +47,18 @@
 - name: /run.sh
   ansible.builtin.template:
     src: run.sh.j2
-    dest: ~/build/{{ item.0.name }}/run.sh
+    dest: ~/build/{{ item.name }}/run.sh
     mode: 0775
-  loop: "{{ instances|zip(instances_secrets) }}"
+  loop: "{{ targets.instances }}"
   loop_control:
     index_var: loop0
 
 - name: /tf/cfg/server.cfg
   ansible.builtin.template:
     src: server.cfg.j2
-    dest: ~/build/{{ item.0.name }}/tf/cfg/server.cfg
+    dest: ~/build/{{ item.name }}/tf/cfg/server.cfg
     mode: 0755
-  loop: "{{ instances|zip(instances_secrets) }}"
+  loop: "{{ targets.instances }}"
   loop_control:
     index_var: loop0
 
@@ -67,53 +67,53 @@
     src: mapcycle.txt.j2
     dest: ~/build/{{ item.name }}/tf/cfg/mapcycle.txt
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: /tf/cfg/motd.txt
   ansible.builtin.template:
     src: motd.txt.j2
     dest: ~/build/{{ item.name }}/tf/cfg/motd.txt
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: /tf/addons/sourcemod/configs/databases.cfg
   ansible.builtin.template:
     src: databases.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/databases.cfg
     mode: 0755
-  loop: "{{ instances_secrets }}"
+  loop: "{{ targets.instances }}"
 
 - name: /tf/addons/sourcemod/configs/custom-chatcolors.cfg
   ansible.builtin.template:
     src: custom-chatcolors.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/custom-chatcolors.cfg
     mode: 0755
-  loop: "{{ instances_secrets }}"
+  loop: "{{ targets.instances }}"
 
 - name: /tf/addons/sourcemod/configs/discord.cfg
   ansible.builtin.template:
     src: discord.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/discord.cfg
     mode: 0755
-  loop: "{{ instances_secrets }}"
+  loop: "{{ targets.instances }}"
 
 - name: /tf/addons/sourcemod/configs/sourcebans/sourcebans.cfg
   ansible.builtin.template:
     src: sourcebans.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/sourcebans/sourcebans.cfg
     mode: 0755
-  loop: "{{ instances_secrets }}"
+  loop: "{{ targets.instances }}"
 
 - name: /tf/addons/sourcemod/configs/sourcebans/sourcesleuth_whitelist.cfg
   ansible.builtin.template:
     src: sourcesleuth_whitelist.cfg.j2
     dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/sourcebans/sourcesleuth_whitelist.cfg
     mode: 0755
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
 
 - name: Do instance loops (plugin configs, custom maps, etc.)
   include_tasks: instance_loops.yml
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"
   loop_control:
     loop_var: instance
 
@@ -135,4 +135,4 @@
     state: present
     force_source: true
     force_tag: true
-  loop: "{{ instances }}"
+  loop: "{{ targets.instances }}"

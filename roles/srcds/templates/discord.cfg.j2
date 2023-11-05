@@ -6,7 +6,7 @@
 		"url"	"{{ v }}"
 	}
 {% endfor %}
-{% if 'discord_webhooks' in item %}{% for k, v in item.discord_webhooks.items() %}
+{% if 'discord_webhooks' in item.secrets %}{% for k, v in item.secrets.discord_webhooks.items() %}
 	"{{ k }}"
 	{
 		"url"	"{{ v }}"
