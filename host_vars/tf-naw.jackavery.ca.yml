@@ -9,10 +9,61 @@ instances:
     timelimit: 60
     stv_name: "/call to report players"
 
-  - name: "ri"
-    hostname: "Boxes For Foxes | rINSTAGIB"
+  - name: "riw"
+    hostname: "Boxes For Foxes | rINSTAGIB | NA West"
     maxplayers: 12
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
     timelimit: 20
     stv_name: "/call to report players"
+
+  - name: "2plus"
+    hostname: "Boxes For Foxes | 2Fort+"
+    maxplayers: 24
+    mapcycle: "2fortplus"
+    ruleset: "standard"
+    stv_name: "/call to report players"
+    tags:
+      - alltalk
+      - 24/7
+      - "247"
+      - 2fort
+      - ctf
+      - infinite
+    servercfg:
+      - mp_disable_respawn_times 1
+
+  - name: "tplus"
+    hostname: "Boxes For Foxes | Turbine+"
+    maxplayers: 24
+    mapcycle: "turbineplus"
+    ruleset: "standard"
+    stv_name: "/call to report players"
+    tags:
+      - alltalk
+      - 24/7
+      - "247"
+      - turbine
+      - ctf
+      - infinite
+    servercfg:
+      - mp_disable_respawn_times 1
+  
+  - name: "hplus"
+    hostname: "Boxes For Foxes | Hightower+"
+    maxplayers: 24
+    mapcycle: "hightowerplus"
+    ruleset: "standard"
+    stv_name: "/call to report players"
+    tags:
+      - alltalk
+      - 24/7
+      - "247"
+      - hightower
+      - plr
+      - payload
+      - infinite
+    servercfg:
+      - mp_disable_respawn_times 1
+    plugins:
+      - better-payload-disabler 

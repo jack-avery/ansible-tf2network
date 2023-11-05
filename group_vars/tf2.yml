@@ -417,7 +417,12 @@ default_vdfs:
   helpmenu:
     location: /tf/addons/sourcemod/configs/helpmenu.cfg
     default:
-      "": ""
+      Help:
+        Plugin Commands:
+          title: Plugin Commands
+          items:
+            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+            "2": "!centerprojectiles - Center your projectiles (Original style)"
 
 ###
 # Plugin default configurations
