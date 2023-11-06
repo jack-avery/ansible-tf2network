@@ -16,3 +16,6 @@ srcds:
 
 deploy:
 	@ansible-playbook --limit prod playbooks/deploy.yml --extra-vars "only=$(ONLY)"
+
+update:
+	@ansible-playbook --limit prod playbooks/update.yml --extra-vars "only=$(ONLY)"

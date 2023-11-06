@@ -1,0 +1,5 @@
+---
+- name: Update base-tf2server and instances
+  hosts: tf2
+  roles:
+    - update
