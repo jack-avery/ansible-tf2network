@@ -7,28 +7,6 @@ instances:
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
     timelimit: 20
-    winlimit: 0
-    maxrounds: 0
-    tags:
-      - your
-      - server
-      - tags
-    motd: |
-      my multiline motd
 
-      rules
-
-      don't be rude
-
-    plugins: # list of extra plugins to load on top of base_plugins and ruleset plugins
-      - my_fun_plugin
-
-    # you can override configs from default_cfg and ruleset config like so:
-    # you only need to add the things you're overriding
-
-    ClassRestrictionsForHumans:
-      sm_crh_blu_snipers: "-1"
-      sm_crh_red_snipers: "-1"
-
-    rinstagib:
-      ri_rail_damage: "200"
+    # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
+    # on top of the MOTD, tags, plugins, and more
