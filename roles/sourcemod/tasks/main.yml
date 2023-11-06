@@ -5,55 +5,55 @@
     state: directory
     mode: 0755
 
-# - name: Save latest MetaMod version to file
-#   ignore_errors: true # don't freak out if something happens
-#   ansible.builtin.get_url:
-#     url: "https://mms.alliedmods.net/mmsdrop/1.11/mmsource-latest-linux"
-#     dest: ~/build/mm_version
-#   register: mm_file
+- name: Save latest MetaMod version to file
+  ignore_errors: true # don't freak out if something happens
+  ansible.builtin.get_url:
+    url: "https://mms.alliedmods.net/mmsdrop/1.11/mmsource-latest-linux"
+    dest: ~/build/mm_version
+  register: mm_file
 
-# - name: Save latest SourceMod version to file
-#   ignore_errors: true
-#   ansible.builtin.get_url:
-#     url: "https://sm.alliedmods.net/smdrop/1.11/sourcemod-latest-linux"
-#     dest: ~/build/sm_version
-#   register: sm_file
+- name: Save latest SourceMod version to file
+  ignore_errors: true
+  ansible.builtin.get_url:
+    url: "https://sm.alliedmods.net/smdrop/1.11/sourcemod-latest-linux"
+    dest: ~/build/sm_version
+  register: sm_file
 
-# - name: Slurp MetaMod version (if new version)
-#   ansible.builtin.slurp:
-#     src: "{{ mm_file.dest }}"
-#   register: mm_version_slurp
-#   when: (mm_file.changed)
+- name: Slurp MetaMod version (if new version)
+  ansible.builtin.slurp:
+    src: "{{ mm_file.dest }}"
+  register: mm_version_slurp
+  when: (mm_file.changed)
 
-# - name: Slurp SourceMod version (if new version)
-#   ansible.builtin.slurp:
-#     src: "{{ sm_file.dest }}"
-#   register: sm_version_slurp
-#   when: (sm_file.changed)
+- name: Slurp SourceMod version (if new version)
+  ansible.builtin.slurp:
+    src: "{{ sm_file.dest }}"
+  register: sm_version_slurp
+  when: (sm_file.changed)
 
-# - name: Load MetaMod version (if new version)
-#   set_fact:
-#     mm_version: "{{ mm_version_slurp['content'] | b64decode }}"
-#   when: (mm_file.changed)
+- name: Load MetaMod version (if new version)
+  set_fact:
+    mm_version: "{{ mm_version_slurp['content'] | b64decode }}"
+  when: (mm_file.changed)
 
-# - name: Load SourceMod version (if new version)
-#   set_fact:
-#     sm_version: "{{ sm_version_slurp['content'] | b64decode }}"
-#   when: (sm_file.changed)
+- name: Load SourceMod version (if new version)
+  set_fact:
+    sm_version: "{{ sm_version_slurp['content'] | b64decode }}"
+  when: (sm_file.changed)
 
 - name: Download MetaMod
   ansible.builtin.unarchive:
-    src: https://mms.alliedmods.net/mmsdrop/1.11/mmsource-1.11.0-git1152-linux.tar.gz
+    src: "https://mms.alliedmods.net/mmsdrop/1.11/{{ mm_version }}"
     dest: ~/build/sm
     remote_src: true
-  # when: (mm_file.changed)
+  when: (mm_file.changed)
 
 - name: Download SourceMod
   ansible.builtin.unarchive:
-    src: https://sm.alliedmods.net/smdrop/1.11/sourcemod-1.11.0-git6939-linux.tar.gz
+    src: "https://sm.alliedmods.net/smdrop/1.11/{{ sm_version }}"
     dest: ~/build/sm
     remote_src: true
-  # when: (sm_file.changed)
+  when: (sm_file.changed)
 
 - name: Copy extensions & plugin sources
   ansible.posix.synchronize:
@@ -63,13 +63,14 @@
     recursive: true
     archive: false
 
-- name: Build plugins
+- name: Template build.sh
+  ansible.builtin.template:
+    src: build.sh.j2
+    dest: ~/build/sm/addons/sourcemod/scripting/build.sh
+    mode: 0755
+
+- name: Build SourceMod
   ansible.builtin.command:
     chdir: ~/build/sm/addons/sourcemod/scripting
     cmd: bash build.sh
-
-- name: Enable base plugins
-  ansible.builtin.shell: mv /home/tf2server/build/sm/addons/sourcemod/plugins/disabled/{{ item }}.smx \
-    /home/tf2server/build/sm/addons/sourcemod/plugins/ || true
-  loop: "{{ base_plugins }}"
-  delegate_to: "{{ ansible_host }}"
+  timeout: 30 # this can hang for no reason but adding a timeout seems to have fixed it

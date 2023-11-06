@@ -1,0 +1,43 @@
+"Phrases"
+{
+	"Firstperson Enabled"
+	{
+		"en"			"First person view enabled"
+	}
+	
+	"Firstperson Already Enabled"
+	{
+		"en"			"First person view already enabled"
+	}
+	
+	"Thirdperson Enabled"
+	{
+		"en"			"Third person view enabled"
+	}
+	
+	"Thirdperson Already Enabled"
+	{
+		"en"			"Third person view already enabled"
+	}
+	
+	"Select View"
+	{
+		"en"			"Select view"
+	}
+	
+	"Third Person"
+	{
+		"en"			"Third person"
+	}
+	
+	"First Person"
+	{
+		"en"			"First person"
+	}
+	
+	"Plugin Notice"
+	{
+		"#format"		"{1:c},{2:c},{3:c},{4:c},{5:c},{6:c}"
+		"en"			"Type to the chat {1}view{2} for select the desired view. Use {3}fp{4} or {5}tp{6} for immediate switch the view."
+	}
+}

@@ -1,11 +1,7 @@
-#pragma semicolon 1
-#pragma tabsize 4
-#pragma newdecls required
-
 #include <sourcemod>
 #include <SteamWorks>
 
-#define PLUGIN_VERSION "1.0"
+#define PLUGIN_VERSION "1.1"
 
 ArrayList g_aMsgs = null;
 ArrayList g_aWebhook = null;
@@ -18,10 +14,10 @@ bool g_bSlowdown;
 public Plugin myinfo = 
 {
 	name = "Discord API",
-	author = ".#Zipcore, Credits: Shavit, bara, ImACow and Phire",
+	author = ".#Zipcore, Dragonisser, Credits: Shavit, bara, ImACow and Phire",
 	description = "This plugin lets you send messages to discord and slack",
 	version = PLUGIN_VERSION,
-	url = "www.zipcore.net"
+	url = "https://forums.alliedmods.net/showthread.php?t=292663"
 };
 
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
@@ -87,24 +83,39 @@ public Action Command_Test(int client, int args)
 	return Plugin_Handled;
 }
 
-public int Native_SendMessage(Handle plugin, int numParams)
+public int Native_SendMessage(Handle hPlugin, int numParams)
 {
-	char sWebhook[64];
+	int iErrors = 0;
+
+	char sPluginName[64];
+	GetPluginFilename(hPlugin, sPluginName, sizeof(sPluginName));
+	
+	char sWebhook[64]
 	GetNativeString(1, sWebhook, sizeof(sWebhook));
 	
 	char sMessage[4096];
 	GetNativeString(2, sMessage, sizeof(sMessage));
-	
+
+	if (strlen(sWebhook) == 0) {
+		LogError("Plugin '%s' tries to call a Discord/Slack webhook but none was specified", sPluginName);
+		iErrors++;
+	}
+	if (strlen(sMessage) == 0) {
+		LogError("Plugin '%s' tries to call a Discord/Slack webhook but no message was specified", sPluginName);
+		iErrors++;
+	}
+	if (iErrors > 0) return 0;
+
 	char sUrl[512];
 	if(!GetWebHook(sWebhook, sUrl, sizeof(sUrl)))
 	{
 		LogError("Webhook config not found or invalid! Webhook: %s Url: %s", sWebhook, sUrl);
 		LogError("Message: %s", sMessage);
-		return -1;
+		return 0;
 	}
 	
 	StoreMsg(sWebhook, sMessage);
-	return 0;
+	return 1;
 }
 
 void StoreMsg(char sWebhook[64], char sMessage[4096])
@@ -121,7 +132,8 @@ void StoreMsg(char sWebhook[64], char sMessage[4096])
 	if(StrContains(sMessage, "{") != 0)
 		Format(sMessage, sizeof(sMessage), "{\"content\":\"%s\"}", sMessage);
 	
-	// Re-Format for Slack
+	// Re-Format for Slack and ?Discord?
+	// Why does Discord only work with /slack in its link?
 	if(StrContains(sUrl, "slack") != -1)
 		ReplaceString(sMessage, sizeof(sMessage), "\"content\":", "\"text\":");
 	
@@ -144,14 +156,14 @@ public Action Timer_SendNextMessage(Handle timer, any data)
 void SendNextMsg()
 {
 	// We are still waiting for a reply from our last msg
-	if(g_bSending) {
+	if(g_bSending)
 		return;
-	}
+	
 	// Nothing to send
 	if(g_aWebhook == null || g_aWebhook.Length < 1)
 		return;
 	
-	char sWebhook[64];
+	char sWebhook[64]
 	g_aWebhook.GetString(0, sWebhook, sizeof(sWebhook));
 	
 	char sMessage[4096];
@@ -185,6 +197,7 @@ public int OnRequestComplete(Handle hRequest, bool bFailed, bool bRequestSuccess
 	if(bFailed || !bRequestSuccessful)
 	{
 		LogError("[OnRequestComplete] Request failed");
+		return 0;
 	}
 	// Seems like the API is busy or too many message send recently
 	else if(eStatusCode == k_EHTTPStatusCode429TooManyRequests || eStatusCode == k_EHTTPStatusCode500InternalServerError)
@@ -223,7 +236,7 @@ public int OnRequestComplete(Handle hRequest, bool bFailed, bool bRequestSuccess
 	
 	delete hRequest;
 	g_bSending = false;
-	return 0;
+	return 1;
 }
 
 void RestartMessageTimer(bool slowdown)

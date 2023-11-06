@@ -2,8 +2,8 @@
 - name: Teardown instances and remove cron
   hosts: tf2
   tasks:
-    - name: Load secrets
-      ansible.builtin.include_tasks: secrets.yml
+    - name: Perform setup
+      ansible.builtin.include_tasks: setup.yml
 
     - name: Stop container
       community.docker.docker_container:

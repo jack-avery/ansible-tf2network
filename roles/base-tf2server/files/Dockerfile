@@ -13,4 +13,5 @@ RUN ./steamcmd.sh +force_install_dir ${HOMEDIR}/tf-dedicated +login anonymous +a
 RUN ln -s /usr/lib/i386-linux-gnu/libcurl-gnutls.so.4 ${HOMEDIR}/tf-dedicated/bin/libcurl-gnutls.so.4
 
 USER steam
+COPY update.sh ${HOMEDIR}/update.sh
 WORKDIR ${HOMEDIR}/tf-dedicated

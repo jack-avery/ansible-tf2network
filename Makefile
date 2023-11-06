@@ -2,19 +2,20 @@
 
 all: sm srcds deploy
 
-PROD_OPTS := --limit prod
-
 base:
 	@ansible-playbook playbooks/base-tf2server.yml
 
-admins:
-	@ansible-playbook $(PROD_OPTS) playbooks/admins.yml
-
 sm:
-	@ansible-playbook $(PROD_OPTS) playbooks/sourcemod.yml
+	@ansible-playbook --limit prod playbooks/sourcemod.yml
+
+admins:
+	@ansible-playbook --limit prod playbooks/admins.yml --extra-vars "only=$(ONLY)"
 
 srcds:
-	@ansible-playbook $(PROD_OPTS) playbooks/srcds.yml
+	@ansible-playbook --limit prod playbooks/srcds.yml --extra-vars "only=$(ONLY)"
 
 deploy:
-	@ansible-playbook $(PROD_OPTS) playbooks/deploy.yml
+	@ansible-playbook --limit prod playbooks/deploy.yml --extra-vars "only=$(ONLY)"
+
+update:
+	@ansible-playbook --limit prod playbooks/update.yml --extra-vars "only=$(ONLY)"

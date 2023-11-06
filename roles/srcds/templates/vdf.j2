@@ -1,0 +1,26 @@
+{% macro gen_vdf(vdf) %}
+{% for head, contents in vdf.items() %}
+"{{ head }}"
+{
+{% for key, value in contents.items() recursive %}
+{% if value is string %}
+	"{{ key }}"	"{{ value }}"
+	{% else %}
+	"{{ key }}"
+	{
+	{{ loop(value.items()) }}}
+{% endif %}
+{% endfor %}
+}
+{% endfor %}
+{% endmacro %}
+{# instance #}
+{% if item in instance %}
+{{ gen_vdf(instance[item]) }}
+{# ruleset #}
+{% elif item in rulesets[instance.ruleset] %}
+{{ gen_vdf(rulesets[instance.ruleset][item]) }}
+{# default #}
+{% else %}
+{{ gen_vdf(default_vdfs[item].default) }}
+{% endif %}

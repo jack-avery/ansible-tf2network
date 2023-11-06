@@ -1,11 +1,8 @@
-# rinstagib-server
+# ansible-tf2network
 
-Ansible playbooks for a server set for **rINSTAGIB** ([trailer video](https://www.youtube.com/watch?v=6GSMJ-zzzig))<br/>
-> *... and some other servers*
+Generally applicable Ansible playbooks for administering a small to medium server network for [**Team Fortress 2**](https://www.teamfortress.com/).<br/>
 
-If you're here for [the rINSTAGIB gamemode](https://github.com/jack-avery/rinstagib)
-
-Enjoy the servers, or just found the playbooks useful? [Buy me a coffee ☕](https://ko-fi.com/raspy)!
+These playbooks are currently made to support a *separately-hosted* [**SourceBans++**](https://sbpp.github.io/) ban system.
 
 ## Usage
 
@@ -15,18 +12,17 @@ Ansible requires Linux. If you're running Windows, consider setting up WSL.
 2. Ensure you have Ansible and Docker installed on your machine.
 3. Ensure your Ansible Hosts have Docker installed, and a user named `tf2server` with the `docker` role.
 
-### Creating base image
-1. Trigger `make base`.<br/>
--- *Note you probably don't need to run this as the base image the playbooks use is already public on DockerHub.*
-
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
 * `inventory.yml.sample`
 * `group_vars/tf2.secret.yml.sample`
-* `host_vars/local.secret.yml.sample`
-2. Trigger `make sm` to distribute and build SourceMod on hosts.
-3. Trigger `make srcds` to build images and run servers.
-> You can use `make all` instead to do `sm` then `srcds`.
+* `host_vars/host.secret.yml.sample`
+2. Trigger `make base` to build the base Team Fortress 2 server image.
+3. Trigger `make sm` to distribute and build SourceMod on hosts.
+4. Trigger `make srcds` to build images.
+5. Trigger `make deploy` to start up the new images.
+> You can use `make` as an alias for `make sm srcds deploy`</br>
+> You will need to run `make base` for each TF2 update; this is not included in `make (all)`</br>
 
 ### Updating admins/reserveslots
 1. Trigger `make admins`.<br/>

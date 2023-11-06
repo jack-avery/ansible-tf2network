@@ -1,0 +1,49 @@
+---
+- name: Copy ruleset plugins to plugin directory
+  ansible.builtin.shell: mv /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
+    /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
+  loop: "{{ rulesets[instance.ruleset].plugins }}"
+  when: '"plugins" in rulesets[instance.ruleset]'
+  delegate_to: "{{ ansible_host }}"
+
+- name: Copy instance plugins to plugin directory
+  ansible.builtin.shell: mv /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
+    /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
+  loop: "{{ instance.plugins }}"
+  when: '"plugins" in instance'
+  delegate_to: "{{ ansible_host }}"
+
+- name: Template configs
+  ansible.builtin.template:
+    src: "cfg.j2"
+    dest: "~/build/{{ instance.name }}{{ default_cfgs[item].location }}"
+    mode: 0755
+  loop: "{{ default_cfgs.keys() }}"
+
+- name: Template VDFs
+  ansible.builtin.template:
+    src: "vdf.j2"
+    dest: "~/build/{{ instance.name }}{{ default_vdfs[item].location }}"
+    mode: 0755
+  loop: "{{ default_vdfs.keys() }}"
+
+- name: Stat custom maps
+  ansible.builtin.stat:
+    path: "{{ role_path }}/files/maps/{{ item }}.bsp"
+  loop: "{{ mapcycles[instance.mapcycle|default('all')] }}"
+  register: stat
+  delegate_to: localhost
+
+- name: Create maps directory
+  ansible.builtin.file:
+    path: ~/build/{{ instance.name }}/tf/maps
+    state: directory
+    mode: 0755
+
+- name: Copy maps to /tf/maps
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/maps/{{ item.item }}.bsp"
+    dest: ~/build/{{ instance.name }}/tf/maps/{{ item.item }}.bsp
+    recursive: true
+  when: item.stat.exists
+  loop: "{{ stat.results }}"

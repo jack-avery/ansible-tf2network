@@ -1,0 +1,10 @@
+"Servers"
+{
+{% for loop0, instance in zip(indices(), instances) %}
+	"{{ instance.hostname }}"
+	{
+		"address"		"{{ ansible_host }}"
+		"port"		"{{ srcds_base_port + (loop0 * srcds_reserve_ports) }}"
+	}
+{% endfor %}
+}

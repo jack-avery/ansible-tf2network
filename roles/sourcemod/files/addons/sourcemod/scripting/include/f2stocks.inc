@@ -195,9 +195,9 @@ stock int GetRealPlayerCount() {
 }
 
 
-// As opposed to CPrintToChatEx, this function only colorizes message, NOT the parameters
+// As opposed to MC_PrintToChatEx, this function only colorizes message, NOT the parameters
 // Requires <morecolors>
-stock void CPrintToChatEx2(int client, int author, const char[] message, any ...) {
+stock void MC_PrintToChatEx2(int client, int author, const char[] message, any ...) {
 	MC_CheckTrie();
 	if(client <= 0 || client > MaxClients) {
 		ThrowError("Invalid client index %i", client);
@@ -220,9 +220,9 @@ stock void CPrintToChatEx2(int client, int author, const char[] message, any ...
 	MC_SendMessage(client, buffer2, author);
 }
 
-// As opposed to CPrintToChatAllEx, this function only colorizes message, NOT the parameters
+// As opposed to MC_PrintToChatAllEx, this function only colorizes message, NOT the parameters
 // Requires <morecolors>
-stock void CPrintToChatAllEx2(int author, const char[] message, any ...) {
+stock void MC_PrintToChatAllEx2(int author, const char[] message, any ...) {
 	MC_CheckTrie();
 	if(author <= 0 || author > MaxClients) {
 		ThrowError("Invalid client index %i", author);
@@ -245,9 +245,9 @@ stock void CPrintToChatAllEx2(int author, const char[] message, any ...) {
 	}
 }
 
-// As opposed to CPrintToChat, this function only colorizes message, NOT the parameters
+// As opposed to MC_PrintToChat, this function only colorizes message, NOT the parameters
 // Requires <morecolors>
-stock void CPrintToChat2(int client, const char[] message, any ...) {
+stock void MC_PrintToChat2(int client, const char[] message, any ...) {
 	MC_CheckTrie();
 	if(client <= 0 || client > MaxClients) {
 		ThrowError("Invalid client index %i", client);
@@ -264,9 +264,9 @@ stock void CPrintToChat2(int client, const char[] message, any ...) {
 	MC_SendMessage(client, buffer2);
 }
 
-// As opposed to CPrintToChatAll, this function only colorizes message, NOT the parameters
+// As opposed to MC_PrintToChatAll, this function only colorizes message, NOT the parameters
 // Requires <morecolors>
-stock void CPrintToChatAll2(const char[] message, any ...) {
+stock void MC_PrintToChatAll2(const char[] message, any ...) {
 	MC_CheckTrie();
 	char buffer[MC_MAX_MESSAGE_LENGTH];
 	char buffer2[MC_MAX_MESSAGE_LENGTH];

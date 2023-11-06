@@ -1,14 +1,8 @@
 all:
   children:
-    build:
-      hosts:
-        localhost:
-          ansible_connection: local
-          ansible_host: 127.0.0.1
-
     tf2:
       children:
         prod:
           hosts:
             host:
-              ansible_host: host ip
+              ansible_host: dns-or-ip

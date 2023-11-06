@@ -1,5 +1,5 @@
-{% if 'privaccess' in item %}
-{% for id in item.privaccess %}
+{% if 'privaccess' in item.secrets %}
+{% for id in item.secrets.privaccess %}
 "{{ id }}" "0:a"
 {% endfor %}
 {% endif %}

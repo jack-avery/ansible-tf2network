@@ -1,9 +1,9 @@
 #include <sourcemod>
 #include <discord>
 
-#define PLUGIN_VERSION "1.0"
+#define PLUGIN_VERSION "1.1"
 
-#define MSG_BAN "{\"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"View on Sourcebans\",\"title_link\": \"{SOURCEBANS}\",\"fields\": [{\"title\": \"Player\",\"value\": \"{NICKNAME} ( {STEAMID} )\",\"short\": true},{\"title\": \"Admin\",\"value\": \"{ADMIN}\",\"short\": true},{\"title\": \"Ban Length\",\"value\": \"{BANLENGTH}\",\"short\": true},{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true}]}]}"
+#define MSG_BAN "{\"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"View on Sourcebans\",\"title_link\": \"{SOURCEBANS}\",\"fields\": [{\"title\": \"Player\",\"value\": \"{NICKNAME} [{STEAMID}](https://steamid.io/lookup/{STEAMID})\",\"short\": true},{\"title\": \"Admin\",\"value\": \"{ADMIN}\",\"short\": true},{\"title\": \"Ban Length\",\"value\": \"{BANLENGTH}\",\"short\": true},{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true}]}]}"
 
 ConVar g_cColor = null;
 ConVar g_cSourcebans = null;
@@ -13,10 +13,10 @@ ConVar g_cMention = null;
 public Plugin myinfo = 
 {
 	name = "Discord: SourceBans",
-	author = ".#Zipcore",
-	description = "",
+	author = ".#Zipcore, Dragonisser",
+	description = "Sourceban submodule for Discord Plugin",
 	version = PLUGIN_VERSION,
-	url = "www.zipcore.net"
+	url = "https://forums.alliedmods.net/showthread.php?t=292663"
 }
 
 public void OnPluginStart()
@@ -24,19 +24,20 @@ public void OnPluginStart()
 	CreateConVar("discord_sourcebans_version", PLUGIN_VERSION, "Discord SourceBans version", FCVAR_DONTRECORD|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 	
 	g_cColor = CreateConVar("discord_sourcebans_color", "#ff2222", "Discord/Slack attachment color.");
-	g_cSourcebans = CreateConVar("discord_sourcebans_url", "https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}", "Link to sourcebans.");
+	g_cSourcebans = CreateConVar("discord_sourcebans_url", "https://boxes4foxes.site.nfoservers.com/sourcebans/index.php?p=banlist&searchText={STEAMID}", "Link to sourcebans.");
 	g_cWebhook = CreateConVar("discord_sourcebans_webhook", "sourcebans", "Config key from configs/discord.cfg.");
 	g_cMention = CreateConVar("discord_sourcebans_mention", "@here", "This allows you to mention reports, leave blank to disable.");
 	
 	AutoExecConfig(true, "discord_sourcebans");
 }
 
-public int SBPP_OnBanPlayer(int iAdmin, int iTarget, int iTime, const char[] sReason)
+public void SBPP_OnBanPlayer(int iAdmin, int iTarget, int iTime, const char[] sReason)
 {
 	PrePareMsg(iAdmin, iTarget, iTime, sReason);
 }
 
-public int OnSBBanPlayer(int client, int target, int time, char[] reason)
+//Deprecated
+public void OnSBBanPlayer(int client, int target, int time, char[] reason)
 {
 	PrePareMsg(client, target, time, reason);
 }
