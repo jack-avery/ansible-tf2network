@@ -428,10 +428,6 @@ default_vdfs:
 # Plugin default configurations
 ###
 
-# key:
-# <default>, <minimum?>..<maximum?>
-# (as declared by the plugin, NOT tf2.yml)
-
 default_cfgs:
   ClassRestrictionsForHumans:
     location: /tf/cfg/sourcemod/Class_Restrictions_For_Humans.cfg
