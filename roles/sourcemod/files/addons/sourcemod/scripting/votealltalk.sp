@@ -71,6 +71,8 @@ public void OnPluginStart()
 	g_Cvar_Alltalk = FindConVar("sv_alltalk");
 	
 	RegConsoleCmd("sm_votealltalk", Command_VoteAlltalk);
+	RegConsoleCmd("sm_valltalk", Command_VoteAlltalk);
+	RegConsoleCmd("sm_alltalk", Command_VoteAlltalk);
 
 	AutoExecConfig(true, "votealltalk");
 }

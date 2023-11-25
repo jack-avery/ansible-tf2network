@@ -49,6 +49,16 @@ rulesets:
       - ClassRestrictionsForHumans
       - votealltalk
     
+    helpmenu:
+      Help:
+        Plugin Commands:
+          title: Plugin Commands
+          items:
+            "": "You can use either slash (/) or exclamation (!) to run these commands"
+            "2": "!centerprojectiles - Center your projectiles (Original style)"
+            "3": "!call - Call an admin to deal with a user"
+            "4": "!alltalk - Vote to toggle alltalk"
+    
     ClassRestrictionsForHumans:
       sm_crh_blu_demomen: "3"
       sm_crh_blu_engineers: "3"
