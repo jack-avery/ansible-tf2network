@@ -11,4 +11,19 @@
 		"#format"		"{1:s},{2:d},{3:d}"
 		"en"			"{1} wants to toggle alltalk. ({2} votes, {3} required)"
 	}
+
+	"Cooldown"
+	{
+		"en"			"Alltalk was recently toggled, please wait before toggling again."
+	}
+
+	"Enabled"
+	{
+		"en"			"Vote passed! Alltalk is now enabled."
+	}
+
+	"Disabled"
+	{
+		"en"			"Vote passed! Alltalk is now disabled."
+	}
 }

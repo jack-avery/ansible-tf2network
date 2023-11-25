@@ -55,12 +55,14 @@ public Plugin myinfo =
 };
 
 ConVar g_Cvar_Needed;
+ConVar g_Cvar_Cooldown;
 ConVar g_Cvar_Alltalk;
 
 int g_Voters = 0;				// Total voters connected. Doesn't include fake clients.
 int g_Votes = 0;				// Total number of "say alltalk" votes
 int g_VotesNeeded = 0;			// Necessary votes before alltalk toggles. (voters * percent_needed)
 bool g_Voted[MAXPLAYERS+1] = {false, ...};
+bool g_bCooldown = false;
 
 public void OnPluginStart()
 {
@@ -68,6 +70,7 @@ public void OnPluginStart()
 	LoadTranslations("votealltalk.phrases");
 	
 	g_Cvar_Needed = CreateConVar("sm_votealltalk_needed", "0.60", "Percentage of players needed to toggle alltalk (Def 60%)", 0, true, 0.05, true, 1.0);
+	g_Cvar_Cooldown = CreateConVar("sm_votealltalk_cooldown", "60.0", "Cooldown (in seconds) before alltalk can be toggled again.", 0, true, 0.0);
 	g_Cvar_Alltalk = FindConVar("sv_alltalk");
 	
 	RegConsoleCmd("sm_votealltalk", Command_VoteAlltalk);
@@ -158,7 +161,12 @@ void VoteAlltalk(int client)
 	{
 		ReplyToCommand(client, "[SM] %t", "Already Voted", g_Votes, g_VotesNeeded);
 		return;
-	}	
+	}
+	if (g_bCooldown)
+	{
+		ReplyToCommand(client, "[SM] %t", "Cooldown");
+		return;
+	}
 	
 	char name[MAX_NAME_LENGTH];
 	GetClientName(client, name, sizeof(name));
@@ -178,7 +186,23 @@ void ToggleAlltalk()
 {
 	bool old = GetConVarBool(g_Cvar_Alltalk);
 	SetConVarBool(g_Cvar_Alltalk, !old);
+
+	if (old) {
+		PrintToChatAll("[SM] %t", "Disabled");
+	} else {
+		PrintToChatAll("[SM] %t", "Enabled");
+	}
+
 	ResetVoteAlltalk();
+
+	g_bCooldown = true;
+	CreateTimer(g_Cvar_Cooldown.FloatValue, Timer_Delay, _, TIMER_FLAG_NO_MAPCHANGE);
+}
+
+public Action Timer_Delay(Handle timer)
+{
+	g_bCooldown = false;
+	return Plugin_Continue;
 }
 
 void ResetVoteAlltalk()
