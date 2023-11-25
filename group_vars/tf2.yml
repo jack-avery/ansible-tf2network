@@ -262,7 +262,7 @@ base_plugins:
   - admingrab
   - adminhelp
   - adminmenu
-  # - adminsmite
+  - adminsmite
   - antiflood
   - AutoKickProtector
   - basebans
@@ -286,7 +286,7 @@ base_plugins:
   - helpmenu
   - links
   - mapconfigs
-  # - necromash
+  - necromash
   - nextmap
   - playercommands
   - reservedslots
