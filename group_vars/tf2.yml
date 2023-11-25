@@ -26,7 +26,7 @@ motd: |
 
 # Link to SourceBans website
 sourcebans:
-  website: "https://mywebsite.com/sourcebans/"
+  website: "https://www.jackavery.ca/bans/index.php"
 
 # Whether to enable STV by default
 stv_enabled: true
@@ -278,8 +278,8 @@ base_plugins:
   - discord
   - discord_calladmin
   - discord_relay
-  # - discord_sourcebans
-  # - discord_sourcecomms
+  - discord_sourcebans
+  - discord_sourcecomms
   - fixstvslot
   - funcommands
   - funvotes
@@ -290,11 +290,11 @@ base_plugins:
   - nextmap
   - playercommands
   - reservedslots
-  # - sbpp_admcfg
-  # - sbpp_checker
-  # - sbpp_comms
-  # - sbpp_main
-  # - sbpp_sleuth
+  - sbpp_admcfg
+  - sbpp_checker
+  - sbpp_comms
+  - sbpp_main
+  - sbpp_sleuth
   - simple-chatprocessor
   # - slurkiller_perma
   - sm_nocontracker
@@ -809,7 +809,7 @@ default_cfgs:
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}
-      discord_sourcebans_url: "https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}"
+      discord_sourcebans_url: "https://www.jackavery.ca/bans/index.php"
 
       # Config key from configs/discord.cfg.
       # sourcebans
@@ -836,7 +836,7 @@ default_cfgs:
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}
-      discord_sourcecomms_url: "https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}"
+      discord_sourcecomms_url: "https://www.jackavery.ca/bans/index.php"
 
       # Config key from configs/discord.cfg.
       # sourcecomms
