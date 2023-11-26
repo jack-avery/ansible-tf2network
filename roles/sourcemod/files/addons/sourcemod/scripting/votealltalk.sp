@@ -174,7 +174,12 @@ void VoteAlltalk(int client)
 	g_Votes++;
 	g_Voted[client] = true;
 	
-	PrintToChatAll("[SM] %t", "Alltalk Requested", name, g_Votes, g_VotesNeeded);
+	bool currentlyEnabled = GetConVarBool(g_Cvar_Alltalk);
+	if (currentlyEnabled) {
+		PrintToChatAll("[SM] %t", "Disable Requested", name, g_Votes, g_VotesNeeded);
+	} else {
+		PrintToChatAll("[SM] %t", "Enable Requested", name, g_Votes, g_VotesNeeded);
+	}
 
 	if (g_Votes >= g_VotesNeeded)
 	{

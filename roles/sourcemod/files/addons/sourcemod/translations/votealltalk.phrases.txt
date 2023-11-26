@@ -6,10 +6,16 @@
 	 	"en"			"You have already voted to toggle alltalk. ({1} votes, {2} required)"
 	}
 
-	"Alltalk Requested"
+	"Enable Requested"
 	{
 		"#format"		"{1:s},{2:d},{3:d}"
-		"en"			"{1} wants to toggle alltalk. ({2} votes, {3} required)"
+		"en"			"{1} wants to enable alltalk. ({2} votes, {3} required)"
+	}
+
+	"Disable Requested"
+	{
+		"#format"		"{1:s},{2:d},{3:d}"
+		"en"			"{1} wants to disable alltalk. ({2} votes, {3} required)"
 	}
 
 	"Cooldown"
