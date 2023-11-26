@@ -292,7 +292,7 @@ base_plugins:
   - reservedslots
   - sbpp_admcfg
   - sbpp_checker
-  - sbpp_comms
+  # - sbpp_comms
   - sbpp_main
   - sbpp_sleuth
   - simple-chatprocessor
