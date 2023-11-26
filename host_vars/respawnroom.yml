@@ -4,7 +4,7 @@ instances:
   - name: "respawnroom"
     hostname: "The Respawn Room"
     maxplayers: 18
-    mapcycle: "respawnroom"
+    mapcycle: "respawnroom_winter"
     ruleset: "respawnroom"
     timelimit: 30
     stv_name: "/call to report players"

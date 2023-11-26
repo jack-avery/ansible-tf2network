@@ -164,14 +164,15 @@ rulesets:
 
 # List of maps
 mapcycles:
-  respawnroom:
-    - pl_upward
-    - pl_badwater
+  respawnroom_winter:
     - koth_viaduct
-    - ctf_turbine
-    - koth_bagel_rc7
-    - cp_mountainlab
-    - workshop/1194817754 # ctf_snowfort
+    - pd_selbyen
+    - workshop/2446525461 # upward but epic
+    - workshop/1194817754 # ctf_2fort winter
+    - workshop/2887605754 # ctf_turbine winter
+    - workshop/2839870366 # koth_harvest winter
+    - workshop/2881642560 # koth_bagel winter
+    - workshop/3063014386 # koth_krampus
 
   rinstagib:
     - cp_process_final
