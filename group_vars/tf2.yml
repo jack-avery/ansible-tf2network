@@ -171,6 +171,7 @@ mapcycles:
     - ctf_turbine
     - koth_bagel_rc7
     - cp_mountainlab
+    - workshop/1194817754 # ctf_snowfort
 
   rinstagib:
     - cp_process_final
