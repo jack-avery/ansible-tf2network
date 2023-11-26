@@ -1,6 +1,7 @@
 #include <sourcemod>
 #include <discord>
 #include <SteamWorks>
+#include <morecolors>
 
 #define PLUGIN_VERSION "1.0"
 
@@ -29,6 +30,8 @@ public void OnPluginStart()
 
     g_cWebhook = CreateConVar("discord_relay_webhook", "relay", "Config key from configs/discord.cfg.");
     g_cAPIKey = CreateConVar("discord_relay_apikey", "", "Steam API Key (https://steamcommunity.com/dev/apikey).", FCVAR_PROTECTED);
+    
+    RegAdminCmd("discord_relay_say", ReceiveMessage, ADMFLAG_ROOT, "");
 
     RegConsoleCmd("say", ChatHook);
     RegConsoleCmd("say_team", ChatHook);
@@ -189,4 +192,14 @@ SendMessage(char[] sMessage)
     char sWebhook[32];
     g_cWebhook.GetString(sWebhook, sizeof(sWebhook));
     Discord_SendMessage(sWebhook, sMessage);
+}
+
+public Action ReceiveMessage(int client, int args)
+{
+    char message[100];
+    GetCmdArgString(message, sizeof(message));
+
+    MC_PrintToChatAll("{cyan}(Discord) {default}%s", message);
+
+    return Plugin_Continue;
 }

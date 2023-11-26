@@ -1,0 +1,5 @@
+---
+- name: Deploy Discord relay
+  hosts: tf2
+  roles:
+    - relay
