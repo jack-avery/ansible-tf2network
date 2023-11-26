@@ -95,6 +95,8 @@ class DiscordBot(discord.Client):
         for i in ["\n", "\r", "\t", "\f"]:
             msg = msg.replace(i, " ")
 
+        msg = msg.replace(";", "")
+
         msg = f"{message.author.display_name}{reply_note}: {msg}"
 
         # max tf2 message length is 127;
