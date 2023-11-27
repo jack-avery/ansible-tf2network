@@ -7,6 +7,11 @@ instances:
     mapcycle: "rinstagib"
     ruleset: "rinstagib"
     timelimit: 20
+    stv_name: "/call to report players"
+    relay_bot:
+      channel: discord channel ID
+      rcon_users:
+        - your discord user ID
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
     # on top of the MOTD, tags, plugins, and more
