@@ -6,3 +6,6 @@ __pycache__
 
 # settings
 .vscode
+
+# maps (this can get pretty big)
+roles/srcds/files/maps
