@@ -2,11 +2,10 @@ srcds_region: 0
 
 instances:
   - name: "respawnroom"
-    hostname: "The Respawn Room"
+    hostname: "The Respawn Room | Winter Wonderland"
     maxplayers: 18
     mapcycle: "respawnroom_winter"
     ruleset: "respawnroom"
-    timelimit: 30
     stv_name: "/call to report players"
     relay_bot:
       channel: 1177733445854707742

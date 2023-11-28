@@ -1,0 +1,13 @@
+{% for k, v in mapcycles[instance.mapcycle|default('all')].mapcfg[item].items() %}
+{{ k }} "{{ v }}"
+{% endfor %}
+
+{% if "mp_timelimit" not in mapcycles[instance.mapcycle|default('all')].mapcfg[item] %}
+mp_timelimit "{{ instance.timelimit|default(0) }}"
+{% endif %}
+{% if "mp_winlimit" not in mapcycles[instance.mapcycle|default('all')].mapcfg[item] %}
+mp_winlimit "{{ instance.winlimit|default(0) }}"
+{% endif %}
+{% if "mp_maxrounds" not in mapcycles[instance.mapcycle|default('all')].mapcfg[item] %}
+mp_maxrounds "{{ instance.maxrounds|default(0) }}"
+{% endif %}

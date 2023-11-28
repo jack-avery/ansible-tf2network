@@ -176,98 +176,146 @@ rulesets:
 # List of maps
 mapcycles:
   respawnroom_winter:
-    - koth_viaduct
-    - pd_selbyen
-    - workshop/2446525461 # upward but epic
-    - workshop/1194817754 # ctf_2fort winter
-    - workshop/2887605754 # ctf_turbine winter
-    - workshop/2839870366 # koth_harvest winter
-    - workshop/2881642560 # koth_bagel winter
-    - workshop/3063014386 # koth_krampus
+    mapcfg:
+      koth_:
+        mp_winlimit: 3
+      pd_:
+        mp_winlimit: 2
+      ctf_:
+        mp_timelimit: 30
+      pl_:
+        mp_roundlimit: 2
+
+    maps:
+      - koth_viaduct
+      - pd_selbyen
+      - workshop/2446525461 # upward but epic
+      - workshop/1194817754 # ctf_2fort winter
+      - workshop/2887605754 # ctf_turbine winter
+      - workshop/2839870366 # koth_harvest winter
+      - workshop/2881642560 # koth_bagel winter
+      - workshop/3063014386 # koth_krampus
 
   rinstagib:
-    - cp_process_final
-    - cp_sunshine
-    - pl_upward
-    - plr_hightower
-    - cp_orange_gamerland_classic
-    - koth_lakeside_final
+    maps:
+      - cp_process_final
+      - cp_sunshine
+      - pl_upward
+      - plr_hightower
+      - cp_orange_gamerland_classic
+      - koth_lakeside_final
 
   all:
-    # ad
-    - cp_altitude
-    - cp_dustbowl
-    - cp_egypt_final
-    - cp_gorge
-    - cp_gravelpit
-    - cp_junction_final
-    - cp_mercenarypark
-    - cp_mossrock
-    - cp_mountainlab
-    - cp_steel
-    # 5cp
-    - cp_5gorge
-    - cp_badlands
-    - cp_coldfront
-    - cp_fastlane
-    - cp_foundry
-    - cp_freight_final1
-    - cp_granary
-    - cp_gullywash_final1
-    - cp_metalworks
-    - cp_process_final
-    - cp_snakewater_final1
-    - cp_standin_final
-    - cp_sunshine
-    - cp_vanguard
-    - cp_well
-    - cp_yukon_final
-    # 3cp
-    - cp_powerhouse
-    # koth
-    - koth_badlands
-    - koth_highpass
-    - koth_king
-    - koth_lakeside_final
-    - koth_harvest_final
-    - koth_suijin
-    - koth_viaduct
-    - koth_cascade
-    - koth_brazil
-    - koth_lazarus
-    - koth_sawmill
-    - koth_nucleus
-    - koth_harvest_final
-    # payload
-    - pl_badwater
-    - pl_barnblitz
-    - pl_borneo
-    - pl_enclosure_final
-    - pl_frontier_final
-    - pl_goldrush
-    - pl_hoodoo_final
-    - pl_pier
-    - pl_rumford_event
-    - pl_snowycoast
-    - pl_swiftwater_final1
-    - pl_thundermountain
-    - pl_upward
-    # payload (evil version)
-    - plr_bananabay
-    - plr_hightower
-    - plr_nightfall_final
-    - plr_pipeline
-    # ctf
-    - ctf_2fort
-    - ctf_doublecross
-    - ctf_landfall
-    - ctf_sawmill
-    - ctf_turbine
-    - ctf_well
-    # pass time
-    - pass_brickyard
-    - pass_timbertown
-    - pass_district
+    mapcfg:
+      cp_:
+        mp_winlimit: 3
+      koth_:
+        mp_winlimit: 3
+      pl_:
+        mp_maxrounds: 2
+      plr_:
+        mp_timelimit: 30
+      ctf_:
+        mp_timelimit: 30
+      pass_:
+        mp_winlimit: 3
+      
+      # a/d cp use roundlimit intead
+      # thank you valve for making a/d use same prefix as 3/5cp
+      cp_dustbowl:
+        mp_maxrounds: 2
+      cp_altitude:
+        mp_maxrounds: 2
+      cp_gorge:
+        mp_maxrounds: 2
+      cp_gravelpit:
+        mp_maxrounds: 2
+      cp_junction_final:
+        mp_maxrounds: 2
+      cp_mercenarypark:
+        mp_maxrounds: 2
+      cp_mossrock:
+        mp_maxrounds: 2
+      cp_mountainlab:
+        mp_maxrounds: 2
+      cp_steel:
+        mp_maxrounds: 2
+
+    maps:
+      # ad
+      - cp_altitude
+      - cp_dustbowl
+      - cp_egypt_final
+      - cp_gorge
+      - cp_gravelpit
+      - cp_junction_final
+      - cp_mercenarypark
+      - cp_mossrock
+      - cp_mountainlab
+      - cp_steel
+      # 5cp
+      - cp_5gorge
+      - cp_badlands
+      - cp_coldfront
+      - cp_fastlane
+      - cp_foundry
+      - cp_freight_final1
+      - cp_granary
+      - cp_gullywash_final1
+      - cp_metalworks
+      - cp_process_final
+      - cp_snakewater_final1
+      - cp_standin_final
+      - cp_sunshine
+      - cp_vanguard
+      - cp_well
+      - cp_yukon_final
+      # 3cp
+      - cp_powerhouse
+      # koth
+      - koth_badlands
+      - koth_highpass
+      - koth_king
+      - koth_lakeside_final
+      - koth_harvest_final
+      - koth_suijin
+      - koth_viaduct
+      - koth_cascade
+      - koth_brazil
+      - koth_lazarus
+      - koth_sawmill
+      - koth_nucleus
+      - koth_harvest_final
+      # payload
+      - pl_badwater
+      - pl_barnblitz
+      - pl_borneo
+      - pl_enclosure_final
+      - pl_frontier_final
+      - pl_goldrush
+      - pl_hoodoo_final
+      - pl_pier
+      - pl_rumford_event
+      - pl_snowycoast
+      - pl_swiftwater_final1
+      - pl_thundermountain
+      - pl_upward
+      # payload (evil version)
+      - plr_bananabay
+      - plr_hightower
+      - plr_nightfall_final
+      - plr_pipeline
+      # ctf
+      - ctf_2fort
+      - ctf_doublecross
+      - ctf_landfall
+      - ctf_sawmill
+      - ctf_turbine
+      - ctf_well
+      # pass time
+      - pass_brickyard
+      - pass_timbertown
+      - pass_district
 
 # Plugins to include on every server
 base_plugins:
