@@ -48,6 +48,8 @@ Some plugin configuration use Valve's [KeyValues](https://developer.valvesoftwar
 
 **ansible-tf2network** supports an unlimited amount of both formats by defining a default in the global scope (`group_vars/tf2.yml`, `default_cfgs`, `default_vdfs`), which can be further tweaked in the ruleset and instance scopes. Note that a configuration **must** exist in the global scope in order for it to be included in the server.
 
+**KeyValues** configurations can vary wildly, and as such, the entire configuration must be redefined in the inner scope. **CFG** overriding works as they usually contain all convars set by a plugin.
+
 **Only the secrets are encrypted!** This makes it possible for users to view your server configuration if they're curious, as well as propose changes.
 
 ### 💬 Discord Channel <-> Server relay
