@@ -1,6 +1,7 @@
 # ansible-tf2network discord->server relay bot
 # this is pretty haphazardly thrown together, rewrite eventually
 
+import asyncio
 import discord
 import logging
 import re
@@ -13,8 +14,11 @@ DISCORD_MENTION_RE = re.compile(r"<@\d+>")
 DISCORD_CHANNEL_RE = re.compile(r"<#\d+>")
 DISCORD_EMOTE_RE = re.compile(r"(<a?(:[a-zA-Z0-9_]+:)\d+>)")
 
+SERVER_PLAYERS_RE = re.compile(r"players : (\d+) humans, (\d+) bots \((\d+)")
+
 with open("config.yml", "r") as f:
-    CONFIG = yaml.safe_load(f.read())
+    CONFIG: dict = yaml.safe_load(f.read())
+cfg = lambda k: CONFIG.get(k, None)
 
 log_handlers = []
 formatter = logging.Formatter(
@@ -29,9 +33,7 @@ logging.basicConfig(handlers=log_handlers, level=logging.DEBUG)
 
 def rcon(cmd: str) -> str:
     try:
-        with Client(
-            CONFIG["rcon_addr"], CONFIG["port"], passwd=CONFIG["rcon_pass"]
-        ) as client:
+        with Client(cfg("rcon_addr"), cfg("port"), passwd=cfg("rcon_pass")) as client:
             response = client.run(cmd)
         return response
     except:
@@ -48,20 +50,56 @@ class DiscordBot(discord.Client):
     async def on_ready(self) -> None:
         if not self.SETUP:
             # find relay channel
-            self.CHANNEL = self.get_channel(CONFIG["channel"])
+            if cfg("relay_channel"):
+                self.RELAY_CHANNEL = self.get_channel(cfg("relay_channel"))
+
+            # begin polling status
+            if cfg("status_channel"):
+                self.STATUS_CHANNEL = self.get_channel(cfg("status_channel"))
+                asyncio.ensure_future(self.poll_status())
 
             # get guild from channel; add commands
-            self.tree.copy_global_to(guild=discord.Object(id=self.CHANNEL.guild.id))
+            self.tree.copy_global_to(
+                guild=discord.Object(id=self.RELAY_CHANNEL.guild.id)
+            )
             await self.tree.sync()
 
             logging.info("Ready!")
             self.SETUP = True
 
+    async def poll_status(self, frequency: int = 30) -> None:
+        while True:
+            await self.update_status_channel()
+            await asyncio.sleep(frequency)
+
+    async def update_status_channel(self) -> None:
+        """
+        Poll server player info.
+        """
+        status = rcon("status")
+
+        info = SERVER_PLAYERS_RE.findall(status)[0]
+        count_players = int(info[0])
+        count_bots = int(info[1])
+        maxplayers = int(info[2])
+
+        if count_bots > 0:
+            maxplayers -= count_bots
+
+        server_str = f'({count_players}/{maxplayers}) {cfg("hostname")}'
+        if len(server_str) > 100:  # voice channel max name length is 100 characters
+            server_str = server_str[:99]
+
+        await self.STATUS_CHANNEL.edit(name=server_str)
+
     async def on_message(self, message: discord.Message) -> None:
         if message.author == self.user or message.author.bot:
             return
 
-        if not message.channel.id == CONFIG["channel"]:
+        if not cfg("relay_channel"):
+            return
+
+        if not message.channel.id == cfg("relay_channel"):
             return
 
         msg = message.content
@@ -83,7 +121,7 @@ class DiscordBot(discord.Client):
 
         reply_note = ""
         if message.reference:
-            reply = await self.CHANNEL.fetch_message(message.reference.message_id)
+            reply = await self.RELAY_CHANNEL.fetch_message(message.reference.message_id)
             reply_note = f" (replying to {reply.author.display_name})"
 
         # sanitize
@@ -117,7 +155,7 @@ client = DiscordBot()
     name="rcon", description="Run a command on the server through rcon"
 )
 async def _rcon(interaction: discord.Interaction, command: str) -> None:
-    if interaction.user.id not in CONFIG["rcon_users"]:
+    if interaction.user.id not in cfg("rcon_users"):
         embed = discord.embeds.Embed(
             color=discord.Color.red(),
             description="You do not have access to that command.",
@@ -135,4 +173,4 @@ async def _rcon(interaction: discord.Interaction, command: str) -> None:
     await interaction.response.send_message(embed=embed, ephemeral=True)
 
 
-client.run(CONFIG["token"])
+client.run(cfg("token"))
