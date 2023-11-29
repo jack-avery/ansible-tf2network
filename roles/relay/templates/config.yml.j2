@@ -1,10 +1,11 @@
 token: {{ discord_relay_bot_token }}
 port: {{ srcds_base_port + (loop0 * srcds_reserve_ports) }}
-rcon_addr: {{ ansible_host }}
+rcon_addr: srcds-{{ instance.name }}
 rcon_pass: {{ instance.secrets.rcon_pass }}
 hostname: {{ instance.hostname }}
 relay_channel: {{ instance.relay_bot.relay_channel|default(None) }}
 status_channel: {{ instance.relay_bot.status_channel|default(None) }}
+has_stv: {{ instance.stv_enabled|default(stv_enabled) }}
 
 rcon_users:
 {% for user in instance.relay_bot.rcon_users %}

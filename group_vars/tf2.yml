@@ -184,7 +184,7 @@ mapcycles:
       ctf_:
         mp_timelimit: 30
       pl_:
-        mp_roundlimit: 2
+        mp_maxrounds: 2
 
     maps:
       - koth_viaduct
@@ -220,7 +220,7 @@ mapcycles:
       pass_:
         mp_winlimit: 3
       
-      # a/d cp use roundlimit intead
+      # a/d cp use maxrounds intead
       # thank you valve for making a/d use same prefix as 3/5cp
       cp_dustbowl:
         mp_maxrounds: 2

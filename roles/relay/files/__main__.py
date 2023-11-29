@@ -14,7 +14,7 @@ DISCORD_MENTION_RE = re.compile(r"<@\d+>")
 DISCORD_CHANNEL_RE = re.compile(r"<#\d+>")
 DISCORD_EMOTE_RE = re.compile(r"(<a?(:[a-zA-Z0-9_]+:)\d+>)")
 
-SERVER_PLAYERS_RE = re.compile(r"players : (\d+) humans, (\d+) bots \((\d+)")
+SERVER_PLAYERS_RE = re.compile(r"players : (\d+) humans, \d+ bots \((\d+)")
 
 with open("config.yml", "r") as f:
     CONFIG: dict = yaml.safe_load(f.read())
@@ -78,13 +78,17 @@ class DiscordBot(discord.Client):
         """
         status = rcon("status")
 
+        if not status:
+            server_str = f'(??/??) {cfg("hostname")}'
+            await self.STATUS_CHANNEL.edit(name=server_str)
+            return
+
         info = SERVER_PLAYERS_RE.findall(status)[0]
         count_players = int(info[0])
-        count_bots = int(info[1])
-        maxplayers = int(info[2])
+        maxplayers = int(info[1])
 
-        if count_bots > 0:
-            maxplayers -= count_bots
+        if cfg("has_stv"):
+            maxplayers -= 1
 
         server_str = f'({count_players}/{maxplayers}) {cfg("hostname")}'
         if len(server_str) > 100:  # voice channel max name length is 100 characters
