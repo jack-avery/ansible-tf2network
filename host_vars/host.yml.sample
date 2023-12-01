@@ -9,7 +9,8 @@ instances:
     timelimit: 20
     stv_name: "/call to report players"
     relay_bot:
-      channel: discord channel ID
+      relay_channel: discord text channel ID
+      status_channel: discord voice channel ID
       rcon_users:
         - your discord user ID
 
