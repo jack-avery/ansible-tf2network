@@ -1,6 +1,6 @@
 .PHONY: all base admins sm srcds deploy
 
-all: sm srcds relay deploy
+all: sm srcds deploy relay
 
 base:
 	@ansible-playbook playbooks/base-tf2server.yml

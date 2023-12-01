@@ -15,6 +15,11 @@
   delegate_to: localhost
   timeout: 10
 
+- name: Create network for relay
+  community.docker.docker_network:
+    name: "network-srcds-{{ item.name }}"
+  loop: "{{ targets.instances }}"
+
 - name: Start
   community.docker.docker_container:
     name: "srcds-{{ item.name }}"
@@ -23,6 +28,8 @@
     restart: true
     restart_policy: "unless-stopped"
     cpuset_cpus: "{{ loop0 }}"
+    networks:
+      - name: "network-srcds-{{ item.name }}"
     ports:
       - "{{ item.port }}:{{ item.port }}"
       - "{{ item.port }}:{{ item.port }}/udp"
@@ -35,7 +42,8 @@
   set_fact:
     cron: |
       docker restart {% for item in instances %}
-      srcds-{{ item.name }} {% endfor %}
+      srcds-{{ item.name }} {% if 'relay_bot' in item %}
+      srcdsr-{{ item.name }} {% endif %}{% endfor %}
 
 - name: Install cronjob (6AM UTC)
   ansible.builtin.cron:
