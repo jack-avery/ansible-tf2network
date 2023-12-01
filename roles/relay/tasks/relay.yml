@@ -38,13 +38,3 @@
     state: present
     force_source: true
     force_tag: true
-
-- name: Start
-  community.docker.docker_container:
-    name: "srcdsr-{{ instance.name }}"
-    image: "srcdsr-{{ instance.name }}:latest"
-    state: started
-    restart: true
-    restart_policy: "unless-stopped"
-    networks:
-      - name: "network-srcds-{{ instance.name }}"
