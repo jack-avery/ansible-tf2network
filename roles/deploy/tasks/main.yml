@@ -42,7 +42,8 @@
   set_fact:
     cron: |
       docker restart {% for item in instances %}
-      srcds-{{ item.name }} {% endfor %}
+      srcds-{{ item.name }} {% if 'relay_bot' in item %}
+      srcdsr-{{ item.name }} {% endif %}{% endfor %}
 
 - name: Install cronjob (6AM UTC)
   ansible.builtin.cron:

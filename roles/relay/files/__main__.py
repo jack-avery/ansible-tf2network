@@ -31,41 +31,43 @@ log_handlers.append(stdout_handler)
 logging.basicConfig(handlers=log_handlers, level=logging.DEBUG)
 
 
-def rcon(cmd: str) -> str:
-    try:
-        with Client(cfg("rcon_addr"), cfg("port"), passwd=cfg("rcon_pass")) as client:
-            response = client.run(cmd)
-        return response
-    except:
-        return None
-
-
 class DiscordBot(discord.Client):
     def __init__(self):
         # I don't know which to use, so we just do this.
         discord.Client.__init__(self, intents=discord.Intents().all())
         self.tree = discord.app_commands.CommandTree(self)
-        self.SETUP = False
 
     async def on_ready(self) -> None:
-        if not self.SETUP:
-            # find relay channel
-            if cfg("relay_channel"):
-                self.RELAY_CHANNEL = self.get_channel(cfg("relay_channel"))
+        self.RCON_CLIENT = Client(
+            cfg("rcon_addr"), cfg("port"), passwd=cfg("rcon_pass")
+        )
+        self.RCON_CLIENT.connect(True)
 
-            # begin polling status
-            if cfg("status_channel"):
-                self.STATUS_CHANNEL = self.get_channel(cfg("status_channel"))
-                asyncio.ensure_future(self.poll_status())
+        # find relay channel
+        if cfg("relay_channel"):
+            self.RELAY_CHANNEL = self.get_channel(cfg("relay_channel"))
 
-            # get guild from channel; add commands
-            self.tree.copy_global_to(
-                guild=discord.Object(id=self.RELAY_CHANNEL.guild.id)
-            )
-            await self.tree.sync()
+        # begin polling status
+        if cfg("status_channel"):
+            self.STATUS_CHANNEL = self.get_channel(cfg("status_channel"))
+            asyncio.ensure_future(self.poll_status())
 
-            logging.info("Ready!")
-            self.SETUP = True
+        # get guild from channel; add commands
+        self.tree.copy_global_to(guild=discord.Object(id=self.RELAY_CHANNEL.guild.id))
+        await self.tree.sync()
+
+        logging.info("Ready!")
+
+    async def rcon(self, cmd: str) -> str | None:
+        """Return the response of the given command.
+        If the command times out, errors, or returns `None`.
+        """
+        try:
+            async with asyncio.timeout(5):
+                response = self.RCON_CLIENT.run(cmd)
+                return response
+        except:
+            return None
 
     async def poll_status(self, frequency: int = 30) -> None:
         while True:
@@ -76,7 +78,7 @@ class DiscordBot(discord.Client):
         """
         Poll server player info.
         """
-        status = rcon("status")
+        status = await self.rcon("status")
 
         if not status:
             server_str = f'(??/??) {cfg("hostname")}'
@@ -149,7 +151,7 @@ class DiscordBot(discord.Client):
         if len(message.attachments) != 0:
             msg = msg + " (attachment)"
 
-        rcon(f"discord_relay_say {msg}")
+        await client.rcon(f"discord_relay_say {msg}")
 
 
 client = DiscordBot()
@@ -167,7 +169,7 @@ async def _rcon(interaction: discord.Interaction, command: str) -> None:
         await interaction.response.send_message(embed=embed, ephemeral=True)
         return
 
-    response = rcon(command)
+    response = await client.rcon(command)
     if len(response) == 0:
         response = "*Command does not have a response*"
 
