@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# https://github.com/crescentrose
-
 DOCUMENTATION = r"""
 ---
 module: narrow
