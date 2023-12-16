@@ -100,3 +100,13 @@ instances:
     ruleset: "hoard"
     timelimit: 30
     stv_name: "/call to report players"
+    motd: |
+      welcome to the dragon's hoard!
+
+      rules:
+      - don't be an asshole
+      - don't cheat
+      - don't say slurs
+      you will not receive warnings.
+      
+      try out !help, !discord, !group
