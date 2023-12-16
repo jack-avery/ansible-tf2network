@@ -92,3 +92,11 @@ instances:
     #   rcon_users:
     #     - 240958438224429057
     #     - 97441955893477376
+
+  - name: "hoard"
+    hostname: "The Dragon's Hoard"
+    maxplayers: 24
+    mapcycle: "hoard"
+    ruleset: "hoard"
+    timelimit: 30
+    stv_name: "/call to report players"
