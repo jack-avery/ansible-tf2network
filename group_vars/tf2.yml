@@ -334,7 +334,6 @@ mapcycles:
       - pl_borneo
       - pl_pier
       - pl_snowycoast
-      - pass_brickyard
 
   all:
     mapcfg:
