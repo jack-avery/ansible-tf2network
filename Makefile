@@ -1,11 +1,9 @@
 .PHONY: all base admins sm srcds deploy
 
-all: sm srcds relay deploy
-
-full: base sm srcds relay deploy
+all: base sm srcds relay deploy
 
 base:
-	@ansible-playbook playbooks/base-tf2server.yml
+	@ansible-playbook playbooks/base-tf2server.yml --extra-vars "clean=$(CLEAN)"
 
 sm:
 	@ansible-playbook --limit prod playbooks/sourcemod.yml
