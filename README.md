@@ -6,34 +6,37 @@ These playbooks are currently made to support a *separately-hosted* [**SourceBan
 
 ## ✍️ Usage
 
-Ansible requires Linux. If you're running Windows, consider setting up WSL.
+Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL](https://learn.microsoft.com/en-us/windows/wsl/install)**.
 
-1. Run `pip install -r requirements.txt` to install Python requirements.
-2. Ensure you have Ansible and Docker installed on your machine.
-3. Ensure your Ansible Hosts have Docker installed, and a user named `tf2server` with the `docker` role.
+1. Assuming you're using Ubuntu/Debian, install Python, Ansible, and Docker in WSL using `sudo apt-get install python3 ansible docker.io`
+2. On all server "hosts":
+- 1. `sudo apt-get install docker.io` - Install Docker
+- 2. `sudo useradd -Um tf2server` - Create the `tf2server` user
+- 3. `sudo usermod -aG docker tf2server` - Grant them the `docker` role
 
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
 * `inventory.yml.sample`
 * `group_vars/tf2.secret.yml.sample`
 * `host_vars/host.secret.yml.sample`
-2. Trigger `make base` to build the base Team Fortress 2 server image.
-3. Trigger `make sm` to distribute and build SourceMod on hosts.
-4. Trigger `make srcds` to build images.
-5. Trigger `make deploy` to start up the new images.
-> You can use `make` as an alias for all of the above.
-
-### Updating admins/reserveslots
-1. Trigger `make admins`.<br/>
--- Define admins and moderators in `tf2.secret.yml`<br/>
--- Define users with reserve slots to specific servers in `{host}.secret.yml`
+2. `make base` - Build the base Team Fortress 2 server Docker image
+3. `make sm` - Distribute and build SourceMod
+4. `make srcds` - Build instance images
+5. `make deploy` - Start containers & setup crontab
+6. `make relay` - Build and start the (early development!!) Discord relay/RCON bot (if configured)
+> You can perform all of these in order with simply `make`<br/>
+> You can update your admins/reserved slots at any time with `make admins`
 
 ## ⭐ Features
 
 ### 🛠️ Docker and Ansible, confined scope
 **ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Docker to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your record in `inventory.yml` at the new IP.
 
-Since the playbooks keep their activity contained within the `tf2server` user folder with *no* actions performed as root, cleaning up a host after using **ansible-tf2network** is as easy as deleting the `tf2server` user, their home folder, and removing the Docker containers and images. **ansible-tf2network** will not modify the firewall for you, so you can define firewall rules as you wish.
+Since the playbooks keep their activity contained within the `tf2server` user folder with *no* actions performed as root, cleaning up a host after using **ansible-tf2network** can be done with these commands:
+1. `userdel -r tf2server` - Delete their user
+2. `docker stop [...]` - Stop the containers (do this for all servers)
+3. `docker container prune` - Remove the containers
+4. `docker image prune -a` - Remove all unused Docker images
 
 ### 📚 Default, Ruleset, and Instance level configuration
 **ansible-tf2network** server configuration has 3 scopes: default, ruleset, and instance. Overriding configuration from outer scopes is possible within inner scopes, e.g., ruleset config overrides default config, and instance config overrides both.
