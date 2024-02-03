@@ -226,7 +226,7 @@ rulesets:
       - tf_spec_xray 0
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
-      - sv_airaccelerate 150
+      - sv_airaccelerate 60
       - sv_gravity 700
       - sv_alltalk 1
       - mp_friendlyfire 1
