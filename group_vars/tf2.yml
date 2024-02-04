@@ -257,6 +257,7 @@ rulesets:
 
     mapchooser:
       sm_mapvote_start: "1.0"
+      sm_mapvote_extend: "255" # lol
 
     ClassRestrictionsForHumans:
       sm_crh_blu_soldiers: "-1"
