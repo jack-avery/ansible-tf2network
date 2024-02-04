@@ -288,11 +288,11 @@ rulesets:
 mapcycles:
   rinstagib:
     maps:
-      - cp_process_final
+      - cp_process_final_d # rinstagib edit
       - cp_sunshine
       - pl_upward
       - plr_hightower
-      - cp_orange_gamerland_classic_d
+      - cp_orange_gamerland_classic_d # rinstagib edit
       - koth_lakeside_final
 
   2fortplus:
