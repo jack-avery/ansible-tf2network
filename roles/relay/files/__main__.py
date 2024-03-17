@@ -59,9 +59,7 @@ class DiscordBot(discord.Client):
             v.id: k for k, v in self.RELAY_CHANNELS.items()
         }
 
-        logging.info(self.RELAY_LOOKUP)
-
-        asyncio.ensure_future(self.poll_status())
+        # asyncio.ensure_future(self.poll_status())
 
         # get guild from channel; add commands
         for channel in self.RELAY_CHANNELS.values():
