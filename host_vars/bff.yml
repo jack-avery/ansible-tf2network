@@ -89,4 +89,7 @@ instances:
       - don't say slurs
       you will not receive warnings.
       
-      try out !help, !discord, !group
+      try out !help, !discord, !group\
+    relay_bot:
+      relay_channel: 1185408208244842496
+      status_channel: 1218799220518162472
