@@ -34,8 +34,8 @@ public Plugin myinfo = {
     name = "rinstagib",
     author = "raspy",
     description = "rinstagib gamemode.",
-    version = "1.9.1",
-    url = "https://jackavery.ca/tf2/#rinstagib"
+    version = "1.9.2",
+    url = "https://github.com/jack-avery/rinstagib"
 };
 
 float g_fTopDamage[MAXPLAYERS + 1];
@@ -44,7 +44,7 @@ public void OnPluginStart() {
     g_Cvar_Enabled = CreateConVar("ri_enabled", "1", "Enable rinstagib mode.", _, true, 0.0, true, 1.0);
     g_Cvar_Leaderboard = CreateConVar("ri_leaderboard", "1", "Enable the rinstagib damage leaderboard and announcements.", _, true, 0.0, true, 1.0);
     g_Cvar_Launcher_Damage = CreateConVar("ri_launcher_damage", "5", "Rocket launcher damage multiplier.", _, true, 0.0, true, 10.0);
-    g_Cvar_Launcher_Radius = CreateConVar("ri_launcher_radius", "0.1", "Rocket launcher blast radius multiplier.", _, true, 0.0, true, 1.0);
+    g_Cvar_Launcher_Radius = CreateConVar("ri_launcher_radius", "0.01", "Rocket launcher blast radius multiplier.", _, true, 0.0, true, 1.0);
     g_Cvar_Launcher_FreeRJ = CreateConVar("ri_launcher_freerj", "1.0", "Whether Rocket Jumping should cost no health.", _, true, 0.0, true, 1.0);
     g_Cvar_Launcher_Consistent = CreateConVar("ri_launcher_consistent", "1.0", "Whether all rocket launchers (except Beggars) should act the same.", _, true, 0.0, true, 1.0);
     g_Cvar_Launcher_ProjSpeed = CreateConVar("ri_launcher_projspeed", "1.0", "Projectile speed multiplier for all launchers if ri_launcher_consistent is 1.", _, true, 0.0, true, 3.0);
@@ -245,7 +245,6 @@ public void OnInventoryApplication(Event event, const char[] name, bool dontBroa
     // Make airshots one-shot and remove blast radius
     int pWeapon = GetPlayerWeaponSlot(client, TFWeaponSlot_Primary);
     TF2Attrib_SetByName(pWeapon, "damage bonus", g_Cvar_Launcher_Damage.FloatValue);
-    TF2Attrib_SetByName(pWeapon, "damage penalty", 1.0);
     TF2Attrib_SetByName(pWeapon, "mod mini-crit airborne", 1.0);
     TF2Attrib_SetByName(pWeapon, "Blast radius decreased", g_Cvar_Launcher_Radius.FloatValue);
 
@@ -263,6 +262,7 @@ public void OnInventoryApplication(Event event, const char[] name, bool dontBroa
     // Make rocket jumping free
     if (g_Cvar_Launcher_FreeRJ.BoolValue) {
         TF2Attrib_SetByName(pWeapon, "rocket jump damage reduction", 0.0);
+        TF2Attrib_SetByName(pWeapon, "damage penalty", 1.0); // no reason for RJ to not deal damage anymore
     }
 
     ////
@@ -281,8 +281,9 @@ public void OnInventoryApplication(Event event, const char[] name, bool dontBroa
         // It's probably Gunboats/Mantreads
         int entity = -1;
         while((entity = FindEntityByClassname(entity, "tf_wearable")) != INVALID_ENT_REFERENCE) {
-            // Remove Mantreads as it's not intended to be used
-            if(GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex") == 444)
+            // Remove Mantreads as it's not intended to be used, remove Gunboats if free jumping is disabled
+            if(GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex") == 444 ||
+                !g_Cvar_Launcher_FreeRJ.BoolValue && GetEntProp(entity, Prop_Send, "m_iItemDefinitionIndex") == 133)
             {
                 AcceptEntityInput(entity, "Kill");
                 break;
@@ -317,7 +318,8 @@ public void OnInventoryApplication(Event event, const char[] name, bool dontBroa
     // Make melee one-shot always
     int mWeapon = GetPlayerWeaponSlot(client, TFWeaponSlot_Melee);
     TF2Attrib_SetByName(mWeapon, "damage bonus", g_Cvar_Melee_Damage.FloatValue);
-    TF2Attrib_SetByName(mWeapon, "restore health on kill", 0.0);
+    TF2Attrib_SetByName(mWeapon, "restore health on kill", 0.0); // fix zatoichi
+    TF2Attrib_SetByName(mWeapon, "mod shovel damage boost", 0.0); // fix equalizer
 }
 
 void PerformLeaderboard(int client, float damage) {

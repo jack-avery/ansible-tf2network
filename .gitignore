@@ -9,3 +9,7 @@ __pycache__
 
 # maps (this can get pretty big)
 roles/srcds/files/maps
+
+# logs and manifest
+manifest_logs
+manifest.yml

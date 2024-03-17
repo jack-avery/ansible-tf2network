@@ -2,6 +2,10 @@ all:
   children:
     tf2:
       children:
+        metrics:
+          hosts:
+            raspi:
+              ansible_host: dns-or-ip
         prod:
           hosts:
             host:

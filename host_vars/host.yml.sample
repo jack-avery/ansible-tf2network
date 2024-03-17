@@ -4,15 +4,13 @@ instances:
   - name: "unique-internal-name"
     hostname: "My Team Fortress 2 Server"
     maxplayers: 24
-    mapcycle: "rinstagib"
-    ruleset: "rinstagib"
+    mapcycle: "all"
+    ruleset: "standard"
     timelimit: 20
     stv_name: "/call to report players"
     relay_bot:
       relay_channel: discord text channel ID
       status_channel: discord voice channel ID
-      rcon_users:
-        - your discord user ID
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
     # on top of the MOTD, tags, plugins, and more
