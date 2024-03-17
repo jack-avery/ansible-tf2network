@@ -14,7 +14,7 @@
 
 public Plugin myinfo =
 {
-    name             = "Slur Killer",
+    name             = "Slur Killer (edited to permanent)",
     author           = "steph&nie",
     description      = ".",
     version          = "1.2.3",
@@ -49,51 +49,21 @@ public Action OnClientSayCommand(int Cl, const char[] command, const char[] sArg
         return Plugin_Continue;
     }
 
-    if (MatchRegex(nazi, sArgs) > 0)
-    {
-        char reason[512];
-        Format(reason, sizeof(reason), "Auto banned for nazism, user said: %s", sArgs);
-        SBPP_BanPlayer(0, Cl, 0, reason);
-        return Plugin_Handled;
-    }
-
     if
     (
             MatchRegex(nword,  sArgs) > 0
          || MatchRegex(fslur,  sArgs) > 0
          || MatchRegex(tslur,  sArgs) > 0
          || MatchRegex(cslur,  sArgs) > 0
+         || MatchRegex(nazi, sArgs) > 0
     )
     {
-        if (!hasClientBeenWarned[Cl])
-        {
-            PrintColoredChat(Cl, COLOR_WHITE ... "Hate speech is not tolerated here. " ... "This is your only warning.");
-            hasClientBeenWarned[Cl] = true;
-        }
-        else if (hasClientBeenWarned[Cl])
-        {
-            char reason[512];
-            Format(reason, sizeof(reason), "Auto-banned for hate speech, user said: %s", sArgs);
-            SBPP_BanPlayer(0, Cl, 0, reason);
-        }
+        char reason[512];
+        Format(reason, sizeof(reason), "Auto-banned for hate speech, user said: %s", sArgs);
+        SBPP_BanPlayer(0, Cl, 0, reason);
         return Plugin_Handled;
     }
     return Plugin_Continue;
-}
-
-// player join (includes rejoins at map changes)
-public void OnClientPutInServer(int Cl)
-{
-    if (IsValidClient(Cl))
-    {
-        clearWarning(GetClientUserId(Cl));
-    }
-}
-
-// clear warning (clears on player join, map change and player leave)
-void clearWarning(int userid)
-{
-    hasClientBeenWarned[GetClientOfUserId(userid)] = false;
 }
 
 // IsValidClient Stock
