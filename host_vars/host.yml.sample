@@ -11,8 +11,6 @@ instances:
     relay_bot:
       relay_channel: discord text channel ID
       status_channel: discord voice channel ID
-      rcon_users:
-        - your discord user ID
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
     # on top of the MOTD, tags, plugins, and more

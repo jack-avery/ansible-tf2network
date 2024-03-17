@@ -1,6 +1,8 @@
 srcds_base_port: 27015
 srcds_reserve_ports: 10
 
+network_shortname: mynetwork
+
 # FastDL Base URL
 fastdl_url: "https://mywebsite.com/tf/"
 
