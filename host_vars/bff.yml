@@ -1,11 +1,12 @@
 srcds_region: 0
+daily_restart_hour_utc: 12
 
 instances:
   - name: "tplus"
     hostname: "Boxes For Foxes | Turbine+"
     maxplayers: 24
     mapcycle: "turbineplus"
-    ruleset: "standard"
+    ruleset: "standard_247"
     stv_name: "/call to report players"
     tags:
       - alltalk
@@ -14,19 +15,14 @@ instances:
       - turbine
       - ctf
       - infinite
-    servercfg:
-      - mp_disable_respawn_times 1
-    # relay_bot:
-    #   relay_channel: 1114719248225415168
-    #   rcon_users:
-    #     - 240958438224429057
-    #     - 97441955893477376
+    relay_bot:
+      relay_channel: 1114719248225415168
   
   - name: "hplus"
     hostname: "Boxes For Foxes | Hightower+"
     maxplayers: 24
     mapcycle: "hightowerplus"
-    ruleset: "standard"
+    ruleset: "standard_247"
     stv_name: "/call to report players"
     tags:
       - alltalk
@@ -36,21 +32,16 @@ instances:
       - plr
       - payload
       - infinite
-    servercfg:
-      - mp_disable_respawn_times 1
     plugins:
       - better-payload-disabler
-    # relay_bot:
-    #   relay_channel: 1078122535717191740
-    #   rcon_users:
-    #     - 240958438224429057
-    #     - 97441955893477376
+    relay_bot:
+      relay_channel: 1078122535717191740
 
   - name: "2plus"
     hostname: "Boxes For Foxes | 2Fort+"
     maxplayers: 24
     mapcycle: "2fortplus"
-    ruleset: "standard"
+    ruleset: "standard_247"
     stv_name: "/call to report players"
     tags:
       - alltalk
@@ -59,13 +50,8 @@ instances:
       - 2fort
       - ctf
       - infinite
-    servercfg:
-      - mp_disable_respawn_times 1
-    # relay_bot:
-    #   relay_channel: 1078122642277675039
-    #   rcon_users:
-    #     - 240958438224429057
-    #     - 97441955893477376
+    relay_bot:
+      relay_channel: 1078122642277675039
 
   - name: "rie"
     hostname: "Boxes For Foxes | rINSTAGIB | NA East"
@@ -74,11 +60,8 @@ instances:
     ruleset: "rinstagib"
     timelimit: 20
     stv_name: "/call to report players"
-    # relay_bot:
-    #   relay_channel: 1078122493946122291
-    #   rcon_users:
-    #     - 240958438224429057
-    #     - 97441955893477376
+    relay_bot:
+      relay_channel: 1180063638078378014
 
   - name: "boxfort"
     hostname: "Boxes For Foxes | The Box Fort"
@@ -87,11 +70,8 @@ instances:
     ruleset: "hangout"
     timelimit: 60
     stv_name: "/call to report players"
-    # relay_bot:
-    #   relay_channel: 1124974188856344697
-    #   rcon_users:
-    #     - 240958438224429057
-    #     - 97441955893477376
+    relay_bot:
+      relay_channel: 1124974188856344697
 
   - name: "hoard"
     hostname: "The Dragon's Hoard"

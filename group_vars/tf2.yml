@@ -1,6 +1,8 @@
 srcds_base_port: 27015
 srcds_reserve_ports: 10
 
+network_shortname: bff
+
 # FastDL Base URL
 fastdl_url: "https://boxes4foxes.site.nfoservers.com/tf/"
 
@@ -63,6 +65,17 @@ rulesets:
       - tf_spec_xray 1
       - tf_preround_push_from_damage_enable 0
       - tf_avoidteammates_pushaway 1
+  
+  standard_247:
+    servercfg:
+      - tf_weapon_criticals 0
+      - tf_use_fixed_weaponspreads 1
+      - tf_spawn_glows_duration 0
+      - tf_spec_xray 0
+      - tf_preround_push_from_damage_enable 1
+      - tf_avoidteammates_pushaway 0
+      - sv_alltalk 1
+      - mp_disable_respawn_times 1
     
   hoard:
     servercfg:
@@ -163,6 +176,7 @@ rulesets:
       - kartify
       - piggyback
       - pvpoptin
+      - mirrordamage
       - ResizePlayers
       - setclass
       - setspeed
@@ -291,9 +305,9 @@ mapcycles:
       - cp_process_final_d # rinstagib edit
       - cp_sunshine
       - pl_upward
-      - plr_hightower
+      - plr_hightower_dv1 # rinstagib edit
       - cp_orange_gamerland_classic_d # rinstagib edit
-      - koth_lakeside_final
+      - koth_lakeside_final_dv1 # rinstagib edit
 
   2fortplus:
     maps:
@@ -938,7 +952,7 @@ default_cfgs:
 
       # Rocket launcher blast radius multiplier.
       # 0.1, 0..1
-      ri_launcher_radius: "0.1"
+      ri_launcher_radius: "0.01"
 
       # Whether Rocket Jumping should cost no health.
       # 1, 0..1

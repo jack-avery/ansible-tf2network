@@ -60,7 +60,7 @@ Using the `discord_relay` plugin (depends on `discord` plugin) and correctly con
 ## 🗒️ To-Do
 
 - [ ] Set up SB++ automatically on a 'metrics' host
-- [ ] Have `relay` target a 'metrics' host as they do not rely on being on the `tf2` hosts
+- [x] Have `relay` target a 'metrics' host as they do not rely on being on the `tf2` hosts
 - [ ] Configuration standardization pass to hopefully reduce confusion
 
 ### Pre-commit

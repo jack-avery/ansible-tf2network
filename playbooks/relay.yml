@@ -1,5 +1,5 @@
 ---
 - name: Deploy Discord relay
-  hosts: tf2
+  hosts: metrics
   roles:
     - relay

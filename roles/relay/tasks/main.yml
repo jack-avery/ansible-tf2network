@@ -2,10 +2,55 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
-- name: Create Relay bot (if enabled)
-  ansible.builtin.include_tasks: relay.yml
-  loop: "{{ targets.instances }}"
-  loop_control:
-    loop_var: instance
-    index_var: loop0
-  when: '"relay_bot" in instance'
+- name: Delete old build data
+  ansible.builtin.file:
+    state: absent
+    path: ~/build-relay/
+
+- name: Create build directory
+  ansible.builtin.file:
+    path: ~/build-relay/
+    state: directory
+    mode: 0755
+
+- name: Copy files
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/"
+    dest: ~/build-relay/
+    recursive: true
+
+- name: Generate config.yml
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: ~/build-relay/config.yml
+    mode: 0755
+
+- name: Copy manifest.yml
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/../../manifest.yml"
+    dest: ~/build-relay/
+
+- name: Prune space before building
+  community.docker.docker_prune:
+    images: true
+    containers: true
+
+- name: Build image
+  community.docker.docker_image:
+    name: "srcdsr-{{ network_shortname }}"
+    tag: "latest"
+    source: build
+    build:
+      path: ~/build-relay/
+      pull: true
+    state: present
+    force_source: true
+    force_tag: true
+
+- name: Start SRCDS Relay
+  community.docker.docker_container:
+    name: "srcdsr-{{ network_shortname }}"
+    image: "srcdsr-{{ network_shortname }}:latest"
+    state: started
+    restart: true
+    restart_policy: "unless-stopped"
