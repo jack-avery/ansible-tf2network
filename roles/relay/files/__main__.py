@@ -43,25 +43,23 @@ class DiscordBot(discord.Client):
     async def on_ready(self) -> None:
         # find channels
         self.RELAY_CHANNELS: dict[str, discord.TextChannel] = {}
-        self.STATUS_CHANNELS: dict[str, discord.VoiceChannel] = {}
+        # self.STATUS_CHANNELS: dict[str, discord.VoiceChannel] = {}
         for instance in MANIFEST:
             if "relay_channel" in MANIFEST[instance]:
                 self.RELAY_CHANNELS[instance] = self.get_channel(
                     MANIFEST[instance]["relay_channel"]
                 )
 
-            if "status_channel" in MANIFEST[instance]:
-                self.STATUS_CHANNELS[instance] = self.get_channel(
-                    MANIFEST[instance]["status_channel"]
-                )
+            # if "status_channel" in MANIFEST[instance]:
+            #     self.STATUS_CHANNELS[instance] = self.get_channel(
+            #         MANIFEST[instance]["status_channel"]
+            #     )
 
         self.RELAY_LOOKUP: dict[discord.TextChannel, str] = {
             v.id: k for k, v in self.RELAY_CHANNELS.items()
         }
 
-        logging.info(self.RELAY_LOOKUP)
-
-        asyncio.ensure_future(self.poll_status())
+        # asyncio.ensure_future(self.poll_status())
 
         # get guild from channel; add commands
         for channel in self.RELAY_CHANNELS.values():
@@ -89,44 +87,44 @@ class DiscordBot(discord.Client):
             rcon_client.close()
             return None
 
-    async def poll_status(self, frequency: int = 30) -> None:
-        while True:
-            await self.update_status_channels()
-            await asyncio.sleep(frequency)
+    # async def poll_status(self, frequency: int = 60) -> None:
+    #     while True:
+    #         await self.update_status_channels()
+    #         await asyncio.sleep(frequency)
 
-    async def update_status_channels(self) -> None:
-        """
-        Poll server player info.
-        """
-        for instance in MANIFEST:
-            if (
-                "status_channel" not in MANIFEST[instance]
-                or not MANIFEST[instance]["status_channel"]
-            ):
-                continue
-            channel: discord.VoiceChannel = self.STATUS_CHANNELS[instance]
+    # async def update_status_channels(self) -> None:
+    #     """
+    #     Poll server player info.
+    #     """
+    #     for instance in MANIFEST:
+    #         if (
+    #             "status_channel" not in MANIFEST[instance]
+    #             or not MANIFEST[instance]["status_channel"]
+    #         ):
+    #             continue
+    #         channel: discord.VoiceChannel = self.STATUS_CHANNELS[instance]
 
-            status = await self.rcon(instance, "status")
-            if not status:
-                server_str = f'(??/??) {MANIFEST[instance]["hostname"]}'
-                await channel.edit(name=server_str)
-                continue
+    #         status = await self.rcon(instance, "status")
+    #         if not status:
+    #             server_str = f'(??/??) {MANIFEST[instance]["hostname"]}'
+    #             await channel.edit(name=server_str)
+    #             continue
 
-            info = SERVER_PLAYERS_RE.findall(status)[0]
-            count_players = int(info[0])
-            maxplayers = int(info[1])
+    #         info = SERVER_PLAYERS_RE.findall(status)[0]
+    #         count_players = int(info[0])
+    #         maxplayers = int(info[1])
 
-            if MANIFEST[instance]["stv_enabled"]:
-                maxplayers -= 1
+    #         if MANIFEST[instance]["stv_enabled"]:
+    #             maxplayers -= 1
 
-            server_str = (
-                f'({count_players}/{maxplayers}) {MANIFEST[instance]["hostname"]}'
-            )
-            # voice channel max name length is 100 characters; just truncate
-            if len(server_str) > 100:
-                server_str = server_str[:99]
+    #         server_str = (
+    #             f'({count_players}/{maxplayers}) {MANIFEST[instance]["hostname"]}'
+    #         )
+    #         # voice channel max name length is 100 characters; just truncate
+    #         if len(server_str) > 100:
+    #             server_str = server_str[:99]
 
-            await channel.edit(name=server_str)
+    #         await channel.edit(name=server_str)
 
     async def on_message(self, message: discord.Message) -> None:
         if message.author == self.user or message.author.bot:

@@ -15,11 +15,11 @@
 {% endfor %}
 {% endmacro %}
 {# instance #}
-{% if item in instance %}
-{{ gen_vdf(instance[item]) }}
+{% if "vdfs" in instance and item in instance["vdfs"] %}
+{{ gen_vdf(instance["vdfs"][item]) }}
 {# ruleset #}
-{% elif item in rulesets[instance.ruleset] %}
-{{ gen_vdf(rulesets[instance.ruleset][item]) }}
+{% elif "vdfs" in rulesets[instance.ruleset] and item in rulesets[instance.ruleset]["vdfs"] %}
+{{ gen_vdf(rulesets[instance.ruleset]["vdfs"][item]) }}
 {# default #}
 {% else %}
 {{ gen_vdf(default_vdfs[item].default) }}
