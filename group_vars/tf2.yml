@@ -95,50 +95,52 @@ rulesets:
       - hwn_cosmetic_enabler
       - TF2EconTaunts
       - votealltalk
-    
-    links:
-      Links:
-        "1":
-          command: sm_group
-          link: https://steamcommunity.com/groups/the_dragons_hoard_tf2
-        "2": 
-          command: sm_discord
-          link: https://discord.gg/Vfj6S7BrsN
-        "3":
-          command: sm_sourcebans
-          link: https://boxes4foxes.site.nfoservers.com/sourcebans/
-    
-    helpmenu:
-      Help:
-        Plugin Commands:
-          title: Plugin Commands
-          items:
-            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
-            "2": "!centerprojectiles - Center your projectiles (Original style)"
-            "3": "!alltalk - Vote to enable/disable alltalk (on by default)"
-    
-    ClassRestrictionForHumans:
-      sm_crh_blu_demomen: "3"
-      sm_crh_blu_engineers: "3"
-      sm_crh_blu_heavies: "3"
-      sm_crh_blu_medics: "3"
-      sm_crh_blu_pyros: "3"
-      sm_crh_blu_scouts: "3"
-      sm_crh_blu_snipers: "3"
-      sm_crh_blu_soldiers: "3"
-      sm_crh_blu_spies: "3"
-      sm_crh_red_demomen: "3"
-      sm_crh_red_engineers: "3"
-      sm_crh_red_heavies: "3"
-      sm_crh_red_medics: "3"
-      sm_crh_red_pyros: "3"
-      sm_crh_red_scouts: "3"
-      sm_crh_red_snipers: "3"
-      sm_crh_red_soldiers: "3"
-      sm_crh_red_spies: "3"
-    
-    sourcemod:
-      sm_reserved_slots: 24
+
+    cfgs:
+      ClassRestrictionForHumans:
+        sm_crh_blu_demomen: "3"
+        sm_crh_blu_engineers: "3"
+        sm_crh_blu_heavies: "3"
+        sm_crh_blu_medics: "3"
+        sm_crh_blu_pyros: "3"
+        sm_crh_blu_scouts: "3"
+        sm_crh_blu_snipers: "3"
+        sm_crh_blu_soldiers: "3"
+        sm_crh_blu_spies: "3"
+        sm_crh_red_demomen: "3"
+        sm_crh_red_engineers: "3"
+        sm_crh_red_heavies: "3"
+        sm_crh_red_medics: "3"
+        sm_crh_red_pyros: "3"
+        sm_crh_red_scouts: "3"
+        sm_crh_red_snipers: "3"
+        sm_crh_red_soldiers: "3"
+        sm_crh_red_spies: "3"
+
+      sourcemod:
+        sm_reserved_slots: 24
+
+    vdfs:
+      links:
+        Links:
+          "1":
+            command: sm_group
+            link: https://steamcommunity.com/groups/the_dragons_hoard_tf2
+          "2": 
+            command: sm_discord
+            link: https://discord.gg/Vfj6S7BrsN
+          "3":
+            command: sm_sourcebans
+            link: https://boxes4foxes.site.nfoservers.com/sourcebans/
+
+      helpmenu:
+        Help:
+          Plugin Commands:
+            title: Plugin Commands
+            items:
+              "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+              "2": "!centerprojectiles - Center your projectiles (Original style)"
+              "3": "!alltalk - Vote to enable/disable alltalk (on by default)"
 
   hangout:
     servercfg:
@@ -190,47 +192,49 @@ rulesets:
       - tf2pyroairjump
       - thirdperson
       - NoTimeLimit
-
-    AdvancedInfiniteAmmo:
-      sm_aia_extrastuff: "1"
-      sm_aia_waitingforplayers: "0"
-      sm_aia_clip: "0"
-      sm_aia_cloak: "0"
     
-    helpmenu:
-      Help:
-        Plugin Commands:
-          title: Plugin Commands
-          items:
-            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
-            "2": "Type 'dropitem' in console to drop your currently held weapon"
-            "3": "!pitch - Set your mercenaries voice pitch range"
-            "4": "!lowpitch - Lower the pitch of your mercenaries voice"
-            "5": "!highpitch - Raise the pitch of your mercenaries voice"
-            "6": "!resetpitch - Reset your mercenaries voice pitch"
-            "7": "!pose - Freeze/Slow your current taunt"
-            "11": "!poser - Freeze/Slow your current taunt"
-            "12": "!taunts - Bring up a taunt menu"
-            "13": "!bhop - Enables/Disables automatic bunnyhopping (on by default)"
-            "14": "!resizeme - Resize yourself with a menu"
-            "15": "!tp/fp - Toggle thirdperson/firstperson"
-            "16": "!civ - Enable the civillian or A-Pose"
-            "17": "!settings - Manage your personal plugin settings"
-        PvP Commands:
-          title: PvP Opt-in
-          items:
-            "1": "!pvp - Enables/Disables Global PvP"
-            "2": "!pvp playername - Send a duel request towards another player"
-            "3": "!stoppvp - Stop the current on-going duel or Global PvP"
-            "4": "!mirrorme - Mirror damage done to others"
-        Other Stuff:
-          title: Extras
-          items:
-            "1": "Pyros can airblast jump"
-            "2": "Air acceleration has been greatly increased for bhopping"
-            "3": "Objectives are disabled"
-            "4": "Rock the Vote becomes available after 5 minutes of map time"
-            "5": "You can't drown in water anymore"
+    cfgs:
+      AdvancedInfiniteAmmo:
+        sm_aia_extrastuff: "1"
+        sm_aia_waitingforplayers: "0"
+        sm_aia_clip: "0"
+        sm_aia_cloak: "0"
+    
+    vdfs:
+      helpmenu:
+        Help:
+          Plugin Commands:
+            title: Plugin Commands
+            items:
+              "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+              "2": "Type 'dropitem' in console to drop your currently held weapon"
+              "3": "!pitch - Set your mercenaries voice pitch range"
+              "4": "!lowpitch - Lower the pitch of your mercenaries voice"
+              "5": "!highpitch - Raise the pitch of your mercenaries voice"
+              "6": "!resetpitch - Reset your mercenaries voice pitch"
+              "7": "!pose - Freeze/Slow your current taunt"
+              "11": "!poser - Freeze/Slow your current taunt"
+              "12": "!taunts - Bring up a taunt menu"
+              "13": "!bhop - Enables/Disables automatic bunnyhopping (on by default)"
+              "14": "!resizeme - Resize yourself with a menu"
+              "15": "!tp/fp - Toggle thirdperson/firstperson"
+              "16": "!civ - Enable the civillian or A-Pose"
+              "17": "!settings - Manage your personal plugin settings"
+          PvP Commands:
+            title: PvP Opt-in
+            items:
+              "1": "!pvp - Enables/Disables Global PvP"
+              "2": "!pvp playername - Send a duel request towards another player"
+              "3": "!stoppvp - Stop the current on-going duel or Global PvP"
+              "4": "!mirrorme - Mirror damage done to others"
+          Other Stuff:
+            title: Extras
+            items:
+              "1": "Pyros can airblast jump"
+              "2": "Air acceleration has been greatly increased for bhopping"
+              "3": "Objectives are disabled"
+              "4": "Rock the Vote becomes available after 5 minutes of map time"
+              "5": "You can't drown in water anymore"
 
   rinstagib:
     servercfg:
@@ -269,34 +273,36 @@ rulesets:
       - sw_gamedesc_override
       - hwn_cosmetic_enabler
 
-    mapchooser:
-      sm_mapvote_start: "1.0"
-      sm_mapvote_extend: "255" # lol
+    cfgs:
+      mapchooser:
+        sm_mapvote_start: "1.0"
+        sm_mapvote_extend: "255" # lol
 
-    ClassRestrictionsForHumans:
-      sm_crh_blu_soldiers: "-1"
-      sm_crh_red_soldiers: "-1"
-      sm_crh_classmenu: "0"
+      ClassRestrictionsForHumans:
+        sm_crh_blu_soldiers: "-1"
+        sm_crh_red_soldiers: "-1"
+        sm_crh_classmenu: "0"
     
-    helpmenu:
-      Help:
-        Plugin Commands:
-          title: Plugin Commands
-          items:
-            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
-            "2": "!fov - Set your FOV (30-130)"
-            "3": "!centerprojectiles - Center your projectiles (Original style)"
-            "4": "!speedo - Speedometer settings"
-        Gamemode Info:
-          title: WELCOME TO rINSTAGIB
-          items:
-            "1": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
-            "2": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
-            "3": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
-            "4": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
-            "5": "YOUR BUNNYHOPPING IS AUTOMATIC."
-            "6": "YOUR AIR CONTROL IS STRONGER."
-            "7": "YOUR AMMUNITION IS INFINITE."
+    vdfs:
+      helpmenu:
+        Help:
+          Plugin Commands:
+            title: Plugin Commands
+            items:
+              "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+              "2": "!fov - Set your FOV (30-130)"
+              "3": "!centerprojectiles - Center your projectiles (Original style)"
+              "4": "!speedo - Speedometer settings"
+          Gamemode Info:
+            title: WELCOME TO rINSTAGIB
+            items:
+              "1": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
+              "2": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
+              "3": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
+              "4": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
+              "5": "YOUR BUNNYHOPPING IS AUTOMATIC."
+              "6": "YOUR AIR CONTROL IS STRONGER."
+              "7": "YOUR AMMUNITION IS INFINITE."
 
 # List of maps
 mapcycles:
