@@ -8,7 +8,7 @@ These playbooks are currently made to support a *separately-hosted* [**SourceBan
 
 Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL](https://learn.microsoft.com/en-us/windows/wsl/install)**.
 
-1. Assuming you're using Ubuntu/Debian, install Python, Ansible, and Docker in WSL using `sudo apt-get install python3 ansible docker.io`
+1. Assuming you're using Ubuntu, install Python, Ansible, and Docker in WSL using `sudo apt-get install python3 ansible docker.io`
 2. On all server "hosts":
 - 1. `sudo apt-get install docker.io` - Install Docker
 - 2. `sudo useradd -Um tf2server` - Create the `tf2server` user
@@ -23,14 +23,14 @@ Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL]
 3. `make sm` - Distribute and build SourceMod
 4. `make srcds` - Build instance images
 5. `make deploy` - Start containers & setup crontab
-6. `make relay` - Build and start the (early development!!) Discord relay/RCON bot (if configured)
+6. `make relay` - Build and start the Discord -> Server relay/RCON bot (if configured)
 > You can perform all of these in order with simply `make`<br/>
 > You can update your admins/reserved slots at any time with `make admins`
 
 ## ⭐ Features
 
 ### 🛠️ Docker and Ansible, confined scope
-**ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Docker to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your record in `inventory.yml` at the new IP.
+**ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Docker to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your host record in `inventory.yml` at the new IP.
 
 Since the playbooks keep their activity contained within the `tf2server` user folder with *no* actions performed as root, cleaning up a host after using **ansible-tf2network** can be done with these commands:
 1. `userdel -r tf2server` - Delete their user
@@ -55,7 +55,7 @@ Some plugin configuration use Valve's [KeyValues](https://developer.valvesoftwar
 **Only the secrets are encrypted!** This makes it possible for users to view your server configuration if they're curious, as well as propose changes.
 
 ### 💬 Discord Channel <-> Server relay
-Using the `discord_relay` plugin (depends on `discord` plugin) and correctly configuring your Discord bot (in `group_vars/tf2.secret.yml` and `host_vars/{host}.yml`) facilitates a **two-way relay** between a specified Discord channel and the Team Fortress 2 server. You can also allow specific Discord user IDs access to the `/rcon` command, which allows remote control of the server.
+Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in `host_vars/{host}.secret.yml`) facilitates a Server to Discord relay, and correctly configuring your Discord bot (in `group_vars/tf2.secret.yml` and `host_vars/{host}.yml`) facilitates a Discord to Server relay between a specified Discord channel and Team Fortress 2 server. You can also allow specific Discord user IDs access to the `/rcon` command, which allows remote control of the server network.
 
 ## 🗒️ To-Do
 
