@@ -61,7 +61,7 @@ Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in
 
 - [ ] Set up SB++ automatically on a 'metrics' host
 - [x] Have `relay` target a 'metrics' host as they do not rely on being on the `tf2` hosts
-- [ ] Configuration standardization pass to hopefully reduce confusion
+- [x] Configuration standardization pass to hopefully reduce confusion
 
 ### Pre-commit
 There is a pre-commit hook that you should enable to ensure you don't commit any unencrypted secret:<br/>
