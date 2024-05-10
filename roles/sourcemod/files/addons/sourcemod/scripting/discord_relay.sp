@@ -162,6 +162,12 @@ public void APIWebResponse(const char[] sData, int client)
     delete kvResponse;
 }
 
+stock void Relay_EscapeString(char[] string, int maxlen)
+{
+	ReplaceString(string, maxlen, "@", "＠");
+	ReplaceString(string, maxlen, "\"", "'");
+}
+
 public Action ChatHook(int client, int args)
 {
     char sAuth[32];
@@ -169,12 +175,12 @@ public Action ChatHook(int client, int args)
     
     char sName[32];
     GetClientName(client, sName, sizeof(sName));
-    Discord_EscapeString(sName, sizeof(sName));
+    Relay_EscapeString(sName, sizeof(sName));
 
     char sChat[512]
     GetCmdArgString(sChat, sizeof(sChat));
     StripQuotes(sChat);
-    Discord_EscapeString(sChat, sizeof(sChat));
+    Relay_EscapeString(sChat, sizeof(sChat));
 
     char sMSG[2048] = MSG_CHAT;
     ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
