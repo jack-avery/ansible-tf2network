@@ -30,8 +30,6 @@ char miscVars[][] =
     "r_portalsopenall",
     // must be == 1.0
     "host_timescale",
-    // if this is >= 8 just kick them, cathook uses this to "spoof" windows
-    "windows_speaker_config"
     // sv_force_transmit_ents ?
     // sv_suppress_viewpunch ?
     // tf_showspeed ?
@@ -61,6 +59,8 @@ char cheatVars[][] =
     // "hook"
     // fware
     "crash",
+    // cathook uses this to "spoof" windows
+    "windows_speaker_config",
 };
 
 
@@ -93,7 +93,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
     }
     int userid = GetClientUserId(cl);
 
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("Checked cvar %s value %s on %N", cvarName, cvarValue, cl);
     }
@@ -114,12 +114,12 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
     else if (StrEqual(cvarName, "sv_cheats"))
     {
         // if we're ignoring sv_cheats being on, obviously don't check this cvar
-        if (configsExecuted && !ignore_sv_cheats)
+        if (configsExecuted && !stac_work_with_sv_cheats.BoolValue)
         {
             if (StringToInt(cvarValue) != 0)
             {
                 oobVarsNotify(userid, cvarName, cvarValue);
-                if (banForMiscCheats)
+                if (stac_ban_for_misccheats.BoolValue)
                 {
                     oobVarBan(userid);
                 }
@@ -134,7 +134,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 1)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -150,7 +150,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (fovDesired < 20 || fovDesired > 90)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -165,7 +165,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (clcmdrate < 10)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -179,7 +179,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 1)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -193,7 +193,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 0)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -207,7 +207,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 0)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -221,7 +221,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 1)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -235,7 +235,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 0)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -250,7 +250,7 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
         if (StringToInt(cvarValue) != 0)
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
             }
@@ -261,37 +261,14 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
     // used to bypass VAC: https://github.com/ValveSoftware/Source-1-Games/issues/3911
     else if (StrEqual(cvarName, "host_timescale"))
     {
-        if (StringToFloat(cvarValue) != timescale)
+        // floatcmpreal is just a ==
+        // if the values don't match, whack 'em
+        if ( !floatcmpreal(StringToFloat(cvarValue), host_timescale.FloatValue) )
         {
             oobVarsNotify(userid, cvarName, cvarValue);
-            if (banForMiscCheats)
+            if (stac_ban_for_misccheats.BoolValue)
             {
                 oobVarBan(userid);
-            }
-        }
-    }
-
-    // chook does this. we cant ban since technically legit clients can set this, but we can kick em out
-    else if (StrEqual(cvarName, "windows_speaker_config"))
-    {
-        if (StringToInt(cvarValue) >= 8)
-        {
-            char fmtmsg[512];
-            Format
-            (
-                fmtmsg,
-                sizeof(fmtmsg),
-                "Client %N has a value of \"%i\" for cvar \"%s\", which is out of bounds. Legit clients can set this, but most of the time, this is a bot. Kicked from server.",
-                cl, StringToInt(cvarValue), cvarName
-            );
-            StacNotify
-            (
-                userid,
-                fmtmsg
-            );
-            if (banForMiscCheats)
-            {
-                KickClient(cl, "#GameUI_ServerInsecure");
             }
         }
     }
@@ -299,16 +276,26 @@ public void ConVarCheck(QueryCookie cookie, int cl, ConVarQueryResult result, co
     /*
         cheat program only cvars
     */
-    if (result != ConVarQuery_NotFound && IsCheatOnlyVar(cvarName))
+
+    if
+    (
+        (
+               result == ConVarQuery_Okay
+            || result == ConVarQuery_NotValid
+            || result == ConVarQuery_Protected
+        )
+        &&
+        IsCheatOnlyVar(cvarName)
+    )
     {
         illegalVarsNotify(userid, cvarName);
-        if (banForMiscCheats)
+        if (stac_ban_for_misccheats.BoolValue)
         {
             illegalVarBan(userid);
         }
     }
     // log something about cvar errors
-    else if (result != ConVarQuery_Okay && !IsCheatOnlyVar(cvarName) && !StrEqual(cvarName, "windows_speaker_config"))
+    else if (result != ConVarQuery_Okay && !IsCheatOnlyVar(cvarName))
     {
         char fmtmsg[512];
         Format
@@ -449,13 +436,13 @@ Action Timer_CheckClientConVars(Handle timer, int userid)
     {
         if (!hasWaitedForCvarCheck[cl])
         {
-            if (DEBUG)
+            if (stac_debug.BoolValue)
             {
                 StacLog("Client %N can't be checked because they haven't waited 60 seconds for their first cvar check!", cl);
             }
             return Plugin_Continue;
         }
-        if (DEBUG)
+        if (stac_debug.BoolValue)
         {
             StacLog("Checking client id, %i, %L", cl, cl);
         }
@@ -468,7 +455,10 @@ Action Timer_CheckClientConVars(Handle timer, int userid)
         QueryTimer[cl] =
         CreateTimer
         (
-            float_rand(minRandCheckVal, maxRandCheckVal),
+            float_rand
+            (
+                stac_min_randomcheck_secs.FloatValue, stac_max_randomcheck_secs.FloatValue
+            ),
             Timer_CheckClientConVars,
             userid
         );
@@ -536,7 +526,7 @@ Action Timer_QueryNextCvar(Handle timer, DataPack pack)
 // expensive!
 void QueryEverythingAllClients()
 {
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("Querying all clients");
     }
