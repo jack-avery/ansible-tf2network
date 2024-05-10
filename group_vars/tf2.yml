@@ -178,7 +178,6 @@ rulesets:
       - kartify
       - piggyback
       - pvpoptin
-      - mirrordamage
       - ResizePlayers
       - setclass
       - setspeed
@@ -484,6 +483,7 @@ base_plugins:
   - basetriggers
   - calladmin
   - clientprefs
+  - connect
   - custom-chatcolors
   - custom-chatcolors-mysql
   - custom-chatcolors-toggle
