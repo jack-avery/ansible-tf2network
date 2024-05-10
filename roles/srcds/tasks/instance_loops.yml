@@ -47,18 +47,3 @@
     recursive: true
   when: item.stat.exists
   loop: "{{ stat.results }}"
-
-- name: Make mapcfg directory
-  ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/sourcemod/map-cfg"
-    state: directory
-    mode: 0755
-  when: '"mapcfg" in mapcycles[instance.mapcycle|default("all")]'
-
-- name: Template mapcfg
-  ansible.builtin.template:
-    src: "mapcfg.j2"
-    dest: "~/build/{{ instance.name }}/tf/cfg/sourcemod/map-cfg/{{ item }}.cfg"
-    mode: 0755
-  loop: "{{ mapcycles[instance.mapcycle|default('all')].mapcfg.keys() }}"
-  when: '"mapcfg" in mapcycles[instance.mapcycle|default("all")]'

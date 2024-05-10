@@ -48,53 +48,77 @@ rulesets:
 # List of maps
 mapcycles:
   swishcast_regular:
-    - cp_mountainlab
-    - cp_brew
-    - cp_mossrock
-    - ctf_pelicanpeak
-    - ctf_doublecross
-    - ctf_landfall
-    - cp_snakewater
-    - cp_granary
-    - cp_gullywash
-    - cp_steel
-    - cp_reckoner
-    - koth_cascade
-    - koth_highpass
-    - koth_lakeside_final
-    - koth_sawmill
-    - koth_rotunda
-    - koth_sharkbay
-    - pl_borneo
-    - pl_badwater
-    - pl_camber
-    - pl_phoenix
-    - pl_vineyard_rc8b
-    - pl_thundermountain
-    - pl_emerge
-    - plr_bananabay
-    - pl_snowycoast
-    - pd_selbyen
-    - pd_galleria
+    mapconfig:
+      general:
+        all:
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 0
+      gametype:
+        cp:
+          mp_winlimit: 2
+        ctf:
+          tf_flag_caps_per_round: 3
+          mp_winlimit: 1
+          mp_timelimit: 30
+        koth:
+          mp_winlimit: 2
+        pd:
+          mp_winlimit: 1
+        pl:
+          mp_maxrounds: 2
+        plr:
+          mp_maxrounds: 1
+          mp_timelimit: 20
 
-    # workshop
-    - workshop/3228889882 # PL Yokohama - https://steamcommunity.com/sharedfiles/filedetails/?id=3228889882
-    - workshop/3219571335 # CTF Applejack - https://steamcommunity.com/sharedfiles/filedetails/?id=3219571335
-    - workshop/3066697592 # CTF Sidewinder - https://steamcommunity.com/sharedfiles/filedetails/?id=3066697592
-    - workshop/3070747049 # CP Cold Era - https://steamcommunity.com/sharedfiles/filedetails/?id=3070747049
-    - workshop/3072550679 # PL Icy Flats - https://steamcommunity.com/sharedfiles/filedetails/?id=3072550679
-    - workshop/3184765963 # KOTH Manners Avenue - https://steamcommunity.com/sharedfiles/filedetails/?id=3184765963
-    - workshop/483740681  # CTF Convoy - https://steamcommunity.com/sharedfiles/filedetails/?id=483740681
-    - workshop/731436616  # KOTH Trenchfoot - https://steamcommunity.com/sharedfiles/filedetails/?id=731436616
-    - workshop/3126094575 # PL Shatter - https://steamcommunity.com/sharedfiles/filedetails/?id=3126094575
-    - workshop/1238849347 # PL Shoreleave - https://steamcommunity.com/sharedfiles/filedetails/?id=1238849347
-    - workshop/1712845210 # KOTH Slaughter - https://steamcommunity.com/sharedfiles/filedetails/?id=1712845210
-    - workshop/1130780387 # KOTH Luftangriff - https://steamcommunity.com/sharedfiles/filedetails/?id=1130780387
-    - workshop/2890208830 # PD Atom Smash - https://steamcommunity.com/sharedfiles/filedetails/?id=2890208830
-    - workshop/2068252300 # CP Fulgur - https://steamcommunity.com/sharedfiles/filedetails/?id=2068252300
-    - workshop/696554453  # CTF Aerospace - https://steamcommunity.com/sharedfiles/filedetails/?id=696554453
-    - workshop/2811632094 # PL Vineyard - https://steamcommunity.com/sharedfiles/filedetails/?id=2811632094
-    - workshop/2969573312 # PL Eruption - https://steamcommunity.com/sharedfiles/filedetails/?id=2969573312
+    maps:
+      - cp_mountainlab
+      - cp_brew
+      - cp_mossrock
+      - ctf_pelicanpeak
+      - ctf_doublecross
+      - ctf_landfall
+      - cp_snakewater
+      - cp_granary
+      - cp_gullywash
+      - cp_steel
+      - cp_reckoner
+      - koth_cascade
+      - koth_highpass
+      - koth_lakeside_final
+      - koth_sawmill
+      - koth_rotunda
+      - koth_sharkbay
+      - pl_borneo
+      - pl_badwater
+      - pl_camber
+      - pl_phoenix
+      - pl_vineyard_rc8b
+      - pl_thundermountain
+      - pl_emerge
+      - plr_bananabay
+      - pl_snowycoast
+      - pd_selbyen
+      - pd_galleria
+
+      # workshop
+      - workshop/3228889882 # PL Yokohama - https://steamcommunity.com/sharedfiles/filedetails/?id=3228889882
+      - workshop/3219571335 # CTF Applejack - https://steamcommunity.com/sharedfiles/filedetails/?id=3219571335
+      - workshop/3066697592 # CTF Sidewinder - https://steamcommunity.com/sharedfiles/filedetails/?id=3066697592
+      - workshop/3070747049 # CP Cold Era - https://steamcommunity.com/sharedfiles/filedetails/?id=3070747049
+      - workshop/3072550679 # PL Icy Flats - https://steamcommunity.com/sharedfiles/filedetails/?id=3072550679
+      - workshop/3184765963 # KOTH Manners Avenue - https://steamcommunity.com/sharedfiles/filedetails/?id=3184765963
+      - workshop/483740681  # CTF Convoy - https://steamcommunity.com/sharedfiles/filedetails/?id=483740681
+      - workshop/731436616  # KOTH Trenchfoot - https://steamcommunity.com/sharedfiles/filedetails/?id=731436616
+      - workshop/3126094575 # PL Shatter - https://steamcommunity.com/sharedfiles/filedetails/?id=3126094575
+      - workshop/1238849347 # PL Shoreleave - https://steamcommunity.com/sharedfiles/filedetails/?id=1238849347
+      - workshop/1712845210 # KOTH Slaughter - https://steamcommunity.com/sharedfiles/filedetails/?id=1712845210
+      - workshop/1130780387 # KOTH Luftangriff - https://steamcommunity.com/sharedfiles/filedetails/?id=1130780387
+      - workshop/2890208830 # PD Atom Smash - https://steamcommunity.com/sharedfiles/filedetails/?id=2890208830
+      - workshop/2068252300 # CP Fulgur - https://steamcommunity.com/sharedfiles/filedetails/?id=2068252300
+      - workshop/696554453  # CTF Aerospace - https://steamcommunity.com/sharedfiles/filedetails/?id=696554453
+      - workshop/2811632094 # PL Vineyard - https://steamcommunity.com/sharedfiles/filedetails/?id=2811632094
+      - workshop/2969573312 # PL Eruption - https://steamcommunity.com/sharedfiles/filedetails/?id=2969573312
 
 # Plugins to include on every server
 base_plugins:
@@ -112,6 +136,7 @@ base_plugins:
   - discord_relay
   - discord_sourcebans
   - discord_sourcecomms
+  - extendedmapconfig
   - funcommands
   - funvotes
   - nextmap
