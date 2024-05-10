@@ -69,10 +69,17 @@
     mode: 0755
   loop: "{{ targets.instances }}"
 
-- name: /tf/cfg/motd.txt
+- name: /tf/cfg/motd_default.txt
   ansible.builtin.template:
-    src: motd.txt.j2
-    dest: ~/build/{{ item.name }}/tf/cfg/motd.txt
+    src: motd_default.txt.j2
+    dest: ~/build/{{ item.name }}/tf/cfg/motd_default.txt
+    mode: 0755
+  loop: "{{ targets.instances }}"
+
+- name: /tf/cfg/motd_text_default.txt
+  ansible.builtin.template:
+    src: motd_text_default.txt.j2
+    dest: ~/build/{{ item.name }}/tf/cfg/motd_text_default.txt
     mode: 0755
   loop: "{{ targets.instances }}"
 

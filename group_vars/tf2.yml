@@ -1,0 +1,393 @@
+srcds_base_port: 27015
+srcds_reserve_ports: 10
+
+network_shortname: sc
+
+# FastDL Base URL
+fastdl_url: ""
+
+# Tags to include on all servers
+global_tags:
+  - community
+
+# Default MOTD
+htmlmotd: https://swishcast.tiiny.site
+motd: |
+  Welcome to Swishcast Central!
+  The official server of the only TF2 Podcast!
+
+  Rules:
+  No bigotry (Sexism, Racism, Transphobia, etc)
+  No NSFW behaviour or imagery (Sprays, decals, VC)
+  Be Respectful.
+
+  A lot of our rules are common sense, just because it's not up here doesn't mean
+  you won't get banned for it (eg. hacking, scamming)
+  Bans or kicks will be handed out on a case to case basis.
+
+  BUT MOST OF ALL HAVE FUN!!!!!!
+
+# Link to SourceBans website
+sourcebans:
+  website: ""
+
+# Whether to enable STV by default
+stv_enabled: false
+
+# Common "rulesets"
+rulesets:
+  standard:
+    servercfg:
+      - tf_weapon_criticals 0
+      - tf_use_fixed_weaponspreads 1
+      - tf_spawn_glows_duration 0
+      - tf_spec_xray 0
+      - tf_preround_push_from_damage_enable 1
+      - tf_avoidteammates_pushaway 0
+
+# List of maps
+mapcycles:
+  swishcast_regular:
+    - cp_mountainlab
+    - cp_brew
+    - cp_mossrock
+    - ctf_pelicanpeak
+    - ctf_doublecross
+    - ctf_landfall
+    - cp_snakewater
+    - cp_granary
+    - cp_gullywash
+    - cp_steel
+    - cp_reckoner
+    - koth_cascade
+    - koth_highpass
+    - koth_lakeside_final
+    - koth_sawmill
+    - koth_rotunda
+    - koth_sharkbay
+    - pl_borneo
+    - pl_badwater
+    - pl_camber
+    - pl_phoenix
+    - pl_vineyard_rc8b
+    - pl_thundermountain
+    - pl_emerge
+    - plr_bananabay
+    - pl_snowycoast
+    - pd_selbyen
+    - pd_galleria
+
+    # workshop
+    - workshop/3228889882 # PL Yokohama - https://steamcommunity.com/sharedfiles/filedetails/?id=3228889882
+    - workshop/3219571335 # CTF Applejack - https://steamcommunity.com/sharedfiles/filedetails/?id=3219571335
+    - workshop/3066697592 # CTF Sidewinder - https://steamcommunity.com/sharedfiles/filedetails/?id=3066697592
+    - workshop/3070747049 # CP Cold Era - https://steamcommunity.com/sharedfiles/filedetails/?id=3070747049
+    - workshop/3072550679 # PL Icy Flats - https://steamcommunity.com/sharedfiles/filedetails/?id=3072550679
+    - workshop/3184765963 # KOTH Manners Avenue - https://steamcommunity.com/sharedfiles/filedetails/?id=3184765963
+    - workshop/483740681  # CTF Convoy - https://steamcommunity.com/sharedfiles/filedetails/?id=483740681
+    - workshop/731436616  # KOTH Trenchfoot - https://steamcommunity.com/sharedfiles/filedetails/?id=731436616
+    - workshop/3126094575 # PL Shatter - https://steamcommunity.com/sharedfiles/filedetails/?id=3126094575
+    - workshop/1238849347 # PL Shoreleave - https://steamcommunity.com/sharedfiles/filedetails/?id=1238849347
+    - workshop/1712845210 # KOTH Slaughter - https://steamcommunity.com/sharedfiles/filedetails/?id=1712845210
+    - workshop/1130780387 # KOTH Luftangriff - https://steamcommunity.com/sharedfiles/filedetails/?id=1130780387
+    - workshop/2890208830 # PD Atom Smash - https://steamcommunity.com/sharedfiles/filedetails/?id=2890208830
+    - workshop/2068252300 # CP Fulgur - https://steamcommunity.com/sharedfiles/filedetails/?id=2068252300
+    - workshop/696554453  # CTF Aerospace - https://steamcommunity.com/sharedfiles/filedetails/?id=696554453
+    - workshop/2811632094 # PL Vineyard - https://steamcommunity.com/sharedfiles/filedetails/?id=2811632094
+    - workshop/2969573312 # PL Eruption - https://steamcommunity.com/sharedfiles/filedetails/?id=2969573312
+
+# Plugins to include on every server
+base_plugins:
+  - admin-flatfile
+  - adminhelp
+  - adminmenu
+  - antiflood
+  - AutoKickProtector
+  - basechat
+  - basecomm
+  - basecommands
+  - basetriggers
+  - clientprefs
+  - discord
+  - discord_relay
+  - discord_sourcebans
+  - discord_sourcecomms
+  - funcommands
+  - funvotes
+  - nextmap
+  - playercommands
+  - reservedslots
+  - sbpp_admcfg
+  - sbpp_checker
+  - sbpp_main
+  - sbpp_sleuth
+  - sm_nocontracker
+  - sounds
+  - spraytrace
+  - stac
+  - waitingdoors
+
+  # - basebans
+  # - basevotes
+  # - mapchooser
+  # - rockthevote
+  # - nominations
+
+  - nativevotes
+  - nativevotes-basevotes
+  - nativevotes-basecommands
+  - nativevotes_kickvote_immunity
+  - nativevotes_mapchooser
+  - nativevotes_nominations
+  - nativevotes_rockthevote
+  - votedelay_changelevel
+  - votefailed
+
+default_vdfs:
+  links:
+    location: /tf/addons/sourcemod/configs/advertisements.cfg
+    default:
+      Advertisements:
+        "1":
+          chat: "{blue}Check out SwishCast on the Mann Magazine Youtube Channel!"
+
+###
+# Plugin default configurations
+###
+
+default_cfgs:
+  mapchooser:
+    location: /tf/cfg/sourcemod/mapchooser.cfg
+    default:
+      # Specifies how many more frags are allowed when map is extended.
+      # 10, 5..
+      sm_extendmap_fragstep: "10"
+
+      # Specifies how many more rounds each extension makes
+      # 5, 1..
+      sm_extendmap_roundstep: "5"
+
+      # Specifies how much many more minutes each extension makes
+      # 15, 5..
+      sm_extendmap_timestep: "15"
+
+      # Specifies if a 'Don't Change' option should be added to early votes
+      # 1, 0..
+      sm_mapvote_dontchange: "0"
+
+      # Specifies if MapChooser should run an end of map vote
+      # 1, 0..1
+      sm_mapvote_endvote: "1"
+
+      # Specifies how many past maps to exclude from the vote.
+      # 5, 0..
+      sm_mapvote_exclude: "0"
+
+      # Number of extensions allowed each map.
+      # 0, 0..
+      sm_mapvote_extend: "1"
+
+      # Specifies how many maps to include in the vote.
+      # 5, 2..6
+      sm_mapvote_include: "5"
+
+      # Specifies whether or not MapChooser should pick a map if no votes are received.
+      # 1, 0..1
+      sm_mapvote_novote: "1"
+
+      # Specifies if previous maps should be stored persistently.
+      # 0, 0..1
+      sm_mapvote_persistentmaps: "0"
+
+      # Hold runoff votes if winning choice is less than a certain margin
+      # 0, 0..1
+      sm_mapvote_runoff: "0"
+
+      # If winning choice has less than this percent of votes, hold a runoff
+      # 50, 0..100
+      sm_mapvote_runoffpercent: "50"
+
+      # Specifies when to start the vote based on time remaining.
+      # 3, 1..
+      sm_mapvote_start: "5.0"
+
+      # Specifies when to start the vote base on frags remaining.
+      # 5, 1..
+      sm_mapvote_startfrags: "5.0"
+
+      # Specifies when to start the vote based on rounds remaining. Use 0 on TF2 to start vote during bonus round time
+      # 2, 0..
+      sm_mapvote_startround: "0.0"
+
+      # Specifies how long the mapvote should be available for.
+      # 20, 5..
+      sm_mapvote_voteduration: "15"
+
+  sourcemod:
+    location: /tf/cfg/sourcemod/sourcemod.cfg
+    default:
+      # Specifies how admin activity should be relayed to users.  Add up the values
+      # below to get the functionality you want.
+      # 1: Show admin activity to non-admins anonymously.
+      # 2: If 1 is specified, admin names will be shown.
+      # 4: Show admin activity to admins anonymously.
+      # 8: If 4 is specified, admin names will be shown.
+      # 16: Always show admin names to root users.
+      # 13
+      sm_show_activity: "15"
+
+      # Specifies whether menu sounds are enabled for menus created by SourceMod
+      # 1
+      sm_menu_sounds: "1"
+
+      # Specifies how long of a delay, in seconds, should be used in between votes 
+      # that are: "public" or can be spammed.  Whether or not this delay is obeyed 
+      # is dependent on the menu/command.
+      # 30
+      sm_vote_delay: "30"
+
+      # Default datetime formatting rules when displaying to clients.
+      # %m/%d/%Y - %H:%M:%S
+      sm_datetime_format: "%m/%d/%Y - %H:%M:%S"
+
+      # Sets how SourceMod should check immunity levels when administrators target 
+      # each other.
+      # 0: Ignore immunity levels (except for specific group immunities).
+      # 1: Protect from admins of lower access only.
+      # 2: Protect from admins of equal to or lower access.
+      # 3: Same as 2, except admins with no immunity can affect each other.
+      # 1
+      sm_immunity_mode: "1"
+
+      # Sets how many seconds SourceMod should adjust time values for incorrect 
+      # server clocks.  This can be positive or negative and will affect every 
+      # system time in SourceMod, including logging stamps.
+      # 0
+      sm_time_adjustment: "0"
+
+      # Specifies the amount of time that is allowed between chat messages.  This
+      # includes the say and say_team commands.  If a client sends a message faster
+      # than this time, they receive a flood token.  When the client has accumulated
+      # 3 or more tokens, a warning message is shown instead of the chat message.
+      # Requires: antiflood.smx
+      # 0.75
+      sm_flood_time: "0"
+
+      # Specifies how the reserved slots plugin operates. Valid values are:
+      # 0 : Public slots are used in preference to reserved slots. Reserved slots are freed before public slots.
+      # 1 : If someone with reserve access joins into a reserved slot, the player with the highest latency and 
+      # no reserved slot access (spectator players are selected first) is kicked to make room. Thus, the reserved
+      # slots always remains free. The only situation where the reserved slot(s) can become properly occupied is 
+      # if the server is full with reserve slot access clients.
+      # 2 : The same as sm_reserve_type 1 except once a certain number of admins have been reached, the reserve slot
+      # stops kicking people and anyone can join to fill the server. You can use this to simulate having a large
+      # number of reserved slots with sm_reserve_type 0 but with only need to have 1 slot unavailable when there are
+      # less admins connected.
+      # Requires: reservedslots.smx
+      # 0
+      sm_reserve_type: "0"
+
+      # Specifies the number of reserved player slots.  Users with the reservation
+      # admin flag set will be able to join the server when there are no public slots
+      # remaining. If someone does not have this flag, they will be kicked.
+      # (Public slots are defined as: maxplayers - number of reserved slots)
+      # Requires: reservedslots.smx
+      # 0
+      sm_reserved_slots: "0"
+
+      # Specifies whether or not reserved slots will be hidden (subtracted from max
+      # slot count).
+      # Requires: reservedslots.smx
+      # 0, 0..1
+      sm_hide_slots: "0"
+
+      # Specifies whether or not non-admins can send messages to admins using
+      # say_team @<message>.
+      # Requires: basechat.smx
+      # 1, 0..1
+      sm_chat_mode: "1"
+
+      # Specifies whether or not: "timeleft" will automatically be triggered every
+      # x seconds. Valid values are 0 (Disabled) to 1800 seconds.
+      # Requires: basetriggers.smx
+      # 0
+      sm_timeleft_interval: "0"
+
+      # Specifies whether or not chat triggers are broadcast to the server or just
+      # the player who requested the info trigger.
+      # Requires: basetriggers.smx
+      # 0, 0..1
+      sm_trigger_show: "0"
+
+      # Specifies whether or not to display vote progress to clients in the
+      # "hint" box (near the bottom of the screen in most games).
+      # 0, 0..1
+      sm_vote_progress_hintbox: "0"
+
+      # Specifies whether or not to display vote progress to clients in the
+      # chat area.
+      # 0, 0..1
+      sm_vote_progress_chat: "0"
+
+      # Specifies whether or not to display vote progress in the server console.
+      # 0, 0..1
+      sm_vote_progress_console: "0"
+
+      # Specifies whether or not to display vote progress to clients in the
+      # client console.
+      # 0, 0..1
+      sm_vote_progress_client_console: "0"
+
+  discord_sourcebans:
+    location: /tf/cfg/sourcemod/discord_sourcebans.cfg
+    default:
+      # Discord/Slack attachment color.
+      # #ff2222
+      discord_sourcebans_color: "#ff2222"
+
+      # This allows you to mention reports, leave blank to disable.
+      # @here
+      discord_sourcebans_mention: "@here"
+
+      # Link to sourcebans.
+      # https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}
+      discord_sourcebans_url: "https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}"
+
+      # Config key from configs/discord.cfg.
+      # sourcebans
+      discord_sourcebans_webhook: "sourcebans"
+  
+  discord_sourcecomms:
+    location: /tf/cfg/sourcemod/discord_sourcecomms.cfg
+    default:
+      # Discord/Slack attachment gag color.
+      # #ffff22
+      discord_sourcecomms_color_gag: "#ffff22"
+
+      # Discord/Slack attachment mute color.
+      # #2222ff
+      discord_sourcecomms_color_mute: "#2222ff"
+
+      # Discord/Slack attachment silence color.
+      # #ff22ff
+      discord_sourcecomms_color_silence: "#ff22ff"
+
+      # This allows you to mention reports, leave blank to disable.
+      # @here
+      discord_sourcecomms_mention: "@here"
+
+      # Link to sourcebans.
+      # https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}
+      discord_sourcecomms_url: "https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}"
+
+      # Config key from configs/discord.cfg.
+      # sourcecomms
+      discord_sourcecomms_webhook_gag: "sourcecomms"
+      discord_sourcecomms_webhook_mute: "sourcecomms"
+      discord_sourcecomms_webhook_silence: "sourcecomms"
+      discord_sourcecomms_webhook_ungag: "sourcecomms"
+      discord_sourcecomms_webhook_ungag_tmp: "sourcecomms"
+      discord_sourcecomms_webhook_unmute: "sourcecomms"
+      discord_sourcecomms_webhook_unmute_tmp: "sourcecomms"
+      discord_sourcecomms_webhook_unsilence: "sourcecomms"
+      discord_sourcecomms_webhook_unsilence_tmp: "sourcecomms"
