@@ -85,6 +85,13 @@
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "maps" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
 
+- name: Make maps workshop mapcfg directory
+  ansible.builtin.file:
+    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/maps/workshop"
+    state: directory
+    mode: 0755
+  when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "maps" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
+
 - name: Template general config
   ansible.builtin.template:
     src: "mapcfg_general.j2"
