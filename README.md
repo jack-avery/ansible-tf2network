@@ -11,8 +11,7 @@ Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL]
 1. Assuming you're using Ubuntu, install Python, Ansible, and Docker in WSL using `sudo apt-get install python3 ansible docker.io`
 2. On all server "hosts":
 - 1. `sudo apt-get install docker.io` - Install Docker
-- 2. `sudo useradd -Um tf2server` - Create the `tf2server` user
-- 3. `sudo usermod -aG docker tf2server` - Grant them the `docker` role
+- 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role
 
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
@@ -26,6 +25,12 @@ Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL]
 6. `make relay` - Build and start the Discord -> Server relay/RCON bot (if configured)
 > You can perform all of these in order with simply `make`<br/>
 > You can update your admins/reserved slots at any time with `make admins`
+
+**`make base` can take a long time if it's the first run!**
+This is because it's downloading the full TF2 server.
+**It is possible that Ansible will *SILENTLY* time out while waiting if it takes too long!**
+
+Watch for `jackavery/base-tf2server` to show up in `docker image ls`. If it's there, you can Ctrl+C Ansible.
 
 ## ⭐ Features
 
@@ -62,6 +67,7 @@ Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in
 - [ ] Set up SB++ automatically on a 'metrics' host
 - [x] Have `relay` target a 'metrics' host as they do not rely on being on the `tf2` hosts
 - [x] Configuration standardization pass to hopefully reduce confusion
+- [ ] Improve mapcfg Jinja2 handling (collapse to 1 file preferably)
 
 ### Pre-commit
 There is a pre-commit hook that you should enable to ensure you don't commit any unencrypted secret:<br/>
