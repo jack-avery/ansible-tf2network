@@ -8,7 +8,14 @@ fastdl_url: ""
 
 # Tags to include on all servers
 global_tags:
-  - community
+  - alltalk
+  - nodmgspread
+  - cp
+  - ctf
+  - pl
+  - pd
+  - 5cp
+  - swishcast
 
 # Default MOTD
 htmlmotd: https://swishcast.tiiny.site
@@ -38,15 +45,28 @@ stv_enabled: false
 rulesets:
   standard:
     servercfg:
-      - tf_weapon_criticals 0
+      - tf_weapon_criticals 1
       - tf_use_fixed_weaponspreads 1
-      - tf_spawn_glows_duration 0
-      - tf_spec_xray 0
+      - tf_spawn_glows_duration 10
+      - tf_spec_xray 1
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
+      - sv_alltalk 1
+      - sm_advertisements_interval 180
+      - sv_vote_issue_kick_allowed 0
+      - mp_idlemaxtime 15
+      - sv_timeout 900
+      - mp_forceautoteam 1
+      - mp_autoteambalance_delay 60
+      - mp_autoteambalance_warning_delay 30
+      - mp_teams_unbalance_limit 1
 
 # List of maps
 mapcycles:
+  default:
+    maps:
+      - pl_upward
+
   swishcast_regular:
     mapconfig:
       general:
@@ -125,6 +145,7 @@ base_plugins:
   - admin-flatfile
   - adminhelp
   - adminmenu
+  - advertisements
   - antiflood
   - AutoKickProtector
   - basechat
@@ -169,8 +190,8 @@ base_plugins:
   - votefailed
 
 default_vdfs:
-  links:
-    location: /tf/addons/sourcemod/configs/advertisements.cfg
+  advertisements:
+    location: /tf/addons/sourcemod/configs/advertisements.txt
     default:
       Advertisements:
         "1":
@@ -372,7 +393,7 @@ default_cfgs:
 
       # This allows you to mention reports, leave blank to disable.
       # @here
-      discord_sourcebans_mention: "@here"
+      discord_sourcebans_mention: ""
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}
@@ -399,7 +420,7 @@ default_cfgs:
 
       # This allows you to mention reports, leave blank to disable.
       # @here
-      discord_sourcecomms_mention: "@here"
+      discord_sourcecomms_mention: ""
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}

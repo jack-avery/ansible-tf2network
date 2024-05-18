@@ -2,6 +2,10 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
+- name: Create network
+  docker_network:
+    name: ansible-tf2network
+
 - name: Announce update
   ignore_errors: true
   rcon:
@@ -24,7 +28,7 @@
     restart_policy: "unless-stopped"
     cpuset_cpus: "{{ loop0 }}"
     networks:
-      - name: "network-srcds-{{ item.name }}"
+      - name: ansible-tf2network
     ports:
       - "{{ item.port }}:{{ item.port }}"
       - "{{ item.port }}:{{ item.port }}/udp"

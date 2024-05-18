@@ -1,5 +1,6 @@
 # https://developer.valvesoftware.com/wiki/Sv_region
 srcds_region: 3
+daily_restart_hour_utc: 6
 
 instances:
   - name: "eu1-1"
@@ -7,7 +8,6 @@ instances:
     maxplayers: 24
     mapcycle: "swishcast_regular"
     ruleset: "standard"
-    timelimit: 0
     relay_bot:
       relay_channel: 1238569871910895626
 
