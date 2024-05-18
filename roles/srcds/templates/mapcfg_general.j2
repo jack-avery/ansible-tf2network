@@ -1,0 +1,3 @@
+{% for k, v in mapcycles[instance.mapcycle|default("default")].mapconfig["general"][item].items() %}
+{{ k }} "{{ v }}"
+{% endfor %}
