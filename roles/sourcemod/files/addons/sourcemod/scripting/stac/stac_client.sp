@@ -16,10 +16,17 @@
 // There is almost certainly no way to ever have a client ever trigger OCPCE -> EPC -> OCC out of order
 // But just in case we do a ton of checks
 
-
-
 static char latestIP        [16];
 static char latestSteamID   [MAX_AUTHID_LENGTH];
+
+StringMap IPBuckets = null;
+// runs on plugin start
+void SetUpIPConnectLeakyBucket()
+{
+    IPBuckets = new StringMap();
+    CreateTimer(5.0, LeakIPConnectBucket, _, TIMER_REPEAT);
+    IPBuckets.Clear();
+}
 
 // Fired before anything
 // CBaseServer::ConnectClient
@@ -27,7 +34,7 @@ static char latestSteamID   [MAX_AUTHID_LENGTH];
 // Does NOT fire on map change
 public bool OnClientPreConnectEx(const char[] name, char password[255], const char[] ip, const char[] steamID, char rejectReason[255])
 {
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("-> OnClientPreConnectEx (name %s, ip %s) t=%f", name, ip, GetEngineTime());
         StacLog("-> OnClientPreConnectEx (steamid = %s)", steamID);
@@ -37,7 +44,100 @@ public bool OnClientPreConnectEx(const char[] name, char password[255], const ch
     strcopy(latestIP,       sizeof(latestIP),       ip);
     strcopy(latestSteamID,  sizeof(latestSteamID),  steamID);
 
-    return true;
+    if (!stac_prevent_connect_spam.BoolValue)
+    {
+        return true;
+    }
+
+    // DO NOT interfere with lan matches until we have a way to store port from here!
+    ConVar sv_lan = FindConVar("sv_lan");
+    if (sv_lan.BoolValue)
+    {
+        return true;
+    }
+
+    // connects is how many times have they connected recently, it decays by 1 every 5 seconds
+    // threshold how many times is "too many"
+    // thresholdEx is at what point we should start punishing & making each connect be worth double/triple/etc to the algorithm 
+    int connects            = 0;
+    static int threshold    = 6;
+    static int thresholdEx  = 10;
+    bool punish             = false;
+    IPBuckets.GetValue(ip, connects); // 0 if not present
+
+    // inc by one since we're in this callback
+    connects++;
+
+    // strong punishment
+    if (connects > thresholdEx)
+    {
+        punish          = true;
+        rejectReason    = "Rate limited for retry spam. Please try again in a few minutes.";
+        // worth double
+        connects++;
+    }
+    // light punishment
+    else if (connects >= threshold)
+    {
+        punish          = true;
+        rejectReason    = "Rate limited for retry spam. Please try again in a bit.";
+    }
+    else { /* no punishment, they didn't trip any threshold */ }
+
+    // set our connects to our stupid global var thing
+    IPBuckets.SetValue(ip, connects);
+
+    if (stac_debug.BoolValue)
+    {
+        StacLog("[stac_prevent_connect_spam - OnClientPreConnectEx] %i connects from ip %s", connects, ip);
+    }
+    
+    // this func detour returns true to let them in, and false to prevent them from connecting
+    // rejectReason is displayed as the reason to their client.
+    // that's just how it is.
+    return !punish;
+}
+
+Action LeakIPConnectBucket(Handle timer)
+{
+    if (!stac_prevent_connect_spam.BoolValue)
+    {
+        IPBuckets.Clear();
+        return Plugin_Continue;
+    }
+
+    StringMapSnapshot snap = IPBuckets.Snapshot();
+    
+    for (int i = 0; i < snap.Length; i++)
+    {
+        char ip[32];
+        snap.GetKey(i, ip, sizeof(ip));
+
+        int connects;
+        IPBuckets.GetValue(ip, connects); // 0 if not present per zero-init above
+        connects--;
+
+        if (stac_debug.BoolValue)
+        {
+            StacLog("[stac_prevent_connect_spam - LeakIPConnectBucket] %i connects from ip %s", connects, ip);
+        }
+
+        if (connects <= 0)
+        {
+            if (stac_debug.BoolValue)
+            {
+                StacLog("[stac_prevent_connect_spam - LeakIPConnectBucket] %i connects from ip %s [ REMOVING ] ", connects, ip);
+            }
+
+            IPBuckets.Remove(ip);
+            continue;
+        }
+        IPBuckets.SetValue(ip, connects);
+    }
+
+    delete snap;
+
+    return Plugin_Continue;
 }
 
 // Fired after client is allowed thru connect ext
@@ -84,7 +184,7 @@ public void ePlayerConnect(Handle event, const char[] name, bool dontBroadcast)
     )
     {
         strcopy(SteamAuthFor[cl], sizeof(latestSteamID), latestSteamID);
-        if (DEBUG)
+        if (stac_debug.BoolValue)
         {
             StacLog("\n\nplayer_connect steamid = %s\n", SteamAuthFor[cl]);
         }
@@ -142,7 +242,7 @@ public bool OnClientConnect(int cl, char[] rejectmsg, int maxlen)
 {
     float nowTime = GetEngineTime();
 
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("-> OnClientConnect (index %i)", cl);
         StacLog("-> OnClientConnect t=%f", nowTime);
@@ -153,7 +253,7 @@ public bool OnClientConnect(int cl, char[] rejectmsg, int maxlen)
 
 public void OnClientConnected(int cl)
 {
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("-> OnClientConnected (index %i) t=%f", cl, GetEngineTime());
     }
@@ -162,7 +262,7 @@ public void OnClientConnected(int cl)
 // client join
 public void OnClientPutInServer(int cl)
 {
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("-> OnClientPutInServer (index %i) t=%f", cl, GetEngineTime());
     }
@@ -186,7 +286,7 @@ public void OnClientPutInServer(int cl)
     // clear timer
     QueryTimer[cl] = null;
     // query convars on player connect
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("%N joined. Checking cvars", cl);
     }
@@ -234,13 +334,15 @@ public void OnClientPutInServer(int cl)
         }
     }
 
-    if (DEBUG)
+    if (stac_debug.BoolValue)
     {
         StacLog("OCPIS steamid = %s", SteamAuthFor[cl]);
     }
 
-    // bail if cvar is set to 0
-    if (maxip > 0)
+    ConVar sv_lan = FindConVar("sv_lan");
+
+    // bail if cvar is set to 0 or if we're in sv_lan 1
+    if ( stac_max_connections_from_ip.IntValue > 0 && !(sv_lan.BoolValue) )
     {
         checkIP(cl);
     }
@@ -269,14 +371,14 @@ void checkIP(int cl)
     }
 
     // maxip is our cached stac_max_connections_from_ip
-    if (sameip > maxip)
+    if (sameip > stac_max_connections_from_ip.IntValue)
     {
         char msg[256];
         Format(msg, sizeof(msg), "Too many connections from the same IP address %s from client %N", clientIP, cl);
         StacNotify(userid, msg);
         PrintToImportant("{hotpink}[StAC]{white} Too many connections (%i) from the same IP address {mediumpurple}%s{white} from client %N!", sameip, clientIP, cl);
         StacLog(msg);
-        KickClient(cl, "[StAC] Too many concurrent connections from your IP address!", maxip);
+        KickClient(cl, "[StAC] Too many concurrent connections from your IP address!");
     }
 }
 
@@ -424,7 +526,13 @@ public Action ePlayerAchievement(Handle event, char[] name, bool dontBroadcast)
 // Ignore cmds from unconnected clients
 Action OnAllClientCommands(int cl, const char[] command, int argc)
 {
-    if (cl == 0 || IsFakeClient(cl))
+    if
+    (
+        cl == 0
+        ||
+        // Ignore connected fake clients
+        (IsClientConnected(cl) && IsFakeClient(cl))
+    )
     {
         return Plugin_Continue;
     }
@@ -452,6 +560,7 @@ Action OnAllClientCommands(int cl, const char[] command, int argc)
     return Plugin_Continue;
 }
 
+// Runs OnClientPutInServer (which runs on map change too!) and OnClientDisconnect
 void ClearClBasedVars(int userid)
 {
     // get fresh cli id
@@ -468,6 +577,7 @@ void ClearClBasedVars(int userid)
     cmdnumSpikeDetects      [cl] = 0;
     tbotDetects             [cl] = -1;
     invalidUsercmdDetects   [cl] = 0;
+    stacProbingDetects      [cl] = 0;
 
     // frames since client "did something"
     //                      [ client index ][history]

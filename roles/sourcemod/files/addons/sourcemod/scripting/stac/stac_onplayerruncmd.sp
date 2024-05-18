@@ -83,7 +83,11 @@ public Action OnPlayerRunCmd
         return Plugin_Continue;
     }
 
-    OnPlayerRunCmd_jaypatch(cl, buttons, impulse, vel, angles, weapon, subtype, cmdnum, tickcount, seed, mouse);
+    if (!highPlayerServer)
+    {
+        OnPlayerRunCmd_jaypatch(cl, buttons, impulse, vel, angles, weapon, subtype, cmdnum, tickcount, seed, mouse);
+    }
+
 
     // Don't allow clients to have both left and right turns active
     // Legit clients can do this
@@ -281,6 +285,13 @@ stock void PlayerRunCmd
     fakeangCheck(cl);
     invalidUsercmdCheck(cl);
 
+    // not feasible
+    if (highPlayerServer)
+    {
+        return;
+    }
+
+
     // dont check cmdnum here but check everything else
     if ( !IsUserLagging(cl, /* checkcmdnum = */ false) )
     {
@@ -327,7 +338,7 @@ stock void PlayerRunCmd
 void bhopCheck(int cl)
 {
     // don't run this check if cvar is -1
-    if (maxBhopDetections == -1)
+    if (stac_max_bhop_detections.IntValue == -1)
     {
         return;
     }
@@ -337,7 +348,7 @@ void bhopCheck(int cl)
     int flags = GetEntData(cl, Offset_m_fFlags);
 
     bool noban;
-    if (maxBhopDetections == 0)
+    if (stac_max_bhop_detections.IntValue == 0)
     {
         noban = true;
     }
@@ -366,7 +377,7 @@ void bhopCheck(int cl)
         if
         (
             (
-                bhopDetects[cl] >= maxBhopDetections
+                bhopDetects[cl] >= stac_max_bhop_detections.IntValue
                 &&
                 !noban
             )
@@ -380,18 +391,17 @@ void bhopCheck(int cl)
         {
             int userid = GetClientUserId(cl);
             PrintToImportant("{hotpink}[StAC]{white} Player %N {mediumpurple}bhopped{white}!\nConsecutive detections so far: {palegreen}%i" , cl, bhopDetects[cl]);
-            if (bhopDetects[cl] % 5 == 0)
-            {
-                StacNotify(userid, "consecutive tick perfect bhops", bhopDetects[cl]);
-            }
+            StacNotify(userid, "consecutive tick perfect bhops", bhopDetects[cl]);
             StacLogSteam(userid);
 
-            if (bhopDetects[cl] >= maxBhopDetections)
+            if (bhopDetects[cl] >= stac_max_bhop_detections.IntValue)
             {
-                // punish on maxBhopDetections + 2 (for the extra TWO tick perfect bhops at 8x grav with no warning - no human can do this!)
+                static int extraHighGravHops = 3;
+                // punish on maxBhopDetections + extraHighGravHops for the extraHighGravHops perfect bhops at 8x grav with no warning
+                // no human should ever be able to do this!
                 if
                 (
-                    (bhopDetects[cl] >= (maxBhopDetections + 2))
+                    (bhopDetects[cl] >= (stac_max_bhop_detections.IntValue + extraHighGravHops))
                     &&
                     !noban
                 )
@@ -407,13 +417,16 @@ void bhopCheck(int cl)
                 }
 
                 // don't run antibhop if cvar is 0
-                if (maxBhopDetections > 0)
+                if (stac_max_bhop_detections.IntValue > 0)
                 {
                     /* ANTIBHOP */
-                    // set the player's gravity to 8x.
-                    // if idiot cheaters keep holding their spacebar for an extra second and do 2 tick perfect bhops WHILE at 8x gravity...
+                    // set the player's gravity to ~8x.
+                    // if idiot cheaters keep holding their spacebar for an extra second and do 3(ish) tick perfect bhops WHILE at ~8x gravity...
                     // ...we will catch them autohopping and ban them!
-                    SetEntityGravity(cl, 8.0);
+                    // we're doing a random float between 6.1 and 7.9 so we can try to avoid people trying to game the anticheat
+                    // as well as dispell any possible "oh i was just using a bhop script" complaints
+                    float newGrav = float_rand(6.1, 7.9);
+                    SetEntityGravity(cl, newGrav);
                     highGrav[cl] = true;
                 }
             }
@@ -442,7 +455,7 @@ void bhopCheck(int cl)
 */
 void turnbindCheck(int cl)
 {
-    if (maxAllowedTurnSecs == -1.0)
+    if ( stac_max_allowed_turn_secs.FloatValue == -1.0 )
     {
         return;
     }
@@ -460,11 +473,11 @@ void turnbindCheck(int cl)
         PrintToImportant("%t", "turnbindAdminMsg", cl, turnSec);
         StacLogSteam(userid);
 
-        if (turnSec < maxAllowedTurnSecs)
+        if ( turnSec < stac_max_allowed_turn_secs.FloatValue )
         {
             MC_PrintToChat(cl, "%t", "turnbindWarnPlayer");
         }
-        else if (turnSec >= maxAllowedTurnSecs)
+        else if ( turnSec >= stac_max_allowed_turn_secs.FloatValue )
         {
             StacNotify(userid, "Client was kicked for turn binds");
             KickClient(cl, "%t", "turnbindKickMsg");
@@ -490,7 +503,7 @@ void turnbindCheck(int cl)
 void fakeangCheck(int cl)
 {
     // don't bother checking if fakeang detection is off
-    if (maxFakeAngDetections == -1)
+    if (stac_max_fakeang_detections.IntValue == -1)
     {
         return;
     }
@@ -533,7 +546,7 @@ void fakeangCheck(int cl)
 
             StacNotify(userid, "fake angles", fakeAngDetects[cl]);
         }
-        if (fakeAngDetects[cl] >= maxFakeAngDetections && maxFakeAngDetections > 0)
+        if (fakeAngDetects[cl] >= stac_max_fakeang_detections.IntValue && stac_max_fakeang_detections.IntValue > 0)
         {
             int userid = GetClientUserId(cl);
 
@@ -553,7 +566,7 @@ void fakeangCheck(int cl)
 */
 void cmdnumspikeCheck(int cl)
 {
-    if (maxCmdnumDetections == -1)
+    if (stac_max_cmdnum_detections.IntValue == -1)
     {
         return;
     }
@@ -566,7 +579,7 @@ void cmdnumspikeCheck(int cl)
 
     int spikeamt = clcmdnum[cl][0] - clcmdnum[cl][1];
     // https://github.com/sapphonie/StAC-tf2/issues/74
-    if (spikeamt >= 32 || spikeamt < 0)
+    if (spikeamt >= 32 || spikeamt <= -32)
     {
         int userid = GetClientUserId(cl);
 
@@ -595,7 +608,8 @@ void cmdnumspikeCheck(int cl)
         }
 
         // punish if we reach limit set by cvar
-        if (cmdnumSpikeDetects[cl] >= maxCmdnumDetections && maxCmdnumDetections > 0)
+        if (cmdnumSpikeDetects[cl] >= stac_max_cmdnum_detections.IntValue
+        && stac_max_cmdnum_detections.IntValue > 0)
         {
             char reason[128];
             Format(reason, sizeof(reason), "%t", "cmdnumSpikesBanMsg", cmdnumSpikeDetects[cl]);
@@ -636,15 +650,15 @@ void cmdnumspikeCheck(int cl)
 
 // https://bitbashing.io/comparing-floats.html
 // DON'T use prec values above ~2, even ~1 was giving me weird issues
-bool floatcmpreal( float a, float b, float precision = 0.001 )
-{
-    return FloatAbs( a - b ) <= precision;
-}
+//bool floatcmpreal( float a, float b, float precision = 0.001 )
+//{
+//    return FloatAbs( a - b ) <= precision;
+//}
 
 void psilentCheck(int cl)
 {
     // don't run this check if silent aim cvar is -1
-    if (maxPsilentDetections == -1)
+    if (stac_max_psilent_detections.IntValue == -1)
     {
         return;
     }
@@ -654,6 +668,11 @@ void psilentCheck(int cl)
     {
         return;
     }
+    // TODO: TEST THIS
+    // if (!DidRecentlyDoInterestingAction(cl))
+    // {
+    //     return;
+    // }
 
     static float pSilentEpsilon = 0.1;
     // get difference between angles - used for psilent
@@ -729,7 +748,7 @@ void psilentCheck(int cl)
             StacNotify(userid, dtype, pSilentDetects[cl]);
         }
         // BAN USER if they trigger too many detections
-        if (pSilentDetects[cl] >= maxPsilentDetections && maxPsilentDetections > 0)
+        if (pSilentDetects[cl] >= stac_max_psilent_detections.IntValue && stac_max_psilent_detections.IntValue > 0)
         {
             char reason[128];
             Format(reason, sizeof(reason), "%t", "pSilentBanMsg", pSilentDetects[cl]);
@@ -756,7 +775,7 @@ void psilentCheck(int cl)
 void aimsnapCheck(int cl)
 {
     // only check if we have this check enabled
-    if (maxAimsnapDetections == -1)
+    if (stac_max_aimsnap_detections.IntValue == -1)
     {
         return;
     }
@@ -895,7 +914,7 @@ void aimsnapCheck(int cl)
         }
 
         // BAN USER if they trigger too many detections
-        if (aimsnapDetects[cl] >= maxAimsnapDetections && maxAimsnapDetections > 0)
+        if (aimsnapDetects[cl] >= stac_max_aimsnap_detections.IntValue && stac_max_aimsnap_detections.IntValue > 0)
         {
             char reason[128];
             Format(reason, sizeof(reason), "%t", "AimsnapBanMsg", aimsnapDetects[cl]);
@@ -912,7 +931,7 @@ void aimsnapCheck(int cl)
 void triggerbotCheck(int cl)
 {
     // don't run if cvar is -1 or if wait is enabled on this server
-    if (maxTbotDetections == -1 || waitStatus)
+    if (stac_max_tbot_detections.IntValue == -1 || waitStatus)
     {
         return;
     }
@@ -974,7 +993,7 @@ void triggerbotCheck(int cl)
     {
         PrintToImportant
         (
-            "{hotpink}[StAC]{white} Triggerbot detection on %N.\nDetections so far: {palegreen}%i{white}. Type: +attack{blue}%i",
+            "{hotpink}[StAC]{white} Possible triggerbot detection on %N.\nDetections so far: {palegreen}%i{white}. Type: +attack{blue}%i",
             cl,
             tbotDetects[cl],
             attack
@@ -1000,7 +1019,7 @@ void triggerbotCheck(int cl)
             StacNotify(userid, "triggerbot", tbotDetects[cl]);
         }
         // BAN USER if they trigger too many detections
-        if (tbotDetects[cl] >= maxTbotDetections && maxTbotDetections > 0)
+        if (tbotDetects[cl] >= stac_max_tbot_detections.IntValue && stac_max_tbot_detections.IntValue > 0)
         {
             char reason[128];
             Format(reason, sizeof(reason), "%t", "tbotBanMsg", tbotDetects[cl]);
@@ -1014,7 +1033,7 @@ void triggerbotCheck(int cl)
 void invalidUsercmdCheck(int cl)
 {
     // don't bother checking if fakeang detection is off
-    if (maxInvalidUsercmdDetections == -1)
+    if (stac_max_invalid_usercmd_detections.IntValue == -1)
     {
         return;
     }
@@ -1056,6 +1075,7 @@ void invalidUsercmdCheck(int cl)
             StacLogAngles(userid);
             StacLogCmdnums(userid);
             StacLogTickcounts(userid);
+            StacLogMouse(userid);
 
             StacNotify(userid, "Invalid usercmd data! cmdnum or tickcount < 0!", invalidUsercmdDetects[cl]);
         }
@@ -1064,7 +1084,7 @@ void invalidUsercmdCheck(int cl)
     // We should never see buttons >= (26 bits) since IN_ATTACK3 is (1 << 25)
     // I've seen ucmds with 134217728 == (1 << 27), which seem to be related to lmaobox
     // I need to make sure this isn't a fluke, so we're not banning anyone at the moment for it
-    if ( cltickcount[cl][0] >= (1 << 26) )
+    if ( clbuttons[cl][0] >= (1 << 26) )
     {
         invalidUsercmdDetects[cl]++;
         // We CAN NOT spam clients and server log with this, or it WILL lag.
@@ -1095,12 +1115,13 @@ void invalidUsercmdCheck(int cl)
             StacLogAngles(userid);
             StacLogCmdnums(userid);
             StacLogTickcounts(userid);
+            StacLogMouse(userid);
 
             StacNotify(userid, "Invalid usercmd data! client buttons are >= (1 << 26)!", invalidUsercmdDetects[cl]);
         }
     }
 
-    if (invalidUsercmdDetects[cl] >= maxInvalidUsercmdDetections && maxInvalidUsercmdDetections > 0)
+    if (invalidUsercmdDetects[cl] >= stac_max_invalid_usercmd_detections.IntValue && stac_max_invalid_usercmd_detections.IntValue > 0)
     {
         int userid = GetClientUserId(cl);
         char reason[128];
@@ -1227,6 +1248,37 @@ bool isTickcountSanish(int cl)
     return false;
 }
 
+
+stock bool DidRecentlyDoInterestingAction(int cl)
+{
+    if
+    (
+        // we did an attack on this frame, or the frame before, or the frame before that
+        // - this is when most of the cheats happen
+            clbuttons[cl][0] & IN_ATTACK 
+        ||  clbuttons[cl][1] & IN_ATTACK
+        ||  clbuttons[cl][2] & IN_ATTACK
+        // we clicked attack2 this frame / prev frame / etc
+        // - should help catch anti airblast tbot
+        ||  clbuttons[cl][0] & IN_ATTACK2
+        ||  clbuttons[cl][1] & IN_ATTACK2
+        ||  clbuttons[cl][2] & IN_ATTACK2
+        // we clicked attack3                                                               
+        // - theoretically might catch people w/ bad cheats with aimkey on `midle mouse` or... triggerbotting mvm medics? 
+        ||  clbuttons[cl][0] & IN_ATTACK3
+        ||  clbuttons[cl][1] & IN_ATTACK3
+        ||  clbuttons[cl][2] & IN_ATTACK3
+        // we clicked reload                                                                
+        // - theoretically might catch people w/ bad cheats with aimkey on `r`
+        ||  clbuttons[cl][0] & IN_RELOAD
+        ||  clbuttons[cl][1] & IN_RELOAD
+        ||  clbuttons[cl][3] & IN_RELOAD
+    )
+    {
+        return true;
+    }
+    return false;
+}
 /*
 bool HasValidAngles(int cl)
 {
