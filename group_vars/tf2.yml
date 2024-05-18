@@ -94,26 +94,37 @@ mapcycles:
         # a/d cp use maxrounds intead
         # thank you valve for making a/d use same prefix as 3/5cp
         cp_dustbowl:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_altitude:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_gorge:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_gravelpit:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_junction_final:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_mercenarypark:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_mossrock:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_mountainlab:
+          mp_winlimit: 0
           mp_maxrounds: 2
         cp_steel:
+          mp_winlimit: 0
           mp_maxrounds: 2
         workshop/cp_fulgur_rc2a:
+          mp_winlimit: 0
           mp_maxrounds: 2
         workshop/cp_cold_era_rc1:
+          mp_winlimit: 0
           mp_maxrounds: 2
 
     maps:
