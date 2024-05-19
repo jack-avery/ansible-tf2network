@@ -194,8 +194,10 @@ base_plugins:
   - discord_sourcebans
   - discord_sourcecomms
   - extendedmapconfig
+  - fixstvslot
   - funcommands
   - funvotes
+  - links
   - nextmap
   - playercommands
   - reservedslots
@@ -226,6 +228,14 @@ base_plugins:
   - votefailed
 
 default_vdfs:
+  links:
+    location: /tf/addons/sourcemod/configs/links.cfg
+      default:
+        Links:
+          "1":
+            command: sm_discord
+            link: https://discord.gg/CykAHkzkhx
+
   advertisements:
     location: /tf/addons/sourcemod/configs/advertisements.txt
     default:
