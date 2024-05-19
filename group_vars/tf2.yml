@@ -230,11 +230,11 @@ base_plugins:
 default_vdfs:
   links:
     location: /tf/addons/sourcemod/configs/links.cfg
-      default:
-        Links:
-          "1":
-            command: sm_discord
-            link: https://discord.gg/CykAHkzkhx
+    default:
+      Links:
+        "1":
+          command: sm_discord
+          link: https://discord.gg/CykAHkzkhx
 
   advertisements:
     location: /tf/addons/sourcemod/configs/advertisements.txt
