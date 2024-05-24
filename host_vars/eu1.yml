@@ -1,5 +1,7 @@
 # https://developer.valvesoftware.com/wiki/Sv_region
 srcds_region: 3
+srcds_base_port: 27015
+srcds_reserve_ports: 10
 daily_restart_hour_utc: 6
 
 instances:
@@ -8,8 +10,7 @@ instances:
     maxplayers: 24
     mapcycle: "swishcast_regular"
     ruleset: "standard"
-    relay_bot:
-      relay_channel: 1238569871910895626
+    relay_channel: 1238569871910895626
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
     # on top of the MOTD, tags, plugins, and more

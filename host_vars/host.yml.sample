@@ -1,4 +1,8 @@
-srcds_region: 1 https://developer.valvesoftware.com/wiki/Sv_region
+# https://developer.valvesoftware.com/wiki/Sv_region
+srcds_region: 1
+srcds_base_port: 27015
+srcds_reserve_ports: 10
+daily_restart_hour_utc: 6
 
 instances:
   - name: "unique-internal-name"
@@ -8,9 +12,7 @@ instances:
     ruleset: "standard"
     timelimit: 20
     stv_name: "/call to report players"
-    relay_bot:
-      relay_channel: discord text channel ID
-      status_channel: discord voice channel ID
+    relay_channel: discord text channel ID
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
     # on top of the MOTD, tags, plugins, and more

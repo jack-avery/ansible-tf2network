@@ -114,13 +114,7 @@ def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
             else:
                 manifest[instance]["stv_enabled"] = globals["stv_enabled"]
 
-            if relay_config := vars[host]["vars"][instance].get("relay_bot", None):
-                manifest[instance]["relay_channel"] = relay_config.get(
-                    "relay_channel", None
-                )
-                manifest[instance]["status_channel"] = relay_config.get(
-                    "status_channel", None
-                )
+            manifest[instance]["relay_channel"] = vars[host]["vars"][instance].get("relay_channel", None)
 
     logging.debug(manifest)
     return manifest

@@ -1,6 +1,3 @@
-srcds_base_port: 27015
-srcds_reserve_ports: 10
-
 network_shortname: sc
 
 # FastDL Base URL
