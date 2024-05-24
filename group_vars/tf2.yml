@@ -117,10 +117,10 @@ mapcycles:
         cp_steel:
           mp_winlimit: 0
           mp_maxrounds: 2
-        workshop/cp_fulgur_rc2a:
+        workshop/cp_fulgur_rc2a.ugc2068252300:
           mp_winlimit: 0
           mp_maxrounds: 2
-        workshop/cp_cold_era_rc1:
+        workshop/cp_cold_era_rc1.ugc3070747049:
           mp_winlimit: 0
           mp_maxrounds: 2
 
