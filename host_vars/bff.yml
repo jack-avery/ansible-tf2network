@@ -1,0 +1,97 @@
+srcds_region: 0
+srcds_base_port: 27015
+srcds_reserve_ports: 10
+daily_restart_hour_utc: 12
+
+instances:
+  - name: "tplus"
+    hostname: "Boxes For Foxes | Turbine+"
+    maxplayers: 24
+    mapcycle: "turbineplus"
+    ruleset: "standard_247"
+    stv_name: "/call to report players"
+    tags:
+      - alltalk
+      - 24/7
+      - "247"
+      - turbine
+      - ctf
+      - infinite
+    relay_bot:
+      relay_channel: 1114719248225415168
+  
+  - name: "hplus"
+    hostname: "Boxes For Foxes | Hightower+"
+    maxplayers: 24
+    mapcycle: "hightowerplus"
+    ruleset: "standard_247"
+    stv_name: "/call to report players"
+    tags:
+      - alltalk
+      - 24/7
+      - "247"
+      - hightower
+      - plr
+      - payload
+      - infinite
+    plugins:
+      - better-payload-disabler
+    relay_bot:
+      relay_channel: 1078122535717191740
+
+  - name: "2plus"
+    hostname: "Boxes For Foxes | 2Fort+"
+    maxplayers: 24
+    mapcycle: "2fortplus"
+    ruleset: "standard_247"
+    stv_name: "/call to report players"
+    tags:
+      - alltalk
+      - 24/7
+      - "247"
+      - 2fort
+      - ctf
+      - infinite
+    relay_bot:
+      relay_channel: 1078122642277675039
+
+  - name: "rie"
+    hostname: "Boxes For Foxes | rINSTAGIB | NA East"
+    maxplayers: 12
+    mapcycle: "rinstagib"
+    ruleset: "rinstagib"
+    timelimit: 20
+    stv_name: "/call to report players"
+    relay_bot:
+      relay_channel: 1180063638078378014
+
+  - name: "boxfort"
+    hostname: "Boxes For Foxes | The Box Fort"
+    maxplayers: 24
+    mapcycle: "hangout"
+    ruleset: "hangout"
+    timelimit: 60
+    stv_name: "/call to report players"
+    relay_bot:
+      relay_channel: 1124974188856344697
+
+  - name: "hoard"
+    hostname: "The Dragon's Hoard"
+    maxplayers: 24
+    mapcycle: "hoard"
+    ruleset: "hoard"
+    timelimit: 30
+    stv_name: "/call to report players"
+    motd: |
+      welcome to the dragon's hoard!
+
+      rules:
+      - don't be an asshole
+      - don't cheat
+      - don't say slurs
+      you will not receive warnings.
+      
+      try out !help, !discord, !group\
+    relay_bot:
+      relay_channel: 1185408208244842496
+      status_channel: 1218799220518162472

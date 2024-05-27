@@ -1,23 +1,47 @@
-network_shortname: mynetwork
+srcds_base_port: 27015
+srcds_reserve_ports: 10
+
+network_shortname: bff
 
 # FastDL Base URL
-fastdl_url: "https://mywebsite.com/tf/"
+fastdl_url: "https://boxes4foxes.site.nfoservers.com/tf/"
 
 # Tags to include on all servers
 global_tags:
   - community
+  - moderation
+  - furry
+  - lgbtq
+  - lgbtq+
+  - lgbt
+  - box
+  - boxes4foxes
+  - boxes
+  - foxes
 
 # Default MOTD
 motd: |
-  my multiline MOTD
+  • Don't use discrimination/hatespeech (slurs, racism, bigotry, nazism, etc.)
+  • Don't spray or talk about illicit material (beastiality, gore, loli, etc.)
+  • Don't use exploits in the maps/games/plugins
+  • Don't harass/threaten players or Admins
+  • Don't mic-spam just to annoy people
+  • Don't abuse the /call system
 
-  don't be rude
+  ★ Admins have prefixes and unusual-colored names
+  ★ Please be kind and respectful to other players
+  ★ Votekicks are a 1-hour temporary ban
+  ★ Cheating will result in a permanent ban
 
-  thanks
+  Type !helpmenu for a list of things and plugin commands
+
+  Website (!website): boxesforfoxes.net
+  Discord (!discord): discord.gg/6rTTw8gUER
+  Steam Group (!group): steamcommunity.com/groups/BoxesForFoxes
 
 # Link to SourceBans website
 sourcebans:
-  website: "https://mywebsite.com/sourcebans/"
+  website: "https://boxes4foxes.site.nfoservers.com/sourcebans/"
 
 # Whether to enable STV by default
 stv_enabled: true
@@ -41,6 +65,175 @@ rulesets:
       - tf_spec_xray 1
       - tf_preround_push_from_damage_enable 0
       - tf_avoidteammates_pushaway 1
+  
+  standard_247:
+    servercfg:
+      - tf_weapon_criticals 0
+      - tf_use_fixed_weaponspreads 1
+      - tf_spawn_glows_duration 0
+      - tf_spec_xray 0
+      - tf_preround_push_from_damage_enable 1
+      - tf_avoidteammates_pushaway 0
+      - sv_alltalk 1
+      - mp_disable_respawn_times 1
+    
+  hoard:
+    servercfg:
+      - tf_weapon_criticals 0
+      - tf_use_fixed_weaponspreads 1
+      - tf_spawn_glows_duration 10
+      - tf_spec_xray 0
+      - tf_preround_push_from_damage_enable 1
+      - tf_avoidteammates_pushaway 0
+      - mp_match_end_at_timelimit 1
+      - sv_alltalk 1
+    
+    tags:
+      - whitelist
+    
+    plugins:
+      - hwn_cosmetic_enabler
+      - TF2EconTaunts
+      - votealltalk
+
+    cfgs:
+      ClassRestrictionForHumans:
+        sm_crh_blu_demomen: "3"
+        sm_crh_blu_engineers: "3"
+        sm_crh_blu_heavies: "3"
+        sm_crh_blu_medics: "3"
+        sm_crh_blu_pyros: "3"
+        sm_crh_blu_scouts: "3"
+        sm_crh_blu_snipers: "3"
+        sm_crh_blu_soldiers: "3"
+        sm_crh_blu_spies: "3"
+        sm_crh_red_demomen: "3"
+        sm_crh_red_engineers: "3"
+        sm_crh_red_heavies: "3"
+        sm_crh_red_medics: "3"
+        sm_crh_red_pyros: "3"
+        sm_crh_red_scouts: "3"
+        sm_crh_red_snipers: "3"
+        sm_crh_red_soldiers: "3"
+        sm_crh_red_spies: "3"
+
+      sourcemod:
+        sm_reserved_slots: 24
+
+    vdfs:
+      links:
+        Links:
+          "1":
+            command: sm_group
+            link: https://steamcommunity.com/groups/the_dragons_hoard_tf2
+          "2": 
+            command: sm_discord
+            link: https://discord.gg/Vfj6S7BrsN
+          "3":
+            command: sm_sourcebans
+            link: https://boxes4foxes.site.nfoservers.com/sourcebans/
+
+      helpmenu:
+        Help:
+          Plugin Commands:
+            title: Plugin Commands
+            items:
+              "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+              "2": "!centerprojectiles - Center your projectiles (Original style)"
+              "3": "!alltalk - Vote to enable/disable alltalk (on by default)"
+
+  hangout:
+    servercfg:
+      - tf_weapon_criticals 0
+      - tf_use_fixed_weaponspreads 1
+      - tf_spawn_glows_duration 10
+      - tf_spec_xray 0
+      - tf_preround_push_from_damage_enable 1
+      - tf_grapplinghook_enable 1
+      - tf_avoidteammates_pushaway 0
+      - mp_disable_respawn_times 1
+      - mp_match_end_at_timelimit 1
+      - sw_gamedesc_override "Hangout Server"
+      - sm_cvar mp_waitingforplayers_time "0"
+      - sm_cap_disable
+      - sv_alltalk 1
+      - pb_info 0
+    
+    tags:
+      - alltalk
+      - chill
+      - chilling
+      - hangout
+      - wacky
+      - wacky maps
+      - silly
+      - silly server
+      - silly maps
+
+    plugins:
+      - AdvancedInfiniteAmmo
+      - bothteleport
+      - civilian
+      - hwn_cosmetic_enabler
+      - kartify
+      - piggyback
+      - pvpoptin
+      - ResizePlayers
+      - setclass
+      - setspeed
+      - sw_gamedesc_override
+      - swBlockCap
+      - tf2dropweapon
+      - TF2EconTaunts
+      - tf2_rof
+      - homingprojectiles
+      - tf-bhop
+      - tf2pyroairjump
+      - thirdperson
+      - NoTimeLimit
+    
+    cfgs:
+      AdvancedInfiniteAmmo:
+        sm_aia_extrastuff: "1"
+        sm_aia_waitingforplayers: "0"
+        sm_aia_clip: "0"
+        sm_aia_cloak: "0"
+    
+    vdfs:
+      helpmenu:
+        Help:
+          Plugin Commands:
+            title: Plugin Commands
+            items:
+              "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+              "2": "Type 'dropitem' in console to drop your currently held weapon"
+              "3": "!pitch - Set your mercenaries voice pitch range"
+              "4": "!lowpitch - Lower the pitch of your mercenaries voice"
+              "5": "!highpitch - Raise the pitch of your mercenaries voice"
+              "6": "!resetpitch - Reset your mercenaries voice pitch"
+              "7": "!pose - Freeze/Slow your current taunt"
+              "11": "!poser - Freeze/Slow your current taunt"
+              "12": "!taunts - Bring up a taunt menu"
+              "13": "!bhop - Enables/Disables automatic bunnyhopping (on by default)"
+              "14": "!resizeme - Resize yourself with a menu"
+              "15": "!tp/fp - Toggle thirdperson/firstperson"
+              "16": "!civ - Enable the civillian or A-Pose"
+              "17": "!settings - Manage your personal plugin settings"
+          PvP Commands:
+            title: PvP Opt-in
+            items:
+              "1": "!pvp - Enables/Disables Global PvP"
+              "2": "!pvp playername - Send a duel request towards another player"
+              "3": "!stoppvp - Stop the current on-going duel or Global PvP"
+              "4": "!mirrorme - Mirror damage done to others"
+          Other Stuff:
+            title: Extras
+            items:
+              "1": "Pyros can airblast jump"
+              "2": "Air acceleration has been greatly increased for bhopping"
+              "3": "Objectives are disabled"
+              "4": "Rock the Vote becomes available after 5 minutes of map time"
+              "5": "You can't drown in water anymore"
 
   rinstagib:
     servercfg:
@@ -50,7 +243,7 @@ rulesets:
       - tf_spec_xray 0
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
-      - sv_airaccelerate 150
+      - sv_airaccelerate 60
       - sv_gravity 700
       - sv_alltalk 1
       - mp_friendlyfire 1
@@ -79,43 +272,88 @@ rulesets:
       - sw_gamedesc_override
       - hwn_cosmetic_enabler
 
-    mapchooser:
-      sm_mapvote_start: "1.0"
+    cfgs:
+      mapchooser:
+        sm_mapvote_start: "1.0"
+        sm_mapvote_extend: "255" # lol
 
-    ClassRestrictionsForHumans:
-      sm_crh_blu_soldiers: "-1"
-      sm_crh_red_soldiers: "-1"
-      sm_crh_classmenu: "0"
+      ClassRestrictionsForHumans:
+        sm_crh_blu_soldiers: "-1"
+        sm_crh_red_soldiers: "-1"
+        sm_crh_classmenu: "0"
     
-    helpmenu:
-      Help:
-        Plugin Commands:
-          title: Plugin Commands
-          items:
-            "": "You can use a slash (/) instead of exclamation (!) to run these commands"
-            "2": "!fov - Set your FOV (30-130)"
-            "3": "!centerprojectiles - Center your projectiles (Original style)"
-            "4": "!speedo - Speedometer settings"
-        Gamemode Info:
-          title: WELCOME TO rINSTAGIB
-          items:
-            "1": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
-            "2": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
-            "3": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
-            "4": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
-            "5": "YOUR BUNNYHOPPING IS AUTOMATIC."
-            "6": "YOUR AIR CONTROL IS STRONGER."
-            "7": "YOUR AMMUNITION IS INFINITE."
+    vdfs:
+      helpmenu:
+        Help:
+          Plugin Commands:
+            title: Plugin Commands
+            items:
+              "": "You can use a slash (/) instead of exclamation (!) to run these commands"
+              "2": "!fov - Set your FOV (30-130)"
+              "3": "!centerprojectiles - Center your projectiles (Original style)"
+              "4": "!speedo - Speedometer settings"
+          Gamemode Info:
+            title: WELCOME TO rINSTAGIB
+            items:
+              "1": "YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS."
+              "2": "YOUR SECONDARY IS REPLACED WITH A RAILGUN."
+              "3": "MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE."
+              "4": "YOUR ROCKET AND MELEE HITS WILL ALWAYS ONE-HIT KILL."
+              "5": "YOUR BUNNYHOPPING IS AUTOMATIC."
+              "6": "YOUR AIR CONTROL IS STRONGER."
+              "7": "YOUR AMMUNITION IS INFINITE."
 
 # List of maps
 mapcycles:
   rinstagib:
     maps:
-      - cp_process_final
+      - cp_process_final_d # rinstagib edit
       - cp_sunshine
       - pl_upward
-      - plr_hightower
+      - plr_hightower_dv1 # rinstagib edit
+      - cp_orange_gamerland_classic_d # rinstagib edit
+      - koth_lakeside_final_dv1 # rinstagib edit
+
+  2fortplus:
+    maps:
+      - ctf_2fort_extended_bffedit
+
+  turbineplus:
+    maps:
+      - ctf_turbine_extended_bffedit
+
+  hightowerplus:
+    maps:
+      - plr_hightower_extended_bffedit
+
+  hangout:
+    maps:
+      - 2fart
+      - hikikomori_mall_a4
+      - ennui_box
+      - mercs_paradise_v2
+      - tower_of_power_v5
+      - trade_badsand_rc8
+      - trade_balloonfarm
+      - trade_boozehound_v4
+      - trade_dome
+      - trade_imagination_figment_a10b
+  
+  hoard:
+    maps:
+      - cp_altitude
+      - cp_mountainlab
+      - cp_process_final
+      - cp_sunshine
+      - koth_highpass
       - koth_lakeside_final
+      - koth_harvest_final
+      - workshop/454272353 # product
+      - pl_badwater
+      - pl_upward
+      - pl_borneo
+      - pl_pier
+      - pl_snowycoast
 
   all:
     mapconfig:
@@ -158,19 +396,99 @@ mapcycles:
         cp_steel:
           mp_maxrounds: 2
 
+    maps:
+      # ad
+      - cp_altitude
+      - cp_dustbowl
+      - cp_egypt_final
+      - cp_gorge
+      - cp_gravelpit
+      - cp_junction_final
+      - cp_mercenarypark
+      - cp_mossrock
+      - cp_mountainlab
+      - cp_steel
+      # 5cp
+      - cp_5gorge
+      - cp_badlands
+      - cp_coldfront
+      - cp_fastlane
+      - cp_foundry
+      - cp_freight_final1
+      - cp_granary
+      - cp_gullywash_final1
+      - cp_metalworks
+      - cp_process_final
+      - cp_snakewater_final1
+      - cp_standin_final
+      - cp_sunshine
+      - cp_vanguard
+      - cp_well
+      - cp_yukon_final
+      # 3cp
+      - cp_powerhouse
+      # koth
+      - koth_badlands
+      - koth_highpass
+      - koth_king
+      - koth_lakeside_final
+      - koth_harvest_final
+      - koth_suijin
+      - koth_viaduct
+      - koth_cascade
+      - koth_brazil
+      - koth_lazarus
+      - koth_sawmill
+      - koth_nucleus
+      - koth_harvest_final
+      # payload
+      - pl_badwater
+      - pl_barnblitz
+      - pl_borneo
+      - pl_enclosure_final
+      - pl_frontier_final
+      - pl_goldrush
+      - pl_hoodoo_final
+      - pl_pier
+      - pl_rumford_event
+      - pl_snowycoast
+      - pl_swiftwater_final1
+      - pl_thundermountain
+      - pl_upward
+      # payload (evil version)
+      - plr_bananabay
+      - plr_hightower
+      - plr_nightfall_final
+      - plr_pipeline
+      # ctf
+      - ctf_2fort
+      - ctf_doublecross
+      - ctf_landfall
+      - ctf_sawmill
+      - ctf_turbine
+      - ctf_well
+      # pass time
+      - pass_brickyard
+      - pass_timbertown
+      - pass_district
+
 # Plugins to include on every server
 base_plugins:
   - admin-flatfile
+  - admingrab
   - adminhelp
   - adminmenu
+  - adminsmite
   - antiflood
   - AutoKickProtector
+  - basebans
   - basechat
   - basecomm
   - basecommands
   - basetriggers
   - calladmin
   - clientprefs
+  - connect
   - custom-chatcolors
   - custom-chatcolors-mysql
   - custom-chatcolors-toggle
@@ -184,26 +502,31 @@ base_plugins:
   - funvotes
   - helpmenu
   - links
+  - mapconfigs
+  - necromash
   - nextmap
   - playercommands
   - reservedslots
   - sbpp_admcfg
   - sbpp_checker
+  - sbpp_comms
   - sbpp_main
   - sbpp_sleuth
+  - simple-chatprocessor
+  - slurkiller_perma
   - sm_nocontracker
   - sounds
   - spraytrace
   - stac
   - swag
   - tf2attributes
+  - tf2centerprojectiles
   - tf2utils
   - tf_econ_data
   - tf2playerclassdata
   - tf2playerclassdataconfig
   - waitingdoors
 
-  # - basebans
   # - basevotes
   # - mapchooser
   # - rockthevote
@@ -226,16 +549,16 @@ default_vdfs:
       Links:
         "1":
           command: sm_group
-          link: https://steamcommunity.com/groups/my_steam_group
+          link: https://steamcommunity.com/groups/BoxesForFoxes
         "2": 
           command: sm_discord
-          link: https://discord.gg/my_server
+          link: https://discord.gg/6rTTw8gUER
         "3":
           command: sm_sourcebans
-          link: https://mywebsite.com/sourcebans/
+          link: https://boxes4foxes.site.nfoservers.com/sourcebans/
         "4":
           command: sm_website
-          link: https://mywebsite.com
+          link: https://boxesforfoxes.net
   
   helpmenu:
     location: /tf/addons/sourcemod/configs/helpmenu.cfg
@@ -640,7 +963,7 @@ default_cfgs:
 
       # Rocket launcher blast radius multiplier.
       # 0.1, 0..1
-      ri_launcher_radius: "0.1"
+      ri_launcher_radius: "0.01"
 
       # Whether Rocket Jumping should cost no health.
       # 1, 0..1
@@ -707,7 +1030,7 @@ default_cfgs:
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}
-      discord_sourcebans_url: "https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}"
+      discord_sourcebans_url: "https://boxes4foxes.site.nfoservers.com/sourcebans/index.php?p=banlist&searchText={STEAMID}"
 
       # Config key from configs/discord.cfg.
       # sourcebans
@@ -734,7 +1057,7 @@ default_cfgs:
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}
-      discord_sourcecomms_url: "https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}"
+      discord_sourcecomms_url: "https://boxes4foxes.site.nfoservers.com/sourcebans/index.php?p=commslist&searchText={STEAMID}"
 
       # Config key from configs/discord.cfg.
       # sourcecomms
