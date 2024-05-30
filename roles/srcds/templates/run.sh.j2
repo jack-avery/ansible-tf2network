@@ -5,6 +5,6 @@ bash ./srcds_run -console \
   -port "{{ item.port }}" \
   +maxplayers {{ item.maxplayers|default(24) }} \
   +sv_setsteamaccount "{{ item.secrets.gslt }}" \
-  +map "{{ mapcycles[item.mapcycle|default("default")].maps | random }}" \
+  +map "{{ item.starting_map | default( mapcycles[item.mapcycle|default("default")].maps | random ) }}" \
   +sv_region "{{ srcds_region | quote }}" \
   +ip 0.0.0.0
