@@ -13,6 +13,7 @@ from rcon.source import Client
 DISCORD_MENTION_RE = re.compile(r"<@\d+>")
 DISCORD_CHANNEL_RE = re.compile(r"<#\d+>")
 DISCORD_EMOTE_RE = re.compile(r"(<a?(:[a-zA-Z0-9_]+:)\d+>)")
+DISCORD_REPLY_RE = re.compile(r"(.+) \[STEAM_[0|1]:[0|1]:\d+\]")
 
 SERVER_PLAYERS_RE = re.compile(r"players : (\d+) humans, \d+ bots \((\d+)")
 
@@ -156,23 +157,27 @@ class DiscordBot(discord.Client):
             for m, e in DISCORD_EMOTE_RE.findall(msg):
                 msg = msg.replace(m, e)
 
+        # add reply note
         reply_note = ""
         if message.reference:
             reply = await message.channel.fetch_message(message.reference.message_id)
-            reply_note = f" (replying to {reply.author.display_name})"
+
+            # remove [STEAM_0:0:...] from reply name if applicable
+            author_name_match = DISCORD_REPLY_RE.fullmatch(reply.author.display_name)
+            if author_name_match:
+                author_name = author_name_match[1]
+            else:
+                author_name = reply.author.display_name
+
+            reply_note = f" (replying to {author_name})"
+        msg = f"{message.author.display_name}{reply_note}: {msg}"
 
         # sanitize
-        for i in ['"', '"']:
-            msg = msg.replace(i, "'")
-
+        msg = msg.replace('"', "'")
         msg = msg.replace("\\", "")
-
         for i in ["\n", "\r", "\t", "\f"]:
             msg = msg.replace(i, " ")
-
         msg = msg.replace(";", "")
-
-        msg = f"{message.author.display_name}{reply_note}: {msg}"
 
         # max tf2 message length is 127;
         # " [...] (attachment)" (19) on max length 127-19=98
