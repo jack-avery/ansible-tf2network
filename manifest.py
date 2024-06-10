@@ -38,8 +38,6 @@ def load_ansible_globals() -> dict:
         globals = yaml.safe_load(globals_yml)
 
     retval = {
-        "srcds_base_port": globals["srcds_base_port"],
-        "srcds_reserve_ports": globals["srcds_reserve_ports"],
         "stv_enabled": globals["stv_enabled"],
     }
     logging.debug(retval)
@@ -76,6 +74,8 @@ def load_ansible_variables() -> dict:
                 instances = {
                     instance["name"]: instance for instance in vars["instances"]
                 }
+                del vars["instances"]
+                host_vars[host]["host"] = vars
                 host_vars[host]["vars"] = instances
 
     logging.debug(host_vars)
@@ -93,9 +93,9 @@ def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
     manifest = {}
     for host in inventory:
         ip = inventory[host]["ansible_host"]
-        for i, instance in enumerate(vars[host]["vars"]):
-            port = globals["srcds_base_port"] + (globals["srcds_reserve_ports"] * i)
+        base_port = vars[host]["host"]["srcds_base_port"]
 
+        for i, instance in enumerate(vars[host]["vars"]):
             if instance in manifest:
                 ValueError(
                     f"duplicate instance {instance} -- internal names should be unique"
@@ -103,7 +103,7 @@ def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
             manifest[instance] = {}
 
             manifest[instance]["ip"] = ip
-            manifest[instance]["port"] = port
+            manifest[instance]["port"] = base_port + (vars[host]["host"]["srcds_reserve_ports"] * i)
             manifest[instance]["hostname"] = vars[host]["vars"][instance]["hostname"]
             manifest[instance]["rcon_pass"] = vars[host]["secret"][instance][
                 "rcon_pass"

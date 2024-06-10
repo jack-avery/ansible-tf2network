@@ -166,6 +166,7 @@ stock void Relay_EscapeString(char[] string, int maxlen)
 {
 	ReplaceString(string, maxlen, "@", "＠");
 	ReplaceString(string, maxlen, "\"", "'");
+    ReplaceString(string, maxlen, "\\", "\\\\");
 }
 
 public Action ChatHook(int client, int args)
