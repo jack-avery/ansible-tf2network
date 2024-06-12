@@ -53,24 +53,12 @@ rulesets:
 
     cfgs:
       ClassRestrictionsForHumans:
-        sm_crh_blu_demomen: "3"
         sm_crh_blu_engineers: "2"
         sm_crh_blu_heavies: "2"
-        sm_crh_blu_medics: "3"
-        sm_crh_blu_pyros: "3"
-        sm_crh_blu_scouts: "3"
         sm_crh_blu_snipers: "2"
-        sm_crh_blu_soldiers: "3"
-        sm_crh_blu_spies: "3"
-        sm_crh_red_demomen: "3"
         sm_crh_red_engineers: "2"
         sm_crh_red_heavies: "2"
-        sm_crh_red_medics: "3"
-        sm_crh_red_pyros: "3"
-        sm_crh_red_scouts: "3"
         sm_crh_red_snipers: "2"
-        sm_crh_red_soldiers: "3"
-        sm_crh_red_spies: "3"
 
 # List of maps
 mapcycles:
