@@ -148,7 +148,7 @@ default_vdfs:
     default:
       Advertisements:
         "1":
-          chat: "{blue}join our discord here: https://discord.gg/RWkHPaKy"
+          chat: "{pink}join our discord here: https://discord.gg/RWkHPaKy"
 
 ###
 # Plugin default configurations
