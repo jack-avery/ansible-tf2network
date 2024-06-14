@@ -1,0 +1,17 @@
+# https://developer.valvesoftware.com/wiki/Sv_region
+srcds_region: 3
+srcds_base_port: 27015
+srcds_reserve_ports: 10
+daily_restart_hour_utc: 6
+
+instances:
+  - name: eu1-1
+    hostname: "[EU] Swishcast Central [Casual]"
+    maxplayers: 24
+    mapcycle: swishcast_regular
+    ruleset: standard
+    starting_map: workshop/2096843840
+    relay_channel: 1238569871910895626
+
+    # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
+    # on top of the MOTD, tags, plugins, and more
