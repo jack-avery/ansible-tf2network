@@ -74,24 +74,3 @@ instances:
     stv_name: "/call to report players"
     relay_bot:
       relay_channel: 1124974188856344697
-
-  - name: "hoard"
-    hostname: "The Dragon's Hoard"
-    maxplayers: 24
-    mapcycle: "hoard"
-    ruleset: "hoard"
-    timelimit: 30
-    stv_name: "/call to report players"
-    motd: |
-      welcome to the dragon's hoard!
-
-      rules:
-      - don't be an asshole
-      - don't cheat
-      - don't say slurs
-      you will not receive warnings.
-      
-      try out !help, !discord, !group\
-    relay_bot:
-      relay_channel: 1185408208244842496
-      status_channel: 1218799220518162472
