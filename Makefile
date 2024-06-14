@@ -15,8 +15,11 @@ srcds:
 	@ansible-playbook --limit prod playbooks/srcds.yml --extra-vars "only=$(ONLY)"
 
 relay:
+	@ansible-playbook playbooks/relay.yml
+
+relay-deploy:
 	python3 manifest.py
-	@ansible-playbook playbooks/relay.yml --extra-vars "only=$(ONLY)"
+	@ansible-playbook playbooks/relay-deploy.yml
 
 deploy:
 	@ansible-playbook --limit prod playbooks/deploy.yml --extra-vars "only=$(ONLY)"

@@ -4,11 +4,12 @@ __pycache__
 # secrets
 .vault_pass.sh
 
-# settings
-.vscode
-
 # maps (this can get pretty big)
 roles/srcds/files/maps
+
+# ansible-tf2network-relay compiled binaries
+roles/relay/files/target
+roles/relay/files/Cargo.lock
 
 # logs and manifest
 manifest_logs

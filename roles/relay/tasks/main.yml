@@ -2,55 +2,40 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
-- name: Delete old build data
-  ansible.builtin.file:
-    state: absent
-    path: ~/build-relay/
-
 - name: Create build directory
   ansible.builtin.file:
     path: ~/build-relay/
     state: directory
     mode: 0755
 
-- name: Copy files
-  ansible.posix.synchronize:
+- name: Copy build sources
+  ansible.builtin.synchronize:
     src: "{{ role_path }}/files/"
     dest: ~/build-relay/
+    archive: false
     recursive: true
-
-- name: Generate config.yml
-  ansible.builtin.template:
-    src: config.yml.j2
-    dest: ~/build-relay/config.yml
-    mode: 0755
-
-- name: Copy manifest.yml
-  ansible.posix.synchronize:
-    src: "{{ role_path }}/../../manifest.yml"
-    dest: ~/build-relay/
+    rsync_opts:
+      - --exclude=target
+      - --exclude=config.yml
+      - --exclude=manifest.yml
 
 - name: Prune space before building
   community.docker.docker_prune:
     images: true
     containers: true
 
-- name: Build image
-  community.docker.docker_image:
-    name: "srcdsr-{{ network_shortname }}"
-    tag: "latest"
-    source: build
-    build:
-      path: ~/build-relay/
-      pull: true
-    state: present
-    force_source: true
-    force_tag: true
-
-- name: Start SRCDS Relay
+- name: Build rocket.rs binary
   community.docker.docker_container:
-    name: "srcdsr-{{ network_shortname }}"
-    image: "srcdsr-{{ network_shortname }}:latest"
+    name: ansible-tf2network-relay-build
+    image: rust:1.74-slim-bookworm
     state: started
-    restart: true
-    restart_policy: "unless-stopped"
+    auto_remove: true
+    volumes:
+      - /home/tf2server/build-relay:/build
+    command: /build/build.sh
+
+- name: Wait for container to close
+  wait_for:
+    path: /home/tf2server/build-relay/.lock
+    state: absent
+    delay: 10

@@ -1,0 +1,18 @@
+[package]
+name = "ansible-tf2network-relay"
+version = "1.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serenity = "0.12.2"
+tokio = { version = "1.38.0", features = ["rt-multi-thread", "macros"] }
+sourcon = { git = "https://github.com/crescentrose/sourcon.git", rev = "d4b5786" }
+rsourcequery = { git = "https://github.com/jack-avery/rsourcequery.git", rev = "c244ec3" }
+serde_yaml = "0.9.34"
+serde = "1.0.203"
+lazy_static = "1.4.0"
+thiserror = "1.0.61"
+regex = "1.10.5"
+itertools = "0.13.0"
