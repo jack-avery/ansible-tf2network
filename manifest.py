@@ -90,31 +90,37 @@ def encrypt_ansible_secrets() -> None:
 
 def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
     logging.info("Formatting the resulting dict...")
-    manifest = {}
+    used_names = []
+    instances = []
     for host in inventory:
         ip = inventory[host]["ansible_host"]
         base_port = vars[host]["host"]["srcds_base_port"]
 
-        for i, instance in enumerate(vars[host]["vars"]):
-            if instance in manifest:
+        for i, instance_name in enumerate(vars[host]["vars"]):
+            if instance_name in used_names:
                 ValueError(
-                    f"duplicate instance {instance} -- internal names should be unique"
+                    f"duplicate instance {instance_name} -- internal names should be unique"
                 )
-            manifest[instance] = {}
+            used_names.append(instance_name)
 
-            manifest[instance]["ip"] = ip
-            manifest[instance]["port"] = base_port + (vars[host]["host"]["srcds_reserve_ports"] * i)
-            manifest[instance]["hostname"] = vars[host]["vars"][instance]["hostname"]
-            manifest[instance]["rcon_pass"] = vars[host]["secret"][instance][
-                "rcon_pass"
-            ]
-
-            if stv_enabled := vars[host]["vars"][instance].get("stv_enabled", None):
-                manifest[instance]["stv_enabled"] = stv_enabled
+            stv_enabled: bool
+            if stv := vars[host]["vars"][instance_name].get("stv_enabled", None):
+                stv_enabled = stv
             else:
-                manifest[instance]["stv_enabled"] = globals["stv_enabled"]
+                stv_enabled = globals["stv_enabled"]
 
-            manifest[instance]["relay_channel"] = vars[host]["vars"][instance].get("relay_channel", None)
+            instances.append({
+                "internal_name": instance_name,
+                "hostname": vars[host]["vars"][instance_name]["hostname"],
+                "ip": f"{ip}:{base_port + (vars[host]['host']['srcds_reserve_ports'] * i)}",
+                "rcon_pass": vars[host]["secret"][instance_name]["rcon_pass"],
+                "relay_channel": vars[host]["vars"][instance_name].get("relay_channel", None),
+                "stv_enabled": stv_enabled
+            })
+        
+    manifest = {
+        "hosts": instances
+    }
 
     logging.debug(manifest)
     return manifest
