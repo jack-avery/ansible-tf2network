@@ -23,6 +23,6 @@ pub async fn run() -> Result<CreateEmbed, RelayBotError> {
                         info.map)
                 })
                 .collect::<Vec<String>>()
-                .join("\n\n---"))
+                .join("\n\n---\n"))
         .color(Color::BLURPLE))
 }
