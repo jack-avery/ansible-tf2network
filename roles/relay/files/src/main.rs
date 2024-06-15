@@ -69,6 +69,7 @@ impl EventHandler for Handler {
     }
 
     async fn message(&self, _: Context, message: Message) {
+        if message.author.bot { return };
         let Some(server) = &RELAY_CHANNELS.get(&message.channel_id) else { return };
 
         let mut msg: String = message.clone().content;
