@@ -10,7 +10,7 @@ instances:
     maxplayers: 24
     mapcycle: swishcast_regular
     ruleset: standard
-    starting_map: plr_hightower
+    starting_map: pl_badwater
     relay_channel: 1238569871910895626
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
