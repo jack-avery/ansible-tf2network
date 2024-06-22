@@ -71,6 +71,7 @@ mapcycles:
           mp_winlimit: 0
           mp_maxrounds: 0
           mp_timelimit: 0
+          mp_match_end_at_timelimit: 0
       gametype:
         cp:
           mp_winlimit: 2
@@ -88,6 +89,9 @@ mapcycles:
           mp_maxrounds: 1
           mp_timelimit: 20
       maps:
+        plr_hightower:
+          mp_timelimit: 15
+          mp_match_end_at_timelimit: 1 # force map end after 15 minutes
         # a/d cp use maxrounds intead
         # thank you valve for making a/d use same prefix as 3/5cp
         cp_dustbowl:
