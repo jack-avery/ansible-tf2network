@@ -42,6 +42,7 @@ rulesets:
       - tf_spec_xray 0
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
+      - sm_advertisements_interval 120
 
     tags:
       - badwater
@@ -141,14 +142,14 @@ default_vdfs:
       Links:
         "1":
           command: sm_discord
-          link: https://discord.gg/RWkHPaKy
+          link: https://discord.gg/WB3zDHzzdJ
   
   advertisements:
     location: /tf/addons/sourcemod/configs/advertisements.txt
     default:
       Advertisements:
         "1":
-          chat: "{pink}join our discord here: https://discord.gg/RWkHPaKy"
+          chat: "{pink}join our discord here: https://discord.gg/WB3zDHzzdJ"
 
 ###
 # Plugin default configurations
