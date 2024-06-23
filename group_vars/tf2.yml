@@ -43,6 +43,7 @@ rulesets:
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
       - sm_advertisements_interval 120
+      - mp_scrambleteams_auto 0
 
     tags:
       - badwater
