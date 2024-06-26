@@ -48,6 +48,7 @@ rulesets:
     tags:
       - badwater
       - "247"
+      - classlimits
 
     plugins:
       - ClassRestrictionsForHumans
