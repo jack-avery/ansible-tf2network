@@ -87,6 +87,8 @@ mapcycles:
         plr:
           mp_maxrounds: 1
           mp_timelimit: 20
+        sd:
+          mp_maxrounds: 2
       maps:
         # a/d cp use maxrounds intead
         # thank you valve for making a/d use same prefix as 3/5cp
@@ -153,6 +155,7 @@ mapcycles:
       - pl_snowycoast
       - pd_selbyen
       - pd_galleria
+      - sd_doomsday
 
       # workshop
       - workshop/3228889882 # PL Yokohama - https://steamcommunity.com/sharedfiles/filedetails/?id=3228889882
