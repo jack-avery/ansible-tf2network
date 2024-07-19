@@ -1,22 +1,14 @@
 ---
-- name: See if image already exists to update
-  docker_image_info:
-    name: jackavery/base-tf2server:latest
-  register: search
-  when: 'not clean'
-
 - name: Delete old build data
   ansible.builtin.file:
     state: absent
     path: ~/build/base
-  when: 'clean or search.images | length == 0'
 
 - name: Create build directory
   ansible.builtin.file:
     path: ~/build/base
     state: directory
     mode: 0755
-  when: 'clean or search.images | length == 0'
 
 - name: Copy build sources
   ansible.builtin.synchronize:
@@ -24,7 +16,6 @@
     dest: ~/build/base
     archive: false
     recursive: true
-  when: 'clean or search.images | length == 0'
 
 - name: Build base image
   community.docker.docker_image:
@@ -41,37 +32,3 @@
       platform: linux/amd64
       path: ~/build/base
     state: present
-  when: 'clean or search.images | length == 0'
-
-- name: Prune space before updating
-  community.docker.docker_prune:
-    images: true
-    containers: true
-  when: 'search.images | length == 1'
-
-- name: Run updater container
-  community.docker.docker_container:
-    name: "srcds-update-base"
-    image: "jackavery/base-tf2server:latest"
-    state: started
-    volumes:
-      - /home/tf2server/.lock:/home/steam/.lock
-    command: "bash /home/steam/update.sh"
-  when: 'search.images | length == 1'
-
-- name: Wait for update to finish
-  wait_for:
-    path: /home/tf2server/.lock/lock
-    state: absent
-    delay: 10
-  when: 'search.images | length == 1'
-
-- name: Commit changes
-  ansible.builtin.shell: docker commit srcds-update-base jackavery/base-tf2server:latest
-  when: 'search.images | length == 1'
-
-- name: Remove updater container
-  community.docker.docker_container:
-    name: "srcds-update-base"
-    state: absent
-  when: 'search.images | length == 1'
