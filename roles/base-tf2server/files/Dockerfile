@@ -7,6 +7,7 @@ RUN dpkg --add-architecture i386 && \
     libtinfo5:i386 \
     libncurses5:i386 \
     libcurl3-gnutls:i386
+USER steam
 
 # Install TF2 server binary
 WORKDIR ${STEAMCMDDIR}
@@ -15,6 +16,4 @@ RUN ./steamcmd.sh +force_install_dir ${HOMEDIR}/tf-dedicated +login anonymous +a
 # Symbolically link required library to server binaries (server won't start otherwise?)
 RUN ln -s /usr/lib/amd64-linux-gnu/libcurl-gnutls.so.4 ${HOMEDIR}/tf-dedicated/bin/libcurl-gnutls.so.4
 
-USER steam
-COPY update.sh ${HOMEDIR}/update.sh
 WORKDIR ${HOMEDIR}/tf-dedicated
