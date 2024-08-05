@@ -1,0 +1,5 @@
+---
+- name: Start SBPP with intent to install
+  hosts: metrics
+  roles:
+    - sbpp-install

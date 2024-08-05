@@ -21,6 +21,16 @@
                 "database"                      "sourcemod-local"
         }
 
+        "sourcebans"
+        {
+                "driver"                        "default"
+                "host"                          "{{ sbpp_host }}"
+                "database"                      "sourcemod"
+                "user"                          "sourcebans"
+                "pass"                          "{{ sbpp_user_password }}"
+                "port"                          "{{ sbpp_db_port }}"
+        }
+
 {% for name, db in databases.items() %}
         "{{ name }}"
         {

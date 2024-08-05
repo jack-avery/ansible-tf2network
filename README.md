@@ -18,18 +18,22 @@ Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL]
 * `inventory.yml.sample`
 * `group_vars/tf2.secret.yml.sample`
 * `host_vars/host.secret.yml.sample`
-2. `make base` - Build the base Team Fortress 2 server Docker image
-3. `make sm` - Distribute and build SourceMod
-4. `make srcds` - Build instance images
-5. `make deploy` - Start containers & setup crontab
-6. `make relay` - Build and start the Discord -> Server relay/RCON bot (if configured)
-> You can perform all of these in order with simply `make`<br/>
+2. `make sbpp-install` - Install SourceBans++ on your `metrics` host. <br>
+-- Make sure to access it at the address & port to complete necessary setup manually.
+3. `make sbpp` - Start SourceBans++ on your Metrics host without intent to reinstall. <br>
+-- This is necessary because otherwise SB++ will wipe itself if the container restarts.
+4. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
+5. `make sm` - Distribute and build SourceMod.
+6. `make srcds` - Build instance images.
+7. `make deploy` - Start containers & setup crontab for the TF2 servers.
+8. `make relay` - If configured & enabled, build the Discord -> Server relay/RCON bot on your `metrics` host.
+9. `make relay-deploy` - Deploy the bot on your `metrics` host.
+> `make all` or simply `make` is an alias for `make sm srcds deploy relay relay-deploy`<br>
 > You can update your admins/reserved slots at any time with `make admins`
 
-**`make base` can take a long time if it's the first run!**
-This is because it's downloading the full TF2 server.
-**It is possible that Ansible will *SILENTLY* time out while waiting if it takes too long!**
-
+**`make base` can take a long time!**
+This is because it's downloading the full TF2 server.<br>
+**It is possible that Ansible will *SILENTLY* time out while waiting if it takes too long!**<br>
 Watch for `jackavery/base-tf2server` to show up in `docker image ls`. If it's there, you can Ctrl+C Ansible.
 
 ## ⭐ Features
