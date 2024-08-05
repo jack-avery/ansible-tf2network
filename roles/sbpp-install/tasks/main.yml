@@ -20,5 +20,8 @@
     dest: ~/sbpp/{{ network_shortname }}/docker_compose.yml
     mode: 0755
 
+- name: docker-compose down
+  shell: docker-compose -f ~/sbpp/{{ network_shortname }}/docker_compose.yml down
+
 - name: docker-compose up
-  shell: docker-compose -f ~/sbpp/{{ network_shortname }}/docker_compose.yml up
+  shell: docker-compose -f ~/sbpp/{{ network_shortname }}/docker_compose.yml up -d
