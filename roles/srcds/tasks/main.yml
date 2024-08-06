@@ -48,7 +48,7 @@
   ansible.builtin.template:
     src: run.sh.j2
     dest: ~/build/{{ item.name }}/run.sh
-    mode: 0775
+    mode: 0755
   loop: "{{ targets.instances }}"
   loop_control:
     index_var: loop0
