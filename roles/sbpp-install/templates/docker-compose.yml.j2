@@ -8,7 +8,7 @@ services:
       INSTALL: 'true'
     networks:
       - db-{{ network_shortname }}
-    ports: 
+    ports:
     # Change the port before the colon to whatever you want to use
     - "{{ sbpp_html_port }}:8080"
     volumes:
@@ -33,5 +33,5 @@ networks:
   db-{{ network_shortname }}:
 
 volumes:
-  sourcebans-{{ network_shortname }}: 
+  sourcebans-{{ network_shortname }}:
   mysql-{{ network_shortname }}:
