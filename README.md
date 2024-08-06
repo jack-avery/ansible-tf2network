@@ -19,7 +19,11 @@ Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL]
 * `group_vars/tf2.secret.yml.sample`
 * `host_vars/host.secret.yml.sample`
 2. `make sbpp-install` - Install SourceBans++ on your `metrics` host. <br>
--- Make sure to access it at the address & port to complete necessary setup manually.
+-- Make sure to access it at the address & port to complete necessary setup manually.<br>
+> DB host: `db`<br>
+> DB user: `sourcebans`<br>
+> DB name: `sourcebans`<br>
+> Configure the rest to your liking.
 3. `make sbpp` - Start SourceBans++ on your Metrics host without intent to reinstall. <br>
 -- This is necessary because otherwise SB++ will wipe itself if the container restarts.
 4. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
