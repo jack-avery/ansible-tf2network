@@ -48,7 +48,7 @@
   narrow:
     items: "{{ instances }}"
     items_secrets: "{{ instances_secrets }}"
-    narrow: "{{ only }}"
+    narrow: "{{ only|default('') }}"
     base_port: "{{ srcds_base_port }}"
     rsrv_port: "{{ srcds_reserve_ports }}"
   register: targets
