@@ -1,22 +1,29 @@
 # ansible-tf2network
 
-Generally applicable Ansible playbooks for administering a small to medium server network for [**Team Fortress 2**](https://www.teamfortress.com/).<br/>
-
-These playbooks are currently made to support a *separately-hosted* [**SourceBans++**](https://sbpp.github.io/) ban system.
+Generally applicable Ansible playbooks for administering a small to medium server network for [**Team Fortress 2**](https://www.teamfortress.com/).<br>
 
 ## ✍️ Usage
 
 Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL](https://learn.microsoft.com/en-us/windows/wsl/install)**.
+These playbooks only work with [systemd](https://systemd.io/)-based hosts, which is the default for most Linux distributions.
 
-1. Assuming you're using Ubuntu, install Python, Ansible, and Docker in WSL using `sudo apt-get install python3 ansible docker.io`
-2. On all server "hosts":
-- 1. `sudo apt-get install docker.io` - Install Docker
-- 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role
+### Mandatory setup
+1. Assuming you're using Ubuntu (WSL default), install Python, Ansible, and Docker using `sudo apt install -y python3 ansible docker.io`
+2. On all hosts, after setting up your ssh:
+- 1. `sudo apt install -y docker.io` - Install Docker.
+- 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
+- 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering.
+- 4. Put your Ansible ssh *public key* into `/home/tf2server/./ssh/authorized_keys`.
+- 5. Go into `/etc/ssh/sshd_config`:
+- - 1. Uncomment the `AuthorizedKeysFile` directive.
+- - 2. Add `.ssh/authorized_keys_generated`.
 
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
 * `inventory.yml.sample`
+* `group_vars/tf2.yml.sample`
 * `group_vars/tf2.secret.yml.sample`
+* `host_vars/host.yml.sample`
 * `host_vars/host.secret.yml.sample`
 2. `make sbpp-install` - Install SourceBans++ on your `metrics` host. <br>
 -- Make sure to access it at the address & port to complete necessary setup manually.<br>
