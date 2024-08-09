@@ -77,13 +77,6 @@ Some plugin configuration use Valve's [KeyValues](https://developer.valvesoftwar
 ### 💬 Discord Channel <-> Server relay
 Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in `host_vars/{host}.secret.yml`) facilitates a Server to Discord relay, and correctly configuring your Discord bot (in `group_vars/tf2.secret.yml` and `host_vars/{host}.yml`) facilitates a Discord to Server relay between a specified Discord channel and Team Fortress 2 server. You can also allow specific Discord user IDs access to the `/rcon` command, which allows remote control of the server network.
 
-## 🗒️ To-Do
-
-- [ ] Set up SB++ automatically on a 'metrics' host
-- [x] Have `relay` target a 'metrics' host as they do not rely on being on the `tf2` hosts
-- [x] Configuration standardization pass to hopefully reduce confusion
-- [ ] Improve mapcfg Jinja2 handling (collapse to 1 file preferably)
-
 ### Pre-commit
 There is a pre-commit hook that you should enable to ensure you don't commit any unencrypted secret:<br/>
 `ln .hooks/pre-commit .git/hooks/pre-commit`
