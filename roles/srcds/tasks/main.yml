@@ -134,7 +134,7 @@
 
 - name: Build images
   community.docker.docker_image:
-    name: "srcds-{{ item.name }}"
+    name: "srcds-{{ network_shortname }}-{{ item.name }}"
     tag: "latest"
     source: build
     build:

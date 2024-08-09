@@ -24,11 +24,11 @@
         "sourcebans"
         {
                 "driver"                        "default"
-                "host"                          "172.17.0.1"
+                "host"                          "ssh-{{ network_shortname }}"
                 "database"                      "sourcebans"
                 "user"                          "sourcebans"
                 "pass"                          "{{ sbpp_user_password }}"
-                "port"                          "{{ sbpp_db_port }}"
+                "port"                          "3306"
         }
 
 {% for name, db in databases.items() %}
