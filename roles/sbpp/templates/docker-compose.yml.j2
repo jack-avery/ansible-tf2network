@@ -32,7 +32,7 @@ services:
   ssh:
     image: linuxserver/openssh-server
     environment:
-      - PUBLIC_KEY_FILE=/authorized_keys
+      - PUBLIC_KEY_DIR=/authorized_keys
       - USER_NAME=sbpp_user
     volumes:
       - /home/tf2server/sbpp/{{ network_shortname }}/keys:/authorized_keys
