@@ -32,35 +32,3 @@
     owner: tf2server
     group: tf2server
     mode: 0600
-
-- name: Ensure host ~/.config directory exists
-  file:
-    path: ~/.config
-    state: directory
-    mode: 0744
-
-- name: Ensure host ~/.config/systemd directory exists
-  file:
-    path: ~/.config/systemd
-    state: directory
-    mode: 0744
-
-- name: Ensure host ~/.config/systemd/user directory exists
-  file:
-    path: ~/.config/systemd/user
-    state: directory
-    mode: 0744
-
-- name: Create ssh tunnel service
-  template:
-    src: sbpp_tunnel.service.j2
-    dest: ~/.config/systemd/user/sbpp_tunnel.service
-    mode: 0600
-
-- name: Enable & start tunnel service
-  ansible.builtin.systemd_service:
-    name: sbpp_tunnel
-    state: restarted
-    daemon_reload: true
-    enabled: true
-    scope: user
