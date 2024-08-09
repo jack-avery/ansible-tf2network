@@ -14,9 +14,10 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 - 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
 - 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering.
 - 4. Put your Ansible ssh *public key* into `/home/tf2server/./ssh/authorized_keys`.
-- 5. Go into `/etc/ssh/sshd_config`:
+- 5. `sudo nano /etc/ssh/sshd_config` - Go into `/etc/ssh/sshd_config`:
 - - 1. Uncomment the `AuthorizedKeysFile` directive.
 - - 2. Add `.ssh/authorized_keys_generated`.
+- 6. `sudo systemctl restart ssh` - Restart OpenSSH sshd.
 
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
