@@ -9,15 +9,14 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 
 ### Mandatory setup
 1. Assuming you're using Ubuntu (WSL default), install Python, Ansible, and Docker using `sudo apt install -y python3 ansible docker.io`
-2. On all hosts, after setting up your ssh:
+2. On all `tf2` hosts (dedicated servers):
 - 1. `sudo apt install -y docker.io` - Install Docker.
 - 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
 - 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering.
-- 4. Put your Ansible ssh *public key* into `/home/tf2server/./ssh/authorized_keys`.
-- 5. `sudo nano /etc/ssh/sshd_config` - Go into `/etc/ssh/sshd_config`:
-- - 1. Uncomment the `AuthorizedKeysFile` directive.
-- - 2. Add `.ssh/authorized_keys_generated`.
-- 6. `sudo systemctl restart ssh` - Restart OpenSSH sshd.
+
+3. On your `metrics` host:
+- 1. `sudo apt install -y docker.io` - Install Docker.
+- 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
 
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
@@ -34,12 +33,13 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 > Configure the rest to your liking.
 3. `make sbpp` - Start SourceBans++ on your Metrics host without intent to reinstall. <br>
 -- This is necessary because otherwise SB++ will wipe itself if the container restarts.
-4. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
-5. `make sm` - Distribute and build SourceMod.
-6. `make srcds` - Build instance images.
-7. `make deploy` - Start containers & setup crontab for the TF2 servers.
-8. `make relay` - If configured & enabled, build the Discord -> Server relay/RCON bot on your `metrics` host.
-9. `make relay-deploy` - Deploy the bot on your `metrics` host.
+4. `make cycle` - Generate initial ssh keys for secure SB++ DB connection.
+5. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
+6. `make sm` - Distribute and build SourceMod.
+7. `make srcds` - Build instance images.
+8. `make deploy` - Start containers & setup crontab for the TF2 servers.
+9. `make relay` - If configured & enabled, build the Discord -> Server relay/RCON bot on your `metrics` host.
+10. `make relay-deploy` - Deploy the bot on your `metrics` host.
 > `make all` or simply `make` is an alias for `make sm srcds deploy relay relay-deploy`<br>
 > You can update your admins/reserved slots at any time with `make admins`
 

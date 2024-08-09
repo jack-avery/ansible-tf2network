@@ -1,0 +1,14 @@
+---
+- name: Concatenate public keys
+  shell: "cat {{ role_path }}/../ssh-gen/files/{{ network_shortname }}-*.pub"
+  register: authorized_keys_generated
+  delegate_to: localhost
+
+- name: Populate keys file
+  shell: |
+    cat > ~/sbpp/{{ network_shortname }}/keys << HEREDOC
+    {{ authorized_keys_generated.stdout }}
+    HEREDOC
+
+- name: Protect keys file
+  shell: chmod 0600 ~/sbpp/{{ network_shortname }}/keys

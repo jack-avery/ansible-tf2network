@@ -1,0 +1,5 @@
+---
+- name: Authorize ssh keys
+  hosts: metrics
+  roles:
+    - ssh-auth

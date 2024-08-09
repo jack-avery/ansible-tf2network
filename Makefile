@@ -14,6 +14,14 @@ sbpp-install:
 sbpp:
 	@ansible-playbook --limit metrics playbooks/sbpp.yml
 
+ssh-gen:
+	@ansible-playbook --limit prod playbooks/ssh-gen.yml
+
+ssh-auth:
+	@ansible-playbook --limit metrics playbooks/ssh-auth.yml
+
+cycle: ssh-gen ssh-auth
+
 admins:
 	@ansible-playbook --limit prod playbooks/admins.yml --extra-vars "only=$(ONLY)"
 
