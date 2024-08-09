@@ -1,5 +1,7 @@
 {% if 'htmlmotd' in item %}
 {{ item.htmlmotd }}
-{% else %}
+{% elif htmlmotd %}
 {{ htmlmotd }}
+{% else %}
+{{ motd }}
 {% endif %}
