@@ -8,8 +8,7 @@ global_tags:
   - community
 
 # Default MOTD
-htmlmotd: |
-  Official TF2 server of Control Point - a TF2 podcast
+htmlmotd: false
 motd: |
   Official TF2 server of Control Point - a TF2 podcast
 
@@ -735,7 +734,7 @@ default_cfgs:
 
       # This allows you to mention reports, leave blank to disable.
       # @here
-      discord_sourcebans_mention: "@here"
+      discord_sourcebans_mention: ""
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=banlist&searchText={STEAMID}
@@ -762,7 +761,7 @@ default_cfgs:
 
       # This allows you to mention reports, leave blank to disable.
       # @here
-      discord_sourcecomms_mention: "@here"
+      discord_sourcecomms_mention: ""
 
       # Link to sourcebans.
       # https://sb.eu.3kliksphilip.com/index.php?p=commslist&searchText={STEAMID}
