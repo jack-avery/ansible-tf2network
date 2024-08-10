@@ -8,14 +8,7 @@ global_tags:
   - bestwater
 
 # Default MOTD
-htmlmotd: |
-  rules:
-  1. don't be homophobic, transphobic, racist, etc.
-  2. no explicit (18+) stuff
-  3. don't spam chat
-  4. if you're annoying or have bad vibes i'll ban you
-  5. use common sense
-  6. badwater = bestwater
+htmlmotd: false
 motd: |
   rules:
   1. don't be homophobic, transphobic, racist, etc.
