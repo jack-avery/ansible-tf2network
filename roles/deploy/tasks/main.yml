@@ -4,7 +4,7 @@
 
 - name: Create network
   docker_network:
-    name: ansible-tf2network
+    name: net-{{ network_shortname }}
 
 - name: Announce update
   ignore_errors: true
@@ -19,16 +19,29 @@
   delegate_to: localhost
   timeout: 10
 
+- name: Start ssh tunnel
+  community.docker.docker_container:
+    name: "ssh-{{ network_shortname }}"
+    image: "kroniak/ssh-client"
+    state: started
+    restart: true
+    restart_policy: "always"
+    volumes:
+      - /home/tf2server/.ssh/sbpp_key:/root/id_rsa
+    networks:
+      - name: net-{{ network_shortname }}
+    command: ssh -4NTCp {{ sbpp_host_ssh_port }} -i /root/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -L 0.0.0.0:3306:db:3306 sbpp_user@{{ sbpp_host }}
+
 - name: Start SRCDS
   community.docker.docker_container:
-    name: "srcds-{{ item.name }}"
-    image: "srcds-{{ item.name }}:latest"
+    name: "srcds-{{network_shortname}}-{{ item.name }}"
+    image: "srcds-{{network_shortname}}-{{ item.name }}:latest"
     state: started
     restart: true
     restart_policy: "unless-stopped"
     cpuset_cpus: "{{ loop0 }}"
     networks:
-      - name: ansible-tf2network
+      - name: net-{{ network_shortname }}
     ports:
       - "{{ item.port }}:{{ item.port }}"
       - "{{ item.port }}:{{ item.port }}/udp"

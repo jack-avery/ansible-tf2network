@@ -21,6 +21,16 @@
                 "database"                      "sourcemod-local"
         }
 
+        "sourcebans"
+        {
+                "driver"                        "default"
+                "host"                          "ssh-{{ network_shortname }}"
+                "database"                      "sourcebans"
+                "user"                          "sourcebans"
+                "pass"                          "{{ sbpp_user_password }}"
+                "port"                          "3306"
+        }
+
 {% for name, db in databases.items() %}
         "{{ name }}"
         {

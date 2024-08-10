@@ -1,0 +1,45 @@
+---
+- name: Perform setup
+  ansible.builtin.include_tasks: setup.yml
+
+- name: Create build directory
+  ansible.builtin.file:
+    path: ~/sbpp
+    state: directory
+    mode: 0755
+
+- name: Create network directory
+  ansible.builtin.file:
+    path: ~/sbpp/{{ network_shortname }}
+    state: directory
+    mode: 0755
+
+- name: Create ssh-init directory
+  ansible.builtin.file:
+    path: ~/ssh-init
+    state: directory
+    mode: 0755
+
+- name: Transfer docker-compose.yml
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: ~/sbpp/{{ network_shortname }}/docker-compose.yml
+    mode: 0755
+
+- name: Transfer 50-server.cnf
+  copy:
+    src: 50-server.cnf
+    dest: ~/sbpp/50-server.cnf
+    mode: 0644
+
+- name: Transfer sshd_config
+  copy:
+    src: sshd_config.sh
+    dest: ~/ssh-init/sshd_config.sh
+    mode: 0644
+
+- name: docker-compose down
+  shell: docker-compose -f ~/sbpp/{{ network_shortname }}/docker-compose.yml down
+
+- name: docker-compose up
+  shell: docker-compose -f ~/sbpp/{{ network_shortname }}/docker-compose.yml up -d
