@@ -1,0 +1,5 @@
+---
+- name: Start SBPP
+  hosts: metrics
+  roles:
+    - sbpp

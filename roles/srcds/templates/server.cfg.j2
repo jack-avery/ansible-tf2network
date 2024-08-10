@@ -77,7 +77,7 @@ mp_maxrounds {{ item.maxrounds|default(0) }}
 mp_mapcycle_empty_timeout_seconds {{ item.timelimit|default(0) * 60 }}
 
 // Ruleset config
-{% for cmd in rulesets[item.ruleset|default("standard")].servercfg %}
+{% for cmd in rulesets[item.ruleset|default("standard")].servercfg | default([]) %}
 {{ cmd }}
 {% endfor %}
 

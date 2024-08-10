@@ -1,0 +1,37 @@
+version: '3'
+services:
+  web:
+    image: crinis/sourcebans:latest
+    environment:
+      # Enable on install or update and make sure to set this to 'false' afterwards
+      # Also set this to false if you made any manual changes to Sourcebans sourcecode you want to keep
+      INSTALL: 'true'
+    networks:
+      - db-{{ network_shortname }}
+    ports:
+    # Change the port before the colon to whatever you want to use
+    - "{{ sbpp_html_port }}:8080"
+    volumes:
+      - sourcebans-{{ network_shortname }}:/var/www/html/
+    # You can enable the following three lines to run the container as a different user. For example when using podman.
+    #  - sourcebans:/var/www/html/:z
+    # user: ${DOCKER_UID:-1000}:${DOCKER_GID:-1000}
+    # userns_mode: "keep-id"
+  db:
+    image: mariadb:10
+    environment:
+      MYSQL_USER: sourcebans
+      MYSQL_PASSWORD: {{ sbpp_user_password }}
+      MYSQL_DATABASE: sourcebans
+      MYSQL_ROOT_PASSWORD: {{ sbpp_root_password }}
+    volumes:
+      - mysql-{{ network_shortname }}:/var/lib/mysql
+    networks:
+      - db-{{ network_shortname }}
+
+networks:
+  db-{{ network_shortname }}:
+
+volumes:
+  sourcebans-{{ network_shortname }}:
+  mysql-{{ network_shortname }}:

@@ -1,0 +1,5 @@
+---
+- name: Generate ssh keys
+  hosts: tf2
+  roles:
+    - ssh-gen

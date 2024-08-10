@@ -1,0 +1,19 @@
+---
+- name: Delete old public keys
+  file:
+    path: ~/sbpp/{{ network_shortname }}/keys
+    state: absent
+  
+- name: Create keys directory
+  file:
+    path: ~/sbpp/{{ network_shortname }}/keys
+    state: directory
+    mode: 0700
+
+- name: Copy files
+  copy:
+    src: "{{ item }}"
+    dest: ~/sbpp/{{ network_shortname }}/keys/
+    mode: 0600
+  with_fileglob:
+    - "{{ role_path }}/../ssh-gen/files/{{ network_shortname }}-*.pub"

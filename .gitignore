@@ -3,6 +3,7 @@ __pycache__
 
 # secrets
 .vault_pass.sh
+roles/ssh-gen/files
 
 # maps (this can get pretty big)
 roles/srcds/files/maps
