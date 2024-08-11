@@ -33,6 +33,15 @@ rulesets:
       - tf_spec_xray 0
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
+      - sv_vote_kick_ban_duration 60
+      - sv_vote_issue_kick_allowed 1
+      - sv_vote_issue_nextlevel_allowed 0
+      - sv_vote_issue_extendlevel_allowed 0
+      - sv_vote_issue_classlimits_allowed 0
+      - sv_vote_issue_changelevel_allowed 0
+      - sv_vote_issue_autobalance_allowed 0
+      - sv_vote_issue_restart_game_allowed 0
+      - sv_vote_issue_scramble_teams_allowed 0
 
   casual:
     servercfg:
@@ -42,6 +51,15 @@ rulesets:
       - tf_spec_xray 1
       - tf_preround_push_from_damage_enable 0
       - tf_avoidteammates_pushaway 1
+      - sv_vote_kick_ban_duration 60
+      - sv_vote_issue_kick_allowed 1
+      - sv_vote_issue_nextlevel_allowed 0
+      - sv_vote_issue_extendlevel_allowed 0
+      - sv_vote_issue_classlimits_allowed 0
+      - sv_vote_issue_changelevel_allowed 0
+      - sv_vote_issue_autobalance_allowed 0
+      - sv_vote_issue_restart_game_allowed 0
+      - sv_vote_issue_scramble_teams_allowed 0
 
   rinstagib:
     servercfg:
