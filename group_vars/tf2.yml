@@ -54,6 +54,15 @@ rulesets:
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 1
       - mp_forceautoteam 1
+      - sv_vote_kick_ban_duration 60
+      - sv_vote_issue_kick_allowed 1
+      - sv_vote_issue_nextlevel_allowed 0
+      - sv_vote_issue_extendlevel_allowed 0
+      - sv_vote_issue_classlimits_allowed 0
+      - sv_vote_issue_changelevel_allowed 0
+      - sv_vote_issue_autobalance_allowed 0
+      - sv_vote_issue_restart_game_allowed 0
+      - sv_vote_issue_scramble_teams_allowed 0
 
 # List of maps
 mapcycles:
