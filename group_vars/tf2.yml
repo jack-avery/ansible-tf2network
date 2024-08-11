@@ -130,6 +130,7 @@ mapcycles:
       - cp_gorge
       - cp_freight
       - cp_well
+      - cp_steel
 
   default:
     maps:
