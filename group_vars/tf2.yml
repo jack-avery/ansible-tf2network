@@ -230,6 +230,7 @@ base_plugins:
   - discord_relay
   - discord_sourcebans
   - discord_sourcecomms
+  - extendedmapconfig
   # - fixstvslot
   - funcommands
   - funvotes
