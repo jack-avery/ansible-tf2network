@@ -53,6 +53,7 @@ rulesets:
       - tf_spec_xray 1
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 1
+      - mp_forceautoteam 1
 
 # List of maps
 mapcycles:
@@ -253,6 +254,7 @@ base_plugins:
   - tf_econ_data
   - tf2playerclassdata
   - tf2playerclassdataconfig
+  - votescramble
   - waitingdoors
 
   # - basebans

@@ -10,6 +10,7 @@ instances:
     maxplayers: 24
     mapcycle: "controlpoint"
     ruleset: "controlpoint"
+    timelimit: 30
     relay_channel: 1270483262288035912
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
