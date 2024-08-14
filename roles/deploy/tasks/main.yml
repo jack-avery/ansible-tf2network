@@ -54,7 +54,7 @@
   set_fact:
     cron: |
       docker restart {% for item in instances %}
-      srcds-{{ item.name }} {% endfor %}
+      srcds-{{ network_shortname }}-{{ item.name }} {% endfor %}
 
 - name: Install cronjob
   ansible.builtin.cron:
