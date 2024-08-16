@@ -121,9 +121,6 @@ mapcycles:
         cp_steel:
           mp_winlimit: 0
           mp_maxrounds: 2
-        cp_warpath_final:
-          mp_winlimit: 0
-          mp_maxrounds: 2
         cp_warehouse_b8:
           mp_winlimit: 0
           mp_maxrounds: 2
@@ -166,7 +163,6 @@ mapcycles:
 
       - duel_duel2
       - melee_ringking
-      - cp_warpath_final
       - cp_warehouse_b8
       - cp_toy_fort_v2
       - cp_desertfortress
