@@ -6,7 +6,7 @@ daily_restart_hour_utc: 12
 
 instances:
   - name: "controlpoint"
-    hostname: "Control Point | Vanilla | Stock Maps"
+    hostname: "Control Point Official | 2009 Nostalgia"
     maxplayers: 24
     mapcycle: "controlpoint"
     ruleset: "controlpoint"

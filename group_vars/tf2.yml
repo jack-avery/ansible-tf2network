@@ -1,7 +1,7 @@
 network_shortname: controlpoint
 
 # FastDL Base URL
-fastdl_url: ""
+fastdl_url: "https://jackavery.ca/fastdl/tf/"
 
 # Tags to include on all servers
 global_tags:
@@ -44,7 +44,6 @@ rulesets:
       - control
       - point
       - controlpoint
-      - vanilla
 
     servercfg:
       - tf_weapon_criticals 1
@@ -122,6 +121,30 @@ mapcycles:
         cp_steel:
           mp_winlimit: 0
           mp_maxrounds: 2
+        cp_warpath_final:
+          mp_winlimit: 0
+          mp_maxrounds: 2
+        cp_warehouse_b8:
+          mp_winlimit: 0
+          mp_maxrounds: 2
+        cp_toy_fort_v2:
+          mp_winlimit: 0
+          mp_maxrounds: 2
+        cp_desertfortress:
+          mp_winlimit: 0
+          mp_maxrounds: 2
+        falling_cp:
+          mp_winlimit: 0
+          mp_maxrounds: 2
+        cp_dock2_v1:
+          mp_winlimit: 0
+          mp_maxrounds: 2
+        duel_duel2:
+          mp_timelimit: 30
+        melee_ringking:
+          mp_timelimit: 30
+        cyberpunk:
+          mp_timelimit: 30
     maps:
       - cp_dustbowl
       - cp_granary
@@ -140,6 +163,22 @@ mapcycles:
       - cp_freight
       - cp_well
       - cp_steel
+
+      - duel_duel2
+      - melee_ringking
+      - cp_warpath_final
+      - cp_warehouse_b8
+      - cp_toy_fort_v2
+      - cp_desertfortress
+      - falling_cp
+      - cp_dock2_v1
+      - ctf_snofort_final
+      - ctf_mach4
+      - pl_swift
+      - ctf_convoy_v2
+      - ctf_stronghold_b5
+      - ctf_moonwalk_v2
+      - cyberpunk
 
   default:
     maps:
