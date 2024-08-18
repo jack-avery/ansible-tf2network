@@ -383,11 +383,11 @@ default_cfgs:
 
       # Specifies how many more rounds each extension makes
       # 5, 1..
-      sm_extendmap_roundstep: "5"
+      sm_extendmap_roundstep: "2"
 
       # Specifies how much many more minutes each extension makes
       # 15, 5..
-      sm_extendmap_timestep: "15"
+      sm_extendmap_timestep: "30"
 
       # Specifies if a 'Don't Change' option should be added to early votes
       # 1, 0..
@@ -415,7 +415,7 @@ default_cfgs:
 
       # Specifies if previous maps should be stored persistently.
       # 0, 0..1
-      sm_mapvote_persistentmaps: "0"
+      sm_mapvote_persistentmaps: "1"
 
       # Hold runoff votes if winning choice is less than a certain margin
       # 0, 0..1
@@ -439,7 +439,7 @@ default_cfgs:
 
       # Specifies how long the mapvote should be available for.
       # 20, 5..
-      sm_mapvote_voteduration: "15"
+      sm_mapvote_voteduration: "15" 
 
   sourcemod:
     location: /tf/cfg/sourcemod/sourcemod.cfg

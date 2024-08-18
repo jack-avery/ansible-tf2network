@@ -348,11 +348,11 @@ default_cfgs:
 
       # Specifies how many more rounds each extension makes
       # 5, 1..
-      sm_extendmap_roundstep: "5"
+      sm_extendmap_roundstep: "2"
 
       # Specifies how much many more minutes each extension makes
       # 15, 5..
-      sm_extendmap_timestep: "15"
+      sm_extendmap_timestep: "30"
 
       # Specifies if a 'Don't Change' option should be added to early votes
       # 1, 0..
