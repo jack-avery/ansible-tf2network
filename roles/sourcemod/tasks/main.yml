@@ -1,7 +1,19 @@
 ---
-- name: Create build directory
+- name: Create base directory
   ansible.builtin.file:
     path: ~/build/sm
+    state: directory
+    mode: 0755
+
+- name: Create network build directory
+  ansible.builtin.file:
+    path: ~/build/sm/{{ network_shortname }}
+    state: directory
+    mode: 0755
+
+- name: Create network sm directory
+  ansible.builtin.file:
+    path: ~/build/sm/{{ network_shortname }}/sm
     state: directory
     mode: 0755
 
@@ -9,14 +21,14 @@
   ignore_errors: true # don't freak out if something happens
   ansible.builtin.get_url:
     url: "https://mms.alliedmods.net/mmsdrop/1.11/mmsource-latest-linux"
-    dest: ~/build/mm_version
+    dest: ~/build/sm/{{ network_shortname }}/mm_version
   register: mm_file
 
 - name: Save latest SourceMod version to file
   ignore_errors: true
   ansible.builtin.get_url:
     url: "https://sm.alliedmods.net/smdrop/1.11/sourcemod-latest-linux"
-    dest: ~/build/sm_version
+    dest: ~/build/sm/{{ network_shortname }}/sm_version
   register: sm_file
 
 - name: Slurp MetaMod version (if new version)
@@ -44,21 +56,21 @@
 - name: Download MetaMod
   ansible.builtin.unarchive:
     src: "https://mms.alliedmods.net/mmsdrop/1.11/{{ mm_version }}"
-    dest: ~/build/sm
+    dest: ~/build/sm/{{ network_shortname }}/sm
     remote_src: true
   when: (mm_file.changed)
 
 - name: Download SourceMod
   ansible.builtin.unarchive:
     src: "https://sm.alliedmods.net/smdrop/1.11/{{ sm_version }}"
-    dest: ~/build/sm
+    dest: ~/build/sm/{{ network_shortname }}/sm
     remote_src: true
   when: (sm_file.changed)
 
 - name: Copy extensions & plugin sources
   ansible.posix.synchronize:
     src: "{{ role_path }}/files/"
-    dest: ~/build/sm/
+    dest: ~/build/sm/{{ network_shortname }}/sm/
     checksum: true
     recursive: true
     archive: false
@@ -66,11 +78,11 @@
 - name: Template build.sh
   ansible.builtin.template:
     src: build.sh.j2
-    dest: ~/build/sm/addons/sourcemod/scripting/build.sh
+    dest: ~/build/sm/{{ network_shortname }}/sm/addons/sourcemod/scripting/build.sh
     mode: 0755
 
 - name: Build SourceMod
   ansible.builtin.command:
-    chdir: ~/build/sm/addons/sourcemod/scripting
+    chdir: ~/build/sm/{{ network_shortname }}/sm/addons/sourcemod/scripting
     cmd: bash build.sh
   timeout: 30 # this can hang for no reason but adding a timeout seems to have fixed it

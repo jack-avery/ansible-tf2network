@@ -1,14 +1,14 @@
 ---
 - name: Copy ruleset plugins to plugin directory
-  ansible.builtin.shell: mv /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
-    /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
+  ansible.builtin.shell: mv /home/tf2server/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
+    /home/tf2server/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
   loop: "{{ rulesets[instance.ruleset].plugins }}"
   when: '"plugins" in rulesets[instance.ruleset]'
   delegate_to: "{{ ansible_host }}"
 
 - name: Copy instance plugins to plugin directory
-  ansible.builtin.shell: mv /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
-    /home/tf2server/build/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
+  ansible.builtin.shell: mv /home/tf2server/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/addons/sourcemod/plugins/disabled/{{ item }}.smx \
+    /home/tf2server/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/addons/sourcemod/plugins/ || true # don't freak out if there's nothing set
   loop: "{{ instance.plugins }}"
   when: '"plugins" in instance'
   delegate_to: "{{ ansible_host }}"
@@ -16,14 +16,14 @@
 - name: Template configs
   ansible.builtin.template:
     src: "cfg.j2"
-    dest: "~/build/{{ instance.name }}{{ default_cfgs[item].location }}"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}{{ default_cfgs[item].location }}"
     mode: 0755
   loop: "{{ default_cfgs.keys() }}"
 
 - name: Template VDFs
   ansible.builtin.template:
     src: "vdf.j2"
-    dest: "~/build/{{ instance.name }}{{ default_vdfs[item].location }}"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}{{ default_vdfs[item].location }}"
     mode: 0755
   loop: "{{ default_vdfs.keys() }}"
 
@@ -36,14 +36,14 @@
 
 - name: Create maps directory
   ansible.builtin.file:
-    path: ~/build/{{ instance.name }}/tf/maps
+    path: ~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/maps
     state: directory
     mode: 0755
 
 - name: Copy maps to /tf/maps
   ansible.posix.synchronize:
     src: "{{ role_path }}/files/maps/{{ item.item }}.bsp"
-    dest: ~/build/{{ instance.name }}/tf/maps/{{ item.item }}.bsp
+    dest: ~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/maps/{{ item.item }}.bsp
     recursive: true
   when: item.stat.exists
   loop: "{{ stat.results }}"
@@ -52,42 +52,42 @@
 
 - name: Make mapcfg directory
   ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig"
     state: directory
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")]'
 
 - name: Make general mapcfg directory
   ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/general"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/general"
     state: directory
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "general" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
 
 - name: Make gametype mapcfg directory
   ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/gametype"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/gametype"
     state: directory
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "gametype" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
 
 - name: Make gametype workshop mapcfg directory
   ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/gametype/workshop"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/gametype/workshop"
     state: directory
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "gametype" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
 
 - name: Make maps mapcfg directory
   ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/maps"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/maps"
     state: directory
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "maps" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
 
 - name: Make maps workshop mapcfg directory
   ansible.builtin.file:
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/maps/workshop"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/maps/workshop"
     state: directory
     mode: 0755
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "maps" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
@@ -95,7 +95,7 @@
 - name: Template general config
   ansible.builtin.template:
     src: "mapcfg_general.j2"
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/general/{{ item }}.cfg"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/general/{{ item }}.cfg"
     mode: 0755
   loop: '{{ mapcycles[instance.mapcycle|default("default")]["mapconfig"]["general"].keys() }}'
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "general" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
@@ -103,7 +103,7 @@
 - name: Template gametype mapcfg
   ansible.builtin.template:
     src: "mapcfg_gametype.j2"
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/gametype/{{ item }}.cfg"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/gametype/{{ item }}.cfg"
     mode: 0755
   loop: '{{ mapcycles[instance.mapcycle|default("default")]["mapconfig"]["gametype"].keys() }}'
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "gametype" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
@@ -111,7 +111,7 @@
 - name: Template gametype workshop mapcfg
   ansible.builtin.template:
     src: "mapcfg_gametype.j2"
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/gametype/workshop/{{ item }}.cfg"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/gametype/workshop/{{ item }}.cfg"
     mode: 0755
   loop: '{{ mapcycles[instance.mapcycle|default("default")]["mapconfig"]["gametype"].keys() }}'
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "gametype" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
@@ -119,7 +119,7 @@
 - name: Template maps mapcfg
   ansible.builtin.template:
     src: "mapcfg_maps.j2"
-    dest: "~/build/{{ instance.name }}/tf/cfg/mapconfig/maps/{{ item }}.cfg"
+    dest: "~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/cfg/mapconfig/maps/{{ item }}.cfg"
     mode: 0755
   loop: '{{ mapcycles[instance.mapcycle|default("default")]["mapconfig"]["maps"].keys() }}'
   when: '"mapconfig" in mapcycles[instance.mapcycle|default("default")] and "maps" in mapcycles[instance.mapcycle|default("default")]["mapconfig"]'
