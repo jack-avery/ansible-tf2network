@@ -214,7 +214,6 @@ public void HandleChat(int client, int args, bool team)
     StripQuotes(sChat);
     Relay_EscapeString(sChat, sizeof(sChat));
 
-    
     char sMSG[2048] = MSG_CHAT_FULL;
     ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
     ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
@@ -223,7 +222,7 @@ public void HandleChat(int client, int args, bool team)
     SendTeamMessage(sMSG);
 
     // send team chats only to full logs
-    if (team) {
+    if (team == true) {
         return;
     }
 
