@@ -2,5 +2,5 @@
 - name: Make admins_simple.ini
   ansible.builtin.template:
     src: admins_simple.ini.j2
-    dest: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/admins_simple.ini
+    dest: ~/build/servers/{{ network_shortname }}/{{ item.name }}/tf/addons/sourcemod/configs/admins_simple.ini
     mode: 0755

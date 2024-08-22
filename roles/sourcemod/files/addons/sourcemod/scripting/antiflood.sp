@@ -49,6 +49,7 @@ public Plugin myinfo =
 enum struct PlayerInfo {
 	float lastTime; /* Last time player used say or say_team */
 	int tokenCount; /* Number of flood tokens player has */
+	bool lastMessageBlocked; /* Whether the last message was blocked */
 }
 
 PlayerInfo playerinfo[MAXPLAYERS+1];
@@ -60,22 +61,25 @@ public void OnPluginStart()
 	sm_flood_time = CreateConVar("sm_flood_time", "0.75", "Amount of time allowed between chat messages");
 }
 
+public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
+{
+	CreateNative("antiflood_blocked", Native_antiflood_blocked);
+
+	RegPluginLibrary("antiflood");
+	return APLRes_Success;
+}
+
 public void OnClientPutInServer(int client)
 {
 	playerinfo[client].lastTime = 0.0;
 	playerinfo[client].tokenCount = 0;
+	playerinfo[client].lastMessageBlocked = false;
 }
 
 
 public bool OnClientFloodCheck(int client)
 {
 	max_chat = sm_flood_time.FloatValue;
-	
-	if (max_chat <= 0.0 
- 		|| CheckCommandAccess(client, "sm_flood_access", ADMFLAG_ROOT, true))
-	{
-		return false;
-	}
 	
 	if (playerinfo[client].lastTime >= GetGameTime())
 	{
@@ -85,23 +89,21 @@ public bool OnClientFloodCheck(int client)
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
+// ansible-tf2network: disable admins bypassing antiflood. (seriously?)
+
 public void OnClientFloodResult(int client, bool blocked)
 {
-	if (max_chat <= 0.0 
- 		|| CheckCommandAccess(client, "sm_flood_access", ADMFLAG_ROOT, true))
-	{
-		return;
-	}
-	
 	float curTime = GetGameTime();
 	float newTime = curTime + max_chat;
 	
 	if (playerinfo[client].lastTime >= curTime)
 	{
+		playerinfo[client].lastMessageBlocked = true;
+
 		/* If the last message was blocked, update their time limit */
 		if (blocked)
 		{
@@ -112,12 +114,23 @@ public void OnClientFloodResult(int client, bool blocked)
 		{
 			playerinfo[client].tokenCount++;
 		}
-	}
-	else if (playerinfo[client].tokenCount > 0)
-	{
-		/* Remove one flood token when player chats within time limit (slow decay) */
-		playerinfo[client].tokenCount--;
+	} else {
+		playerinfo[client].lastMessageBlocked = false;
+
+		if (playerinfo[client].tokenCount > 0)
+		{
+			/* Remove one flood token when player chats within time limit (slow decay) */
+			playerinfo[client].tokenCount--;
+		}
 	}
 	
 	playerinfo[client].lastTime = newTime;
+}
+
+// ansible-tf2network: native for discord_relay
+public int Native_antiflood_blocked(Handle hPlugin, int numParams)
+{
+	int client = GetNativeCell(1);
+	PrintToChatAll("%i", playerinfo[client].lastMessageBlocked);
+	return playerinfo[client].lastMessageBlocked;
 }

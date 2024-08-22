@@ -28,7 +28,7 @@
 - name: Copy private keys to hosts
   copy:
     src: "{{ role_path }}/files/{{ network_shortname }}-{{ inventory_hostname }}"
-    dest: "/home/tf2server/.ssh/sbpp_key"
+    dest: "/home/tf2server/.ssh/sbpp_key_{{ network_shortname }}"
     owner: tf2server
     group: tf2server
     mode: 0600
