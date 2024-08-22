@@ -10,7 +10,7 @@
 #define MSG_CHAT "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME}\", \"content\": \"{MESSAGE}\"}"
 #define MSG_CHAT_FULL "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME} [{STEAMID}]\", \"content\": \"{MESSAGE}\"}"
 
-#define MSG_DISCONNECT "{\"content\": \":outbox_tray: **{NAME}** disconnected\"}"
+#define MSG_DISCONNECT "{\"content\": \":outbox_tray: **{NAME}** `[{STEAMID}]` disconnected\"}"
 #define MSG_CONNECT "{\"content\": \":inbox_tray: **{NAME}** `[{STEAMID}]` connected\"}"
 
 #define MSG_MAPCHANGE "{\"content\": \":map: The server has changed maps to **{MAP}**\"}"
