@@ -191,7 +191,7 @@ public Action AllChatHook(int client, int args)
     return Plugin_Continue;
 }
 
-public void HandleChat(int client, int args, bool full)
+public void HandleChat(int client, int args, bool team)
 {
     if (antiflood_blocked(client))
     {
@@ -214,14 +214,17 @@ public void HandleChat(int client, int args, bool full)
     StripQuotes(sChat);
     Relay_EscapeString(sChat, sizeof(sChat));
 
-    // send also to full logs
-    if (full) {
-        char sMSG[2048] = MSG_CHAT_FULL;
-        ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
-        ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
-        ReplaceString(sMSG, sizeof(sMSG), "{MESSAGE}", sChat);
-        ReplaceString(sMSG, sizeof(sMSG), "{AVATAR}", g_sAvatarURL[client]);
-        SendTeamMessage(sMSG);
+    
+    char sMSG[2048] = MSG_CHAT_FULL;
+    ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
+    ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
+    ReplaceString(sMSG, sizeof(sMSG), "{MESSAGE}", sChat);
+    ReplaceString(sMSG, sizeof(sMSG), "{AVATAR}", g_sAvatarURL[client]);
+    SendTeamMessage(sMSG);
+
+    // send team chats only to full logs
+    if (team) {
+        return;
     }
 
     char sMSG[2048] = MSG_CHAT;

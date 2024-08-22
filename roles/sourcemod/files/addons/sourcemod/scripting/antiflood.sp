@@ -131,6 +131,5 @@ public void OnClientFloodResult(int client, bool blocked)
 public int Native_antiflood_blocked(Handle hPlugin, int numParams)
 {
 	int client = GetNativeCell(1);
-	PrintToChatAll("%i", playerinfo[client].lastMessageBlocked);
 	return playerinfo[client].lastMessageBlocked;
 }
