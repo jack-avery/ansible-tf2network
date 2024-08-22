@@ -206,6 +206,7 @@ base_plugins:
   - discord_relay
   - discord_sourcebans
   - discord_sourcecomms
+  - extendedmapconfig
   - fixstvslot
   - funcommands
   - funvotes
@@ -216,6 +217,7 @@ base_plugins:
   - reservedslots
   - sbpp_admcfg
   - sbpp_checker
+  - sbpp_comms
   - sbpp_main
   - sbpp_sleuth
   - sm_nocontracker
@@ -436,7 +438,7 @@ default_cfgs:
       # 3 or more tokens, a warning message is shown instead of the chat message.
       # Requires: antiflood.smx
       # 0.75
-      sm_flood_time: "0"
+      sm_flood_time: "0.75"
 
       # Specifies how the reserved slots plugin operates. Valid values are:
       # 0 : Public slots are used in preference to reserved slots. Reserved slots are freed before public slots.

@@ -1,16 +1,22 @@
+#include <antiflood>
 #include <sourcemod>
 #include <discord>
 #include <SteamWorks>
 #include <morecolors>
+#include <sourcecomms>
 
 #define PLUGIN_VERSION "1.0"
 
-#define MSG_CHAT "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME} [{STEAMID}]\", \"content\": \"{MESSAGE}\"}"
-#define MSG_DISCONNECT "{\"content\": \":outbox_tray: **{NAME}** `[{STEAMID}]` disconnected\"}"
+#define MSG_CHAT "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME}\", \"content\": \"{MESSAGE}\"}"
+#define MSG_CHAT_FULL "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME} [{STEAMID}]\", \"content\": \"{MESSAGE}\"}"
+
+#define MSG_DISCONNECT "{\"content\": \":outbox_tray: **{NAME}** disconnected\"}"
 #define MSG_CONNECT "{\"content\": \":inbox_tray: **{NAME}** `[{STEAMID}]` connected\"}"
+
 #define MSG_MAPCHANGE "{\"content\": \":map: The server has changed maps to **{MAP}**\"}"
 
-ConVar g_cWebhook;
+ConVar g_cWebhook; /* public webhook */
+ConVar g_cFullWebhook; /* logging webhook */
 ConVar g_cAPIKey;
 
 char g_sAvatarURL[MAXPLAYERS+1][128];
@@ -28,13 +34,14 @@ public void OnPluginStart()
 {
     CreateConVar("discord_relay_version", PLUGIN_VERSION, "Discord Relay version", FCVAR_DONTRECORD|FCVAR_SPONLY|FCVAR_REPLICATED|FCVAR_NOTIFY);
 
-    g_cWebhook = CreateConVar("discord_relay_webhook", "relay", "Config key from configs/discord.cfg.");
-    g_cAPIKey = CreateConVar("discord_relay_apikey", "", "Steam API Key (https://steamcommunity.com/dev/apikey).", FCVAR_PROTECTED);
+    g_cWebhook = CreateConVar("discord_relay_webhook", "relay", "Config key from configs/discord.cfg. Includes only all chat.");
+    g_cFullWebhook = CreateConVar("discord_relay_full_webhook", "relay_full", "Config key from configs/discord.cfg. Includes all and team chat with SteamIDs.")
+    g_cAPIKey = CreateConVar("discord_relay_apikey", "", "Steam API Key for profile pictures (https://steamcommunity.com/dev/apikey).", FCVAR_PROTECTED);
     
     RegAdminCmd("discord_relay_say", ReceiveMessage, ADMFLAG_ROOT, "");
 
-    RegConsoleCmd("say", ChatHook);
-    RegConsoleCmd("say_team", ChatHook);
+    RegConsoleCmd("say", AllChatHook);
+    RegConsoleCmd("say_team", TeamChatHook);
 }
 
 public void OnMapStart()
@@ -46,7 +53,8 @@ public void OnMapStart()
     char sMSG[2048] = MSG_MAPCHANGE;
     ReplaceString(sMSG, sizeof(sMSG), "{MAP}", map);
 
-    SendMessage(sMSG);
+    SendAllMessage(sMSG);
+    SendTeamMessage(sMSG);
 }
 
 public void OnClientAuthorized(int client, const char[] auth)
@@ -64,7 +72,8 @@ public void OnClientAuthorized(int client, const char[] auth)
     ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
     ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", auth);
 
-    SendMessage(sMSG);
+    SendAllMessage(sMSG);
+    SendTeamMessage(sMSG);
 
     char apiKey[64];
     g_cAPIKey.GetString(apiKey, sizeof(apiKey));
@@ -107,7 +116,8 @@ public void OnClientDisconnect(int client)
     ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
     ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
 
-    SendMessage(sMSG);
+    SendAllMessage(sMSG);
+    SendTeamMessage(sMSG);
 }
 
 public void OnTransferCompleted(Handle hRequest, bool bFailure, bool bRequestSuccessful, EHTTPStatusCode eStatusCode, int client)
@@ -164,13 +174,34 @@ public void APIWebResponse(const char[] sData, int client)
 
 stock void Relay_EscapeString(char[] string, int maxlen)
 {
-	ReplaceString(string, maxlen, "@", "＠");
-	ReplaceString(string, maxlen, "\"", "'");
-    ReplaceString(string, maxlen, "\\", "\\\\");
+    ReplaceString(string, maxlen, "@", "＠");
+    ReplaceString(string, maxlen, "\"", "\'");
+    ReplaceString(string, maxlen, "\\", "/");
 }
 
-public Action ChatHook(int client, int args)
+public Action TeamChatHook(int client, int args)
 {
+    HandleChat(client, args, true);
+    return Plugin_Continue;
+}
+
+public Action AllChatHook(int client, int args)
+{
+    HandleChat(client, args, false);
+    return Plugin_Continue;
+}
+
+public void HandleChat(int client, int args, bool full)
+{
+    if (antiflood_blocked(client))
+    {
+        return;
+    }
+    if (SourceComms_GetClientGagType(client) != bNot)
+    {
+        return;
+    }
+
     char sAuth[32];
     GetClientAuthId(client, AuthId_Steam2, sAuth, sizeof(sAuth));
     
@@ -183,21 +214,34 @@ public Action ChatHook(int client, int args)
     StripQuotes(sChat);
     Relay_EscapeString(sChat, sizeof(sChat));
 
+    // send also to full logs
+    if (full) {
+        char sMSG[2048] = MSG_CHAT_FULL;
+        ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
+        ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
+        ReplaceString(sMSG, sizeof(sMSG), "{MESSAGE}", sChat);
+        ReplaceString(sMSG, sizeof(sMSG), "{AVATAR}", g_sAvatarURL[client]);
+        SendTeamMessage(sMSG);
+    }
+
     char sMSG[2048] = MSG_CHAT;
     ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
-    ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
     ReplaceString(sMSG, sizeof(sMSG), "{MESSAGE}", sChat);
     ReplaceString(sMSG, sizeof(sMSG), "{AVATAR}", g_sAvatarURL[client]);
-
-    SendMessage(sMSG);
-
-    return Plugin_Continue;
+    SendAllMessage(sMSG);
 }
 
-SendMessage(char[] sMessage)
+SendAllMessage(char[] sMessage)
 {
     char sWebhook[32];
     g_cWebhook.GetString(sWebhook, sizeof(sWebhook));
+    Discord_SendMessage(sWebhook, sMessage);
+}
+
+SendTeamMessage(char[] sMessage)
+{
+    char sWebhook[32];
+    g_cFullWebhook.GetString(sWebhook, sizeof(sWebhook));
     Discord_SendMessage(sWebhook, sMessage);
 }
 
