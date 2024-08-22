@@ -181,17 +181,17 @@ stock void Relay_EscapeString(char[] string, int maxlen)
 
 public Action TeamChatHook(int client, int args)
 {
-    HandleChat(client, args, true);
+    HandleChat(client, args, false);
     return Plugin_Continue;
 }
 
 public Action AllChatHook(int client, int args)
 {
-    HandleChat(client, args, false);
+    HandleChat(client, args, true);
     return Plugin_Continue;
 }
 
-public void HandleChat(int client, int args, bool team)
+public void HandleChat(int client, int args, bool isAllChat)
 {
     if (antiflood_blocked(client))
     {
@@ -222,15 +222,13 @@ public void HandleChat(int client, int args, bool team)
     SendTeamMessage(sMSG);
 
     // send team chats only to full logs
-    if (team == true) {
-        return;
+    if (isAllChat == true) {
+        char sMSG[2048] = MSG_CHAT;
+        ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
+        ReplaceString(sMSG, sizeof(sMSG), "{MESSAGE}", sChat);
+        ReplaceString(sMSG, sizeof(sMSG), "{AVATAR}", g_sAvatarURL[client]);
+        SendAllMessage(sMSG);
     }
-
-    char sMSG[2048] = MSG_CHAT;
-    ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
-    ReplaceString(sMSG, sizeof(sMSG), "{MESSAGE}", sChat);
-    ReplaceString(sMSG, sizeof(sMSG), "{AVATAR}", g_sAvatarURL[client]);
-    SendAllMessage(sMSG);
 }
 
 SendAllMessage(char[] sMessage)
