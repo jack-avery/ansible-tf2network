@@ -27,7 +27,7 @@
     restart: true
     restart_policy: "always"
     volumes:
-      - /home/tf2server/.ssh/sbpp_key:/root/id_rsa
+      - /home/tf2server/.ssh/sbpp_key_{{ network_shortname }}:/root/id_rsa
     networks:
       - name: net-{{ network_shortname }}
     command: ssh -4NTCp {{ sbpp_host_ssh_port }} -i /root/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -L 0.0.0.0:3306:db:3306 sbpp_user@{{ sbpp_host }}
@@ -58,7 +58,7 @@
 
 - name: Install cronjob
   ansible.builtin.cron:
-    name: "srcds-restart"
+    name: "srcds-restart-{{ network_shortname }}"
     weekday: "*"
     minute: "0"
     hour: "{{ daily_restart_hour_utc }}"
