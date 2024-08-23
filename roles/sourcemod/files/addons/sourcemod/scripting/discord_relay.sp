@@ -8,10 +8,10 @@
 #define PLUGIN_VERSION "1.0"
 
 #define MSG_CHAT "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME}\", \"content\": \"{MESSAGE}\"}"
-#define MSG_CHAT_FULL "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME} [{STEAMID}]\", \"content\": \"{MESSAGE}\"}"
+#define MSG_CHAT_FULL "{\"avatar_url\": \"{AVATAR}\", \"username\": \"{NAME} {STEAMID}\", \"content\": \"{MESSAGE}\"}"
 
-#define MSG_DISCONNECT "{\"content\": \":outbox_tray: **{NAME}** `[{STEAMID}]` disconnected\"}"
-#define MSG_CONNECT "{\"content\": \":inbox_tray: **{NAME}** `[{STEAMID}]` connected\"}"
+#define MSG_DISCONNECT "{\"content\": \":outbox_tray: **{NAME}** `{STEAMID}` disconnected ({REASON})\"}"
+#define MSG_CONNECT "{\"content\": \":inbox_tray: **{NAME}** `{STEAMID}` connected\"}"
 
 #define MSG_MAPCHANGE "{\"content\": \":map: The server has changed maps to **{MAP}**\"}"
 
@@ -40,6 +40,9 @@ public void OnPluginStart()
     
     RegAdminCmd("discord_relay_say", ReceiveMessage, ADMFLAG_ROOT, "");
 
+    HookEvent("player_connect", OnPlayerConnect);
+    HookEvent("player_disconnect", OnPlayerDisconnect);
+
     RegConsoleCmd("say", AllChatHook);
     RegConsoleCmd("say_team", TeamChatHook);
 }
@@ -57,6 +60,29 @@ public void OnMapStart()
     SendTeamMessage(sMSG);
 }
 
+public void OnPlayerConnect(Handle event, const char[] name, bool dontBroadcast)
+{
+    bool bot = GetEventBool(event, "bot");
+    if (bot)
+    {
+        return;
+    }
+
+    char sName[32];
+    GetEventString(event, "name", sName, sizeof(sName), "[unknown]");
+    Discord_EscapeString(sName, sizeof(sName));
+
+    char sAuth[32];
+    GetEventString(event, "networkid", sAuth, sizeof(sAuth), "[unknown]");
+
+    char sMSG[2048] = MSG_CONNECT;
+    ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
+    ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
+
+    SendAllMessage(sMSG);
+    SendTeamMessage(sMSG);
+}
+
 public void OnClientAuthorized(int client, const char[] auth)
 {
     if (StrEqual(auth, "BOT"))
@@ -64,17 +90,7 @@ public void OnClientAuthorized(int client, const char[] auth)
         return;
     }
 
-    char sName[32];
-    GetClientName(client, sName, sizeof(sName));
-    Discord_EscapeString(sName, sizeof(sName));
-
-    char sMSG[2048] = MSG_CONNECT;
-    ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
-    ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", auth);
-
-    SendAllMessage(sMSG);
-    SendTeamMessage(sMSG);
-
+    // do not continue if we have no API key
     char apiKey[64];
     g_cAPIKey.GetString(apiKey, sizeof(apiKey));
 
@@ -98,23 +114,29 @@ public void OnClientAuthorized(int client, const char[] auth)
     }
 }
 
-public void OnClientDisconnect(int client)
+public void OnPlayerDisconnect(Handle event, const char[] name, bool dontBroadcast)
 {
-    char sAuth[32];
-    GetClientAuthId(client, AuthId_Steam2, sAuth, sizeof(sAuth));
-
-    if (StrEqual(sAuth, "BOT"))
+    bool bot = GetEventBool(event, "bot");
+    if (bot)
     {
         return;
     }
-    
+
+    char sAuth[32];
+    GetEventString(event, "networkid", sAuth, sizeof(sAuth), "[unknown]");
+
     char sName[32];
-    GetClientName(client, sName, sizeof(sName));
+    GetEventString(event, "name", sName, sizeof(sName), "[unknown]");
     Discord_EscapeString(sName, sizeof(sName));
+
+    char sReason[32];
+    GetEventString(event, "reason", sReason, sizeof(sReason), "Disconnected");
+    Discord_EscapeString(sReason, sizeof(sReason));
 
     char sMSG[2048] = MSG_DISCONNECT;
     ReplaceString(sMSG, sizeof(sMSG), "{NAME}", sName);
     ReplaceString(sMSG, sizeof(sMSG), "{STEAMID}", sAuth);
+    ReplaceString(sMSG, sizeof(sMSG), "{REASON}", sReason);
 
     SendAllMessage(sMSG);
     SendTeamMessage(sMSG);

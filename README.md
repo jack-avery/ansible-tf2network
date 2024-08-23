@@ -31,14 +31,13 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 > DB user: `sourcebans`<br>
 > DB name: `sourcebans`<br>
 > Configure the rest to your liking.
-3. `make cycle` - Generate initial ssh keys for secure SB++ DB connection.
--- This directive also (re-)starts the SB++ network, so no need to run `make sbpp`.
-4. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
-5. `make sm` - Distribute and build SourceMod.
-6. `make srcds` - Build instance images.
-7. `make deploy` - Start containers & setup crontab for the TF2 servers.
-8. `make relay` - If configured & enabled, build the Discord -> Server relay/RCON bot on your `metrics` host.
-9. `make relay-deploy` - Deploy the bot on your `metrics` host.
+3. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
+4. `make sm` - Distribute and build SourceMod.
+5. `make srcds` - Build instance images.
+6. `make cycle` - Create keypairs, propagate, and start SB++ and TF2 servers.
+> `make cycle` is an alias for `make ssh-gen ssh-auth sbpp deploy`
+7. `make relay` - If configured & enabled, build the Discord -> Server relay/RCON bot on your `metrics` host.
+8. `make relay-deploy` - Deploy the bot on your `metrics` host.
 > `make all` or simply `make` is an alias for `make sm srcds deploy relay relay-deploy`<br>
 > You can update your admins/reserved slots at any time with `make admins`
 

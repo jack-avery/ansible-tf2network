@@ -20,7 +20,7 @@ ssh-gen:
 ssh-auth:
 	@ansible-playbook --limit metrics playbooks/ssh-auth.yml
 
-cycle: ssh-gen ssh-auth
+cycle: ssh-gen ssh-auth sbpp deploy
 
 admins:
 	@ansible-playbook --limit prod playbooks/admins.yml --extra-vars "only=$(ONLY)"
