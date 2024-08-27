@@ -2,10 +2,6 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
-- name: Create network
-  docker_network:
-    name: net-{{ network_shortname }}
-
 - name: Announce update
   ignore_errors: true
   rcon:
