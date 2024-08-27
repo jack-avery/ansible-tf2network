@@ -5,7 +5,7 @@ services:
     {{ network_shortname }}-{{ item.name }}:
         image: "srcds-{{ network_shortname }}-{{ item.name }}:latest"
         restart: unless-stopped
-        cpuset: "{{ loop.index0 }}"
+        cpuset: "{{ loop.index0 + cpuset_offset }}"
         ports:
             - "{{ item.port }}:{{ item.port }}"
             - "{{ item.port }}:{{ item.port }}/udp"
