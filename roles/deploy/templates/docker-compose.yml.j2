@@ -10,6 +10,8 @@ services:
             - "{{ item.port }}:{{ item.port }}"
             - "{{ item.port }}:{{ item.port }}/udp"
             - "{{ item.port + 5 }}:{{ item.port + 5 }}/udp"
+        networks:
+            - net-{{ network_shortname }}
 
 {% endfor %}
     {{ network_shortname }}-ssh:
@@ -18,3 +20,8 @@ services:
         volumes:
             - /home/tf2server/.ssh/sbpp_key_{{ network_shortname }}:/root/id_rsa
         command: ssh -4NTCp {{ sbpp_host_ssh_port }} -i /root/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -L 0.0.0.0:3306:db:3306 sbpp_user@{{ sbpp_host }}
+        networks:
+            - net-{{ network_shortname }}
+
+networks:
+    net-{{ network_shortname }}:
