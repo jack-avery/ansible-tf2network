@@ -20,6 +20,13 @@ get_servers_for_network() {
 
 main() {
     echo ""
+
+    if [ -f updater-active.lock ]; then
+        echo "[$(date +'%D %H:%M:%S')] A job is already active. Cancelling..."
+        exit 0
+    fi
+    touch updater-active.lock
+
     echo "[$(date +'%D %H:%M:%S')] Checking..."
 
     CURRENT=$(cat current_tf2_buildid)
@@ -30,6 +37,8 @@ main() {
     if [ ! -f current_tf2_buildid ]; then
         echo "[$(date +'%D %H:%M:%S')] No current version saved, saving latest as current and doing nothing!"
         echo $LATEST > current_tf2_buildid
+
+        rm updater-active.lock
         exit 0
 
     elif [[ "$CURRENT" -ne "$LATEST" ]]; then
@@ -57,12 +66,15 @@ main() {
         done
 
         echo $LATEST > current_tf2_buildid
+        
+        rm updater-active.lock
         exit 0
 
     else
         echo "[$(date +'%D %H:%M:%S')] Current is latest, nothing to do"
-        exit 0
 
+        rm updater-active.lock
+        exit 0
     fi
 }
 
