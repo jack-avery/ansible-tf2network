@@ -42,6 +42,6 @@
   ansible.builtin.cron:
     name: "ansible-tf2network: autoupdater"
     weekday: "*"
-    minute: "0"
+    minute: "*/10"
     hour: "*"
     job: "/home/tf2server/updater.sh >> /home/tf2server/updater.log"
