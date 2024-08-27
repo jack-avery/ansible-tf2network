@@ -12,7 +12,6 @@ services:
             - "{{ item.port + 5 }}:{{ item.port + 5 }}/udp"
 
 {% endfor %}
-
     {{ network_shortname }}-ssh:
         image: kroniak/ssh-client
         restart: always
