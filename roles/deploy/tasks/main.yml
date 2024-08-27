@@ -24,11 +24,24 @@
 - name: docker compose up -d
   shell: docker compose -f /home/tf2server/docker-compose_{{ network_shortname }}.yml up -d
 
-- name: Install cronjob
+- name: Install restart cronjob
   ansible.builtin.cron:
     name: "srcds-restart-{{ network_shortname }}"
     weekday: "*"
     minute: "0"
     hour: "{{ daily_restart_hour_utc }}"
     job: "docker-compose restart -f /home/tf2server/docker-compose_{{ network_shortname }}.yml"
-  when: ansible_distribution == 'Ubuntu'
+
+- name: Copy updater script
+  copy:
+    src: updater.sh
+    dest: /home/tf2server/updater.sh
+    mode: 0744
+
+- name: Install autoupdate cronjob
+  ansible.builtin.cron:
+    name: "ansible-tf2network: autoupdater"
+    weekday: "*"
+    minute: "0"
+    hour: "*"
+    job: "/home/tf2server/updater.sh >> /home/tf2server/updater.log"
