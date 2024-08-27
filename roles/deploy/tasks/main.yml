@@ -2,10 +2,6 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
-- name: Create network
-  docker_network:
-    name: net-{{ network_shortname }}
-
 - name: Announce update
   ignore_errors: true
   rcon:
@@ -19,48 +15,33 @@
   delegate_to: localhost
   timeout: 10
 
-- name: Start ssh tunnel
-  community.docker.docker_container:
-    name: "ssh-{{ network_shortname }}"
-    image: "kroniak/ssh-client"
-    state: started
-    restart: true
-    restart_policy: "always"
-    volumes:
-      - /home/tf2server/.ssh/sbpp_key_{{ network_shortname }}:/root/id_rsa
-    networks:
-      - name: net-{{ network_shortname }}
-    command: ssh -4NTCp {{ sbpp_host_ssh_port }} -i /root/id_rsa -o StrictHostKeyChecking=no -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -L 0.0.0.0:3306:db:3306 sbpp_user@{{ sbpp_host }}
+- name: Generate docker-compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: /home/tf2server/docker-compose_{{ network_shortname }}.yml
+    mode: 0700
 
-- name: Start SRCDS
-  community.docker.docker_container:
-    name: "srcds-{{network_shortname}}-{{ item.name }}"
-    image: "srcds-{{network_shortname}}-{{ item.name }}:latest"
-    state: started
-    restart: true
-    restart_policy: "unless-stopped"
-    cpuset_cpus: "{{ loop0 }}"
-    networks:
-      - name: net-{{ network_shortname }}
-    ports:
-      - "{{ item.port }}:{{ item.port }}"
-      - "{{ item.port }}:{{ item.port }}/udp"
-      - "{{ item.port + 5 }}:{{ item.port + 5 }}/udp"
-  loop: "{{ targets.instances }}"
-  loop_control:
-    index_var: loop0
+- name: docker compose up -d
+  shell: docker compose -f /home/tf2server/docker-compose_{{ network_shortname }}.yml up -d
 
-- name: Generate cronjob
-  set_fact:
-    cron: |
-      docker restart {% for item in instances %}
-      srcds-{{ item.name }} {% endfor %}
-
-- name: Install cronjob
+- name: Install restart cronjob
   ansible.builtin.cron:
     name: "srcds-restart-{{ network_shortname }}"
     weekday: "*"
     minute: "0"
     hour: "{{ daily_restart_hour_utc }}"
-    job: "{{ cron }}"
-  when: ansible_distribution == 'Ubuntu'
+    job: "docker-compose restart -f /home/tf2server/docker-compose_{{ network_shortname }}.yml"
+
+- name: Copy updater script
+  copy:
+    src: updater.sh
+    dest: /home/tf2server/updater.sh
+    mode: 0744
+
+- name: Install autoupdate cronjob
+  ansible.builtin.cron:
+    name: "ansible-tf2network: autoupdater"
+    weekday: "*"
+    minute: "*/10"
+    hour: "*"
+    job: "/home/tf2server/updater.sh >> /home/tf2server/updater.log"
