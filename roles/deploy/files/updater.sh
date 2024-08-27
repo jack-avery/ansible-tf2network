@@ -12,13 +12,14 @@ get_networks() {
 
 get_servers_for_network() {
     SERVERS=()
-    for server in /home/tf2server/build/servers/$0/*; do
+    for server in /home/tf2server/build/servers/$1/*; do
         server=${server##*/}
         SERVERS+=( $server )
     done
 }
 
 main() {
+    echo ""
     echo "[$(date +'%D %H:%M:%S')] Checking..."
 
     CURRENT=$(cat current_tf2_buildid)
@@ -46,18 +47,20 @@ main() {
 
             for server in ${SERVERS[@]} ; do
                 echo "[$(date +'%D %H:%M:%S')] Rebuilding $network/$server..."
-                docker buildx build -t srcds-$network-$server:latest /home/tf2server/build/servers/$network/$server
+                cd /home/tf2server/build/servers/$network/$server
+                docker buildx build -t srcds-$network-$server:latest .
+                cd /home/tf2server
             done
 
             echo "[$(date +'%D %H:%M:%S')] Docker recomposing $network..."
-            docker-compose -f /home/tf2server/docker-compose_$network.yml up -d
+            docker compose -f /home/tf2server/docker-compose_$network.yml up -d
         done
 
-        echo $LATEST > current
+        echo $LATEST > current_tf2_buildid
         exit 0
 
     else
-        echo "[$(date +'%D %H:%M:%S')] Current is latest"
+        echo "[$(date +'%D %H:%M:%S')] Current is latest, nothing to do"
         exit 0
 
     fi
