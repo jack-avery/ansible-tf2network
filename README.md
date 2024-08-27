@@ -10,7 +10,7 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 ### Mandatory setup
 1. Assuming you're using Ubuntu (WSL default), install Python, Ansible, and Docker using `sudo apt install -y python3 ansible docker.io`
 2. On all `tf2` hosts (dedicated servers):
-- 1. `sudo apt install -y docker.io` - Install Docker.
+- 1. `sudo apt install -y docker.io docker-compose-v2` - Install Docker and Docker-Compose.
 - 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
 - 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering.
 
