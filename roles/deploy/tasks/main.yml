@@ -24,17 +24,7 @@
 - name: docker compose up -d
   shell: docker compose -f /home/tf2server/docker-compose_{{ network_shortname }}.yml up -d
 
-<<<<<<< HEAD
-- name: Generate cronjob
-  set_fact:
-    cron: |
-      docker restart {% for item in instances %}
-      srcds-{{ network_shortname}}-{{ item.name }} {% endfor %}
-
-- name: Install cronjob
-=======
 - name: Install restart cronjob
->>>>>>> main
   ansible.builtin.cron:
     name: "srcds-restart-{{ network_shortname }}"
     weekday: "*"
