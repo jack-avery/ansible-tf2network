@@ -195,6 +195,7 @@ mapcycles:
       - workshop/696554453  # CTF Aerospace - https://steamcommunity.com/sharedfiles/filedetails/?id=696554453
       - workshop/2811632094 # PL Vineyard - https://steamcommunity.com/sharedfiles/filedetails/?id=2811632094
       - workshop/2969573312 # PL Eruption - https://steamcommunity.com/sharedfiles/filedetails/?id=2969573312
+      - workshop/2706731700 # Improved 2fort - https://steamcommunity.com/sharedfiles/filedetails/?id=2706731700
 
 # Plugins to include on every server
 base_plugins:
