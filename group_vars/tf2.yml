@@ -64,6 +64,31 @@ mapcycles:
     maps:
       - pl_upward
 
+  swishcast_2008_event:
+    mapconfig:
+      general:
+        all:
+          mp_winlimit: 0
+          mp_maxrounds: 3
+          mp_timelimit: 0
+
+    maps:
+      - ctf_hallofdeath
+      - cp_toy_fort_beta2
+      - cp_warehouse_b8
+      - cp_desertfortress
+      - ctf_ig_area_b2
+      - ctf_shooting_gallery_b3
+      - falling_cp
+      - ctf_2fort_classic_v1
+      - cp_wolf2_b1
+      - pl_donkeykong_final
+      - cp_dock2_v1
+      - cp_smbcastle2
+      - pl_haywood_beta5
+      - ctf_snofort_final
+      - ctf_mach4
+
   swishcast_regular:
     mapconfig:
       general:
