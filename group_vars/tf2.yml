@@ -1,7 +1,7 @@
 network_shortname: sc
 
 # FastDL Base URL
-fastdl_url: ""
+fastdl_url: "https://jackavery.ca/fastdl/tf/"
 
 # Tags to include on all servers
 global_tags:
