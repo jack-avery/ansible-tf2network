@@ -71,6 +71,9 @@ mapcycles:
           mp_winlimit: 0
           mp_maxrounds: 3
           mp_timelimit: 0
+      maps:
+        cp_2fort_classic_v1:
+          mp_timelimit: 30
 
     maps:
       - ctf_hallofdeath
