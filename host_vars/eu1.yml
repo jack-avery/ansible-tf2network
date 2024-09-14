@@ -10,7 +10,6 @@ instances:
     maxplayers: 32
     mapcycle: swishcast_2008_event
     ruleset: standard
-    starting_map: pl_haywood_b6
     relay_channel: 1238569871910895626
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
