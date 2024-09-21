@@ -74,6 +74,8 @@ mapcycles:
       maps:
         cp_2fort_classic_v1:
           mp_timelimit: 30
+        ctf_snofort_final:
+          mp_timelimit: 30
 
     maps:
       - ctf_hallofdeath
