@@ -3,6 +3,7 @@ srcds_region: 1
 srcds_base_port: 27015
 srcds_reserve_ports: 10
 daily_restart_hour_utc: 6
+cpuset_offset: 0 # for when you have multiple networks on one machine: 0-indexed
 
 instances:
   - name: "unique-internal-name"
