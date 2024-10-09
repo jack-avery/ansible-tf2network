@@ -22,7 +22,7 @@
   delegate_to: localhost
 
 - name: Generate new ssh keys
-  shell: ssh-keygen -b 2048 -t rsa -f "{{ role_path }}/files/{{ network_shortname }}-{{ inventory_hostname }}" -q -N ""
+  shell: ssh-keygen -t ed25519 -f "{{ role_path }}/files/{{ network_shortname }}-{{ inventory_hostname }}" -q -N ""
   delegate_to: localhost
 
 - name: Copy private keys to hosts
