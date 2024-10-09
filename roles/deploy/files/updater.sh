@@ -30,13 +30,20 @@ main() {
     echo "[$(date +'%D %H:%M:%S')] Checking..."
 
     CURRENT=$(cat current_tf2_buildid)
-    LATEST=$(docker run --quiet --pull always --rm --entrypoint=/bin/bash cm2network/steamcmd -c './steamcmd.sh +login anonymous +app_info_update 232250 +app_info_print 232250 +quit' | perl -n -e'/"buildid"\s+"([    0-9]+)"/ && print "$1\n"' | head -n1)
+    UPDATE_TIMEOUT=30
+    LATEST=$(docker run --quiet --pull always --rm --entrypoint=/bin/bash cm2network/steamcmd -c "timeout $UPDATE_TIMEOUT ./steamcmd.sh +login anonymous +app_info_update 232250 +app_info_print 232250 +quit" | perl -n -e'/"buildid"\s+"([    0-9]+)"/ && print "$1\n"' | head -n1)
 
     echo "[$(date +'%D %H:%M:%S')] Current: $CURRENT; Latest: $LATEST"
 
     if [ ! -f current_tf2_buildid ]; then
         echo "[$(date +'%D %H:%M:%S')] No current version saved, saving latest as current and doing nothing!"
         echo $LATEST > current_tf2_buildid
+
+        rm updater-active.lock
+        exit 0
+    
+    elif [ -z "$LATEST "]; then
+        echo "[$(date +'%D %H:%M:%S')] Failed to fetch latest, doing nothing"
 
         rm updater-active.lock
         exit 0
