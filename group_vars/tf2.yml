@@ -94,6 +94,31 @@ mapcycles:
       - ctf_snofort_final
       - ctf_mach4
 
+  swishcast_arena_event:
+    mapconfig:
+      general:
+        all:
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 20
+    maps:
+      - arena_byre
+      - arena_granary
+      - arena_lumberyard
+      - arena_nucleus
+      - arena_offblast_final
+      - arena_perks
+      - arena_ravine
+      - arena_sawmill
+      - arena_watchtower
+      - arena_well
+      - workshop/3344944274 # arena_parkourcivilization
+      - workshop/698887534 # Shelter
+      - workshop/475946266 # Goldtooth
+      - workshop/2849495579 # Landfall
+      - workshop/2083578446 # Seize
+      - workshop/3324748186 # Commune
+
   swishcast_regular:
     mapconfig:
       general:
