@@ -42,7 +42,7 @@ main() {
         rm updater-active.lock
         exit 0
 
-    elif [ -z "$LATEST "]; then
+    elif [ -z "$LATEST" ]; then
         echo "[$(date +'%D %H:%M:%S')] Failed to fetch latest, doing nothing"
 
         rm updater-active.lock
