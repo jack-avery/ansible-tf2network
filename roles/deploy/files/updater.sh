@@ -41,7 +41,7 @@ main() {
 
         rm updater-active.lock
         exit 0
-    
+
     elif [ -z "$LATEST "]; then
         echo "[$(date +'%D %H:%M:%S')] Failed to fetch latest, doing nothing"
 
@@ -51,7 +51,7 @@ main() {
     elif [[ "$CURRENT" -ne "$LATEST" ]]; then
         # rebuild (update) the base image
         echo "[$(date +'%D %H:%M:%S')] Updating base image..."
-        docker buildx build -t jackavery/base-tf2server:latest /home/tf2server/build/base
+        docker buildx build --no-cache -t jackavery/base-tf2server:latest /home/tf2server/build/base
 
         get_networks
 
@@ -71,6 +71,9 @@ main() {
             echo "[$(date +'%D %H:%M:%S')] Docker recomposing $network..."
             docker compose -f /home/tf2server/docker-compose_$network.yml up -d
         done
+
+        echo "[$(date +'%D %H:%M:%S')] Pruning dangling images..."
+        docker image prune
 
         echo $LATEST > current_tf2_buildid
         
