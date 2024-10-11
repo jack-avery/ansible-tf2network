@@ -73,7 +73,7 @@ main() {
         done
 
         echo "[$(date +'%D %H:%M:%S')] Pruning dangling images..."
-        docker image prune
+        docker image prune -f
 
         echo $LATEST > current_tf2_buildid
         
