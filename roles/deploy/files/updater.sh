@@ -2,6 +2,8 @@
 
 # ansible-tf2network: server autoupdater
 
+set -eu
+
 get_networks() {
     NETWORKS=()
     for network in /home/tf2server/build/servers/*; do
@@ -19,15 +21,14 @@ get_servers_for_network() {
 }
 
 main() {
-    echo ""
-
     if [ -f updater-active.lock ]; then
-        echo "[$(date +'%D %H:%M:%S')] A job is already active. Cancelling..."
+        echo "[$(date +'%D %H:%M:%S')] ($$) A job is already active."
         exit 0
     fi
     touch updater-active.lock
 
-    echo "[$(date +'%D %H:%M:%S')] Checking..."
+    echo ""
+    echo "[$(date +'%D %H:%M:%S')] ($$) Checking..."
 
     CURRENT=$(cat current_tf2_buildid)
     UPDATE_TIMEOUT=30
@@ -72,8 +73,8 @@ main() {
             docker compose -f /home/tf2server/docker-compose_$network.yml up -d
         done
 
-        echo "[$(date +'%D %H:%M:%S')] Pruning dangling images..."
-        docker image prune -f
+        echo "[$(date +'%D %H:%M:%S')] Pruning Docker..."
+        docker system prune -f
 
         echo $LATEST > current_tf2_buildid
         
