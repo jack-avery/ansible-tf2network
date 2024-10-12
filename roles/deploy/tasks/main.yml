@@ -30,7 +30,7 @@
     weekday: "*"
     minute: "0"
     hour: "{{ daily_restart_hour_utc }}"
-    job: "docker compose restart -f /home/tf2server/docker-compose_{{ network_shortname }}.yml"
+    job: "docker compose -f /home/tf2server/docker-compose_{{ network_shortname }}.yml restart"
 
 - name: Copy updater script
   copy:
