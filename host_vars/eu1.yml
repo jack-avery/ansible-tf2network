@@ -7,9 +7,9 @@ cpuset_offset: 0
 
 instances:
   - name: eu1-1
-    hostname: "[EU] Swishcast Central [Arena]"
-    maxplayers: 24
-    mapcycle: swishcast_arena_event
+    hostname: "[EU] Swishcast Central [Lost Media]"
+    maxplayers: 32
+    mapcycle: swishcast_2008_event
     ruleset: standard
     relay_channel: 1238569871910895626
 
