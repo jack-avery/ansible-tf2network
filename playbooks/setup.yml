@@ -51,5 +51,8 @@
     narrow: "{{ only|default('') }}"
     base_port: "{{ srcds_base_port }}"
     rsrv_port: "{{ srcds_reserve_ports }}"
+    inventory_hostname: "{{ inventory_hostname }}"
+    groups: "{{ groups }}"
+    hostvars: "{{ hostvars }}"
   register: targets
   when: instances is defined

@@ -3,7 +3,7 @@
   file:
     path: ~/sbpp/{{ network_shortname }}/keys
     state: absent
-  
+
 - name: Create keys directory
   file:
     path: ~/sbpp/{{ network_shortname }}/keys

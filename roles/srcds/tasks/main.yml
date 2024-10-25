@@ -16,7 +16,7 @@
 - name: Create network build directory
   ansible.builtin.file:
     path: ~/build/servers/{{ network_shortname }}
-    state: directory 
+    state: directory
     mode: 0755
 
 - name: Create server build directories
