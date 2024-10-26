@@ -3,8 +3,6 @@ services:
   web:
     image: crinis/sourcebans:latest
     environment:
-      # Enable on install or update and make sure to set this to 'false' afterwards
-      # Also set this to false if you made any manual changes to Sourcebans sourcecode you want to keep
       INSTALL: 'false'
     ports:
       - "{{ sbpp_html_port }}:8080"

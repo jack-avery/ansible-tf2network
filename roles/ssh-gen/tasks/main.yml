@@ -6,7 +6,7 @@
   file:
     path: "{{ role_path }}/files"
     state: directory
-    mode: 0600
+    mode: 0700
   delegate_to: localhost
 
 - name: Remove old ssh private keys
