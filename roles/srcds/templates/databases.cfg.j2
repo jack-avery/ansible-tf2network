@@ -21,6 +21,7 @@
                 "database"                      "sourcemod-local"
         }
 
+{% if not targets.is_metrics %}
         "sourcebans"
         {
                 "driver"                        "default"
@@ -30,6 +31,17 @@
                 "pass"                          "{{ sbpp_user_password }}"
                 "port"                          "3306"
         }
+{% else %}
+        "sourcebans"
+        {
+                "driver"                        "default"
+                "host"                          "db"
+                "database"                      "sourcebans"
+                "user"                          "sourcebans"
+                "pass"                          "{{ sbpp_user_password }}"
+                "port"                          "3306"
+        }
+{% endif %}
 
 {% for name, db in databases.items() %}
         "{{ name }}"

@@ -2,6 +2,10 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
+- name: debug
+  debug:
+    var: targets
+
 - name: Announce update
   ignore_errors: true
   rcon:
@@ -14,6 +18,10 @@
     index_var: loop0
   delegate_to: localhost
   timeout: 10
+
+- name: Create Docker network
+  community.docker.docker_network:
+    name: net-{{ network_shortname }}
 
 - name: Generate docker-compose
   ansible.builtin.template:

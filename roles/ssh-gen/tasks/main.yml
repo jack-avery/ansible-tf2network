@@ -6,17 +6,17 @@
   file:
     path: "{{ role_path }}/files"
     state: directory
-    mode: 0600
+    mode: 0700
   delegate_to: localhost
 
 - name: Remove old ssh private keys
-  file: 
+  file:
     path: "{{ role_path }}/files/{{ network_shortname }}-{{ inventory_hostname }}"
     state: absent
   delegate_to: localhost
 
 - name: Remove old ssh public keys
-  file: 
+  file:
     path: "{{ role_path }}/files/{{ network_shortname }}-{{ inventory_hostname }}.pub"
     state: absent
   delegate_to: localhost

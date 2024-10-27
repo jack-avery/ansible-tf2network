@@ -1,6 +1,8 @@
 # ansible-tf2network
 
-Generally applicable Ansible playbooks for administering a small to medium server network for [**Team Fortress 2**](https://www.teamfortress.com/).<br>
+Generally applicable Ansible playbooks for administering a server network for [**Team Fortress 2**](https://www.teamfortress.com/).<br>
+
+**Want to see what makes this better than the alternatives?** Check out [the Features](#-features).
 
 ## ✍️ Usage
 
@@ -9,6 +11,8 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 
 ### Mandatory setup
 1. Assuming you're using Ubuntu (WSL default), install Python, Ansible, and Docker using `sudo apt install -y python3 ansible docker.io`
+> NixOS users: a flake is provided for convenience, just run `nix develop`.
+
 2. On all `tf2` hosts (dedicated servers):
 - 1. `sudo apt install -y docker.io docker-compose-v2` - Install Docker and Docker-Compose.
 - 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
@@ -17,6 +21,11 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 3. On your `metrics` host:
 - 1. `sudo apt install -y docker.io` - Install Docker.
 - 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
+
+Of course, don't forget to put your SSH public key in `/home/tf2server/.ssh/authorized_keys`.
+
+There is a pre-commit hook that you should enable to ensure you don't commit any unencrypted secret:<br/>
+`ln .hooks/pre-commit .git/hooks/pre-commit`
 
 ### Creating servers
 1. Build your Ansible inventory and global/host variables using the samples:
@@ -47,7 +56,20 @@ This is because it's downloading the full TF2 server.<br>
 **It is possible that Ansible will *SILENTLY* time out while waiting if it takes too long!**<br>
 Watch for `jackavery/base-tf2server` to show up in `docker image ls`. If it's there, you can Ctrl+C Ansible.
 
+**Do not re-run `sbpp-install` once you've installed SB++!**
+This is because it starts the container with intent to install SourceBans++.<br>
+**This also means it will wipe your existing data, including user punishments and server configuration.**
+
 ## ⭐ Features
+
+### 💸 More for Cheaper
+Because **ansible-tf2network** handles everything for you, you can look for cheap **VPS Providers** instead of managed hosting services. A lot of managed services will upcharge you for their ease of use; but, trying to do anything outside of the scope of what their management dashboard allows you to do is *difficult*. Going directly to a VPS provider and purchasing a box directly may be cheaper, and with **ansible-tf2network**, you can do more.
+
+### 💬 Discord Channel <-> Server relay
+Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in `host_vars/{host}.secret.yml`) facilitates a Server to Discord relay, and correctly configuring your Discord bot (in `group_vars/tf2.secret.yml` and `host_vars/{host}.yml`) facilitates a Discord to Server relay between a specified Discord channel and Team Fortress 2 server. You can also allow specific Discord user IDs access to the `/rcon` command, which allows remote control of the server network.
+
+### 👏 Hands-off Maintenance
+This playbook set comes with a robust and simple auto-update script that ensures your servers update as soon as a new version of Team Fortress 2 is available. This is done by rebuilding from *scratch*, instead of updating the existing image, so as to maintain [image immutability](https://kubernetes.io/blog/2018/03/principles-of-container-app-design/). Servers are restarted once daily at a time set per-host as to prevent [server clock errors](https://www.youtube.com/watch?v=RdTJHVG_IdU). The relay plugin facilitates chat logs with user IDs for use by moderators for moderation decisions. This leads to a seamless 24/7 server experience with quality-of-life for your moderation team.
 
 ### 🛠️ Docker and Ansible, confined scope
 **ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Docker to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your host record in `inventory.yml` at the new IP.
@@ -73,10 +95,3 @@ Some plugin configuration use Valve's [KeyValues](https://developer.valvesoftwar
 **KeyValues** configurations can vary wildly, and as such, the entire configuration must be redefined in the inner scope. **CFG** overriding works as they usually contain all convars set by a plugin.
 
 **Only the secrets are encrypted!** This makes it possible for users to view your server configuration if they're curious, as well as propose changes.
-
-### 💬 Discord Channel <-> Server relay
-Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in `host_vars/{host}.secret.yml`) facilitates a Server to Discord relay, and correctly configuring your Discord bot (in `group_vars/tf2.secret.yml` and `host_vars/{host}.yml`) facilitates a Discord to Server relay between a specified Discord channel and Team Fortress 2 server. You can also allow specific Discord user IDs access to the `/rcon` command, which allows remote control of the server network.
-
-### Pre-commit
-There is a pre-commit hook that you should enable to ensure you don't commit any unencrypted secret:<br/>
-`ln .hooks/pre-commit .git/hooks/pre-commit`
