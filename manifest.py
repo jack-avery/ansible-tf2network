@@ -26,7 +26,7 @@ def load_ansible_inventory() -> dict:
 
     with open("inventory.yml") as inventory_yml:
         inventory = yaml.safe_load(inventory_yml)
-    
+
     # re-write original
     with open("inventory.yml", "w") as inventory_yml:
         inventory_yml.write(original)
@@ -105,12 +105,6 @@ def load_ansible_variables() -> dict:
     return host_vars
 
 
-def encrypt_ansible_secrets() -> None:
-    logging.info("Encrypting secrets...")
-    os.system("ansible-vault encrypt host_vars/*.secret.yml")
-    os.system("ansible-vault encrypt inventory.yml")
-
-
 def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
     logging.info("Formatting the resulting dict...")
     used_names = []
@@ -140,7 +134,7 @@ def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
                 "relay_channel": vars[host]["vars"][instance_name].get("relay_channel", None),
                 "stv_enabled": stv_enabled
             })
-        
+
     manifest = {
         "hosts": instances
     }
@@ -153,7 +147,6 @@ def main() -> None:
     ansible_inv = load_ansible_inventory()
     ansible_globals = load_ansible_globals()
     ansible_vars = load_ansible_variables()
-    encrypt_ansible_secrets()
     manifest = create_manifest(ansible_inv, ansible_globals, ansible_vars)
     logging.info("Writing manifest to manifest.yml...")
     with open("manifest.yml", "w") as manifest_yml:
