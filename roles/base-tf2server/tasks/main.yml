@@ -18,7 +18,7 @@
     recursive: true
 
 - name: Build base image
-  community.docker.docker_image:
+  containers.podman.podman_image:
     name: jackavery/base-tf2server
     tag: latest
     source: build
@@ -28,7 +28,6 @@
       nocache: true
       pull: true
       rm: true
-      dockerfile: Dockerfile
       platform: linux/amd64
       path: ~/build/base
     state: present

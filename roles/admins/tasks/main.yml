@@ -7,10 +7,10 @@
   loop: "{{ targets.instances }}"
 
 - name: Move into container
-  community.docker.docker_container_copy_into:
+  containers.podman.podman_container_copy:
     container: "srcds-{{ item.name }}"
-    path: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/admins_simple.ini
-    container_path: /home/steam/tf-dedicated/tf/addons/sourcemod/configs/admins_simple.ini
+    src: ~/build/{{ item.name }}/tf/addons/sourcemod/configs/admins_simple.ini
+    dest: /home/steam/tf-dedicated/tf/addons/sourcemod/configs/admins_simple.ini
   loop: "{{ targets.instances }}"
   delegate_to: "{{ ansible_host }}"
 

@@ -3,7 +3,7 @@
 all: sm srcds deploy relay-deploy
 
 base:
-	@ansible-playbook --limit prod playbooks/base-tf2server.yml --extra-vars "clean=$(CLEAN)"
+	@ansible-playbook --limit prod playbooks/base-tf2server.yml
 
 sm:
 	@ansible-playbook --limit prod playbooks/sourcemod.yml

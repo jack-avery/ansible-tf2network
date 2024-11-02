@@ -10,17 +10,13 @@ Ansible requires Linux. If you're running Windows, you'll need to set up **[WSL]
 These playbooks only work with [systemd](https://systemd.io/)-based hosts, which is the default for most Linux distributions.
 
 ### Mandatory setup
-1. Assuming you're using Ubuntu (WSL default), install Python, Ansible, and Docker using `sudo apt install -y python3 ansible docker.io`
+1. Assuming you're using Ubuntu (WSL default), install Ansible using `sudo apt install ansible`
 > NixOS users: a flake is provided for convenience, just run `nix develop`.
 
-2. On all `tf2` hosts (dedicated servers):
-- 1. `sudo apt install -y docker.io docker-compose-v2` - Install Docker and Docker-Compose.
-- 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
-- 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering.
-
-3. On your `metrics` host:
-- 1. `sudo apt install -y docker.io` - Install Docker.
-- 2. `sudo useradd -UmG docker tf2server` - Create the `tf2server` user with the `docker` role.
+2. On all hosts (dedicated servers):
+- 1. `sudo apt install -y podman podman-compose` - Install Podman and Podman-compose.
+- 2. `sudo useradd -Um tf2server` - Create the `tf2server`.
+- 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering on the user.
 
 Of course, don't forget to put your SSH public key in `/home/tf2server/.ssh/authorized_keys`.
 
@@ -42,7 +38,7 @@ There is a pre-commit hook that you should enable to ensure you don't commit any
 > Configure the rest to your liking.
 3. `make cycle` - Generate initial ssh keys for secure SB++ DB connection.
 -- This directive also (re-)starts the SB++ network, so no need to run `make sbpp`.
-4. `make base` - Build the base Team Fortress 2 server Docker image on every `tf2` host.
+4. `make base` - Build the base Team Fortress 2 server image on every `tf2` host.
 5. `make sm` - Distribute and build SourceMod.
 6. `make srcds` - Build instance images.
 7. `make deploy` - Start containers & setup crontab for the TF2 servers.
@@ -54,7 +50,7 @@ There is a pre-commit hook that you should enable to ensure you don't commit any
 **`make base` can take a long time!**
 This is because it's downloading the full TF2 server.<br>
 **It is possible that Ansible will *SILENTLY* time out while waiting if it takes too long!**<br>
-Watch for `jackavery/base-tf2server` to show up in `docker image ls`. If it's there, you can Ctrl+C Ansible.
+Watch for `jackavery/base-tf2server` to show up in `podman image ls`. If it's there, you can Ctrl+C Ansible.
 
 **Do not re-run `sbpp-install` once you've installed SB++!**
 This is because it starts the container with intent to install SourceBans++.<br>
@@ -71,14 +67,13 @@ Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in
 ### 👏 Hands-off Maintenance
 This playbook set comes with a robust and simple auto-update script that ensures your servers update as soon as a new version of Team Fortress 2 is available. This is done by rebuilding from *scratch*, instead of updating the existing image, so as to maintain [image immutability](https://kubernetes.io/blog/2018/03/principles-of-container-app-design/). Servers are restarted once daily at a time set per-host as to prevent [server clock errors](https://www.youtube.com/watch?v=RdTJHVG_IdU). The relay plugin facilitates chat logs with user IDs for use by moderators for moderation decisions. This leads to a seamless 24/7 server experience with quality-of-life for your moderation team.
 
-### 🛠️ Docker and Ansible, confined scope
-**ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Docker to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your host record in `inventory.yml` at the new IP.
+### 🛠️ Podman and Ansible, confined scope
+**ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Podman to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your host record in `inventory.yml` at the new IP.
 
 Since the playbooks keep their activity contained within the `tf2server` user folder with *no* actions performed as root, cleaning up a host after using **ansible-tf2network** can be done with these commands:
-1. `userdel -r tf2server` - Delete their user
-2. `docker stop [...]` - Stop the containers (do this for all servers)
-3. `docker container prune` - Remove the containers
-4. `docker image prune -a` - Remove all unused Docker images
+1. `podman compose -f /home/tf2server/podman-compose_{network_shortname}.yml down` - Teardown the network
+2. `userdel -r tf2server` - Delete their user
+3. `podman image prune -a` - Remove all unused Podman images
 
 ### 📚 Default, Ruleset, and Instance level configuration
 **ansible-tf2network** server configuration has 3 scopes: default, ruleset, and instance. Overriding configuration from outer scopes is possible within inner scopes, e.g., ruleset config overrides default config, and instance config overrides both.

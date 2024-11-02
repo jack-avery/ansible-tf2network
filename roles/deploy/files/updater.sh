@@ -32,7 +32,7 @@ main() {
 
     CURRENT=$(cat current_tf2_buildid)
     UPDATE_TIMEOUT=30
-    LATEST=$(docker run --quiet --pull always --rm --entrypoint=/bin/bash cm2network/steamcmd -c "timeout $UPDATE_TIMEOUT ./steamcmd.sh +login anonymous +app_info_update 232250 +app_info_print 232250 +quit" | perl -n -e'/"buildid"\s+"([    0-9]+)"/ && print "$1\n"' | head -n1)
+    LATEST=$(podman run --quiet --pull always --rm --entrypoint=/bin/bash cm2network/steamcmd -c "timeout $UPDATE_TIMEOUT ./steamcmd.sh +login anonymous +app_info_update 232250 +app_info_print 232250 +quit" | perl -n -e'/"buildid"\s+"([    0-9]+)"/ && print "$1\n"' | head -n1)
 
     echo "[$(date +'%D %H:%M:%S')] Current: $CURRENT; Latest: $LATEST"
 
@@ -52,7 +52,7 @@ main() {
     elif [[ "$CURRENT" -ne "$LATEST" ]]; then
         # rebuild (update) the base image
         echo "[$(date +'%D %H:%M:%S')] Updating base image..."
-        docker buildx build --no-cache -t jackavery/base-tf2server:latest /home/tf2server/build/base
+        podman buildx build --no-cache -t jackavery/base-tf2server:latest /home/tf2server/build/base
 
         get_networks
 
@@ -65,19 +65,19 @@ main() {
             for server in ${SERVERS[@]} ; do
                 echo "[$(date +'%D %H:%M:%S')] Rebuilding $network/$server..."
                 cd /home/tf2server/build/servers/$network/$server
-                docker buildx build -t srcds-$network-$server:latest .
+                podman buildx build -t srcds-$network-$server:latest .
                 cd /home/tf2server
             done
 
-            echo "[$(date +'%D %H:%M:%S')] Docker recomposing $network..."
-            docker compose -f /home/tf2server/docker-compose_$network.yml up -d
+            echo "[$(date +'%D %H:%M:%S')] Podman recomposing $network..."
+            podman compose -f /home/tf2server/podman-compose_$network.yml up -d
         done
 
-        echo "[$(date +'%D %H:%M:%S')] Pruning Docker..."
-        docker system prune -f
+        echo "[$(date +'%D %H:%M:%S')] Pruning Podman..."
+        podman system prune -af
 
         echo $LATEST > current_tf2_buildid
-        
+
         rm updater-active.lock
         exit 0
 

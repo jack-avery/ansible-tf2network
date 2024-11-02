@@ -20,12 +20,12 @@
       - --exclude=manifest.yml
 
 - name: Prune space before building
-  community.docker.docker_prune:
+  containers.podman.podman_prune:
     images: true
     containers: true
 
 - name: Build rocket.rs binary
-  community.docker.docker_container:
+  containers.podman.podman_image:
     name: ansible-tf2network-relay-build
     image: rust:1.74-slim-bookworm
     state: started

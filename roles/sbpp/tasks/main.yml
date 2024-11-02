@@ -20,14 +20,14 @@
     state: directory
     mode: 0755
 
-- name: Create Docker network
-  community.docker.docker_network:
+- name: Create Podman network
+  containers.podman.podman_network:
     name: net-{{ network_shortname }}
 
-- name: Transfer docker-compose.yml
+- name: Transfer podman-compose.yml
   ansible.builtin.template:
-    src: docker-compose.yml.j2
-    dest: ~/sbpp/{{ network_shortname }}/docker-compose.yml
+    src: podman-compose.yml.j2
+    dest: ~/sbpp/{{ network_shortname }}/podman-compose.yml
     mode: 0755
 
 - name: Transfer 50-server.cnf
@@ -42,8 +42,8 @@
     dest: ~/ssh-init/sshd_config.sh
     mode: 0644
 
-- name: docker-compose down
-  shell: docker compose -f ~/sbpp/{{ network_shortname }}/docker-compose.yml down
+- name: podman compose down
+  shell: podman compose -f ~/sbpp/{{ network_shortname }}/podman-compose.yml down
 
-- name: docker-compose up
-  shell: docker compose -f ~/sbpp/{{ network_shortname }}/docker-compose.yml up -d
+- name: podman compose up
+  shell: podman compose -f ~/sbpp/{{ network_shortname }}/podman-compose.yml up -d

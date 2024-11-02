@@ -1,13 +1,15 @@
 version: '3'
+
 services:
   web:
     image: crinis/sourcebans:latest
     environment:
       INSTALL: 'true'
     ports:
-    - "{{ sbpp_html_port }}:8080"
+      - "{{ sbpp_html_port }}:8080"
     volumes:
       - sourcebans-{{ network_shortname }}:/var/www/html/
+
   db:
     image: mariadb:10
     environment:

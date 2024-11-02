@@ -1,0 +1,18 @@
+[Unit]
+Description=ansible-tf2network: {{ network_shortname }}-{{ item.name }}
+
+[Container]
+ContainerName=srcds-{{ network_shortname }}-{{ item.name }}
+Image=srcds-{{ network_shortname }}-{{ item.name }}:latest
+
+Network=net-{{ network_shortname }}.network
+
+PublishPort={{ item.port }}:{{ item.port }}
+PublishPort={{ item.port }}:{{ item.port }}/udp
+PublishPort={{ item.port + 5 }}:{{ item.port + 5}}/udp
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target

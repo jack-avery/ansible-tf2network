@@ -2,10 +2,6 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
-- name: debug
-  debug:
-    var: targets
-
 - name: Announce update
   ignore_errors: true
   rcon:
@@ -19,18 +15,24 @@
   delegate_to: localhost
   timeout: 10
 
-- name: Create Docker network
-  community.docker.docker_network:
-    name: net-{{ network_shortname }}
-
-- name: Generate docker-compose
+- name: Template srcds.container.j2
   ansible.builtin.template:
-    src: docker-compose.yml.j2
-    dest: /home/tf2server/docker-compose_{{ network_shortname }}.yml
-    mode: 0700
+    src: "srcds.container.j2"
+    dest: "~/.config/containers/systemd/srcds-{{ network_shortname }}-{{ item.name }}.container"
+    mode: 0755
+  loop: "{{ targets.instances }}"
 
-- name: docker compose up -d
-  shell: docker compose -f /home/tf2server/docker-compose_{{ network_shortname }}.yml up -d
+- name: Template ssh.container.j2
+  ansible.builtin.template:
+    src: "ssh.container.j2"
+    dest: "~/.config/containers/systemd/ssh-{{ network_shortname }}.container"
+    mode: 0755
+  when: not targets.is_metrics
+
+- name: Create Podman network
+  containers.podman.podman_network:
+    name: net-{{ network_shortname }}
+    state: quadlet
 
 - name: Install restart cronjob
   ansible.builtin.cron:
@@ -38,7 +40,7 @@
     weekday: "*"
     minute: "0"
     hour: "{{ daily_restart_hour_utc }}"
-    job: "docker compose -f /home/tf2server/docker-compose_{{ network_shortname }}.yml restart"
+    job: "podman compose -f /home/tf2server/podman-compose_{{ network_shortname }}.yml down && podman compose -f /home/tf2server/podman-compose_{{ network_shortname }}.yml up -d"
 
 - name: Copy updater script
   copy:

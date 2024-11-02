@@ -34,10 +34,10 @@
   loop: "{{ targets.instances }}"
   delegate_to: "{{ ansible_host }}"
 
-- name: Move Dockerfile
+- name: Move Containerfile
   ansible.builtin.template:
-    src: Dockerfile.j2
-    dest: ~/build/servers/{{ network_shortname }}/{{ item.name }}/Dockerfile
+    src: Containerfile.j2
+    dest: ~/build/servers/{{ network_shortname }}/{{ item.name }}/Containerfile
     mode: 0755
   loop: "{{ targets.instances }}"
 
@@ -139,12 +139,12 @@
 # End Templates
 
 - name: Prune space before building
-  community.docker.docker_prune:
+  containers.podman.podman_prune:
     images: true
     containers: true
 
 - name: Build images
-  community.docker.docker_image:
+  containers.podman.podman_image:
     name: "srcds-{{ network_shortname }}-{{ item.name }}"
     tag: "latest"
     source: build
