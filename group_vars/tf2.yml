@@ -69,10 +69,10 @@ mapcycles:
       general:
         all:
           mp_winlimit: 0
-          mp_maxrounds: 3
+          mp_maxrounds: 2
           mp_timelimit: 0
       maps:
-        cp_2fort_classic_v1:
+        ctf_2fort_classic_v1:
           mp_timelimit: 30
         ctf_snofort_final:
           mp_timelimit: 30
