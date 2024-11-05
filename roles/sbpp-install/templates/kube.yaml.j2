@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: ansible-tf2network_{{ network_shortname }}
+  name: ansible-tf2network_{{ network_shortname }}-metrics
 spec:
   containers:
-    - name: "sourcebans-{{ network_shortname }}"
+    - name: "sourcebans"
       image: docker.io/crinis/sourcebans:2.0.0
       env:
         - INSTALL: "true"
@@ -14,7 +14,7 @@ spec:
           protocol: TCP
       volumes:
         - sourcebans-{{ network_shortname }}:/var/www/html/
-    - name: "db-{{ network_shortname }}"
+    - name: "db"
       image: docker.io/library/mariadb:10
       env:
         - MYSQL_USER: sourcebans
