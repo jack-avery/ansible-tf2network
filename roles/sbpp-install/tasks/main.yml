@@ -44,7 +44,7 @@
 - name: Template kube.j2
   ansible.builtin.template:
     src: "kube.yaml.j2"
-    dest: "~/sbpp/{{ network_shortname }}.yaml"
+    dest: "~/sbpp/{{ network_shortname }}/kube.yaml"
     mode: 0700
 
 - name: Template quadlet.j2
