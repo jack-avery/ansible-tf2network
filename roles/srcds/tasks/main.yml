@@ -140,8 +140,8 @@
 
 - name: Prune space before building
   containers.podman.podman_prune:
-    images: true
-    containers: true
+    image: true
+    container: true
 
 - name: Build images
   containers.podman.podman_image:
