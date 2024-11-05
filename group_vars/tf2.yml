@@ -71,18 +71,22 @@ mapcycles:
           mp_winlimit: 0
           mp_maxrounds: 2
           mp_timelimit: 0
+
+          sm_crh_blu_snipers: -1
       maps:
         ctf_2fort_classic_v1:
           mp_timelimit: 30
         ctf_snofort_final:
           mp_timelimit: 30
 
+        ctf_shooting_gallery_v3:
+          sm_crh_blu_snipers: 0
+
     maps:
       - ctf_hallofdeath
       - cp_toy_fort_beta2
       - cp_warehouse_b8
       - cp_desertfortress
-      - ctf_ig_area_b2
       - ctf_shooting_gallery_b3
       - falling_cp
       - ctf_2fort_classic_v1
@@ -264,6 +268,7 @@ base_plugins:
   - basecomm
   - basecommands
   - basetriggers
+  - ClassRestrictionsForHumans
   - clientprefs
   - discord
   - discord_relay
