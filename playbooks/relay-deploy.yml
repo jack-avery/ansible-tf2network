@@ -10,10 +10,10 @@
         src: "{{ playbook_dir }}/../manifest.yml"
         dest: ~/{{ network_shortname }}-manifest.yml
 
-    - name: Start container
+    - name: Create quadlet
       containers.podman.podman_container:
         name: "{{ network_shortname }}_relay"
-        image: rust:1.74-slim-bookworm
+        image: docker.io/library/rust:1.74-slim-bookworm
         state: quadlet
         env:
           DISCORD_TOKEN: "{{ discord_relay_bot_token }}"
@@ -25,4 +25,9 @@
         quadlet_options:
           - |
             [Install]
-            WantedBy=default.target
+            WantedBy=multi-user.target default.target
+
+    - name: systemd user daemon reload
+      ansible.builtin.systemd_service:
+        scope: user
+        daemon_reload: true

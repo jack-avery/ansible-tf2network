@@ -21,18 +21,19 @@
 
 - name: Prune space before building
   containers.podman.podman_prune:
-    images: true
-    containers: true
+    image: true
+    container: true
 
 - name: Build rocket.rs binary
-  containers.podman.podman_image:
+  containers.podman.podman_container:
     name: ansible-tf2network-relay-build
-    image: rust:1.74-slim-bookworm
+    image: docker.io/library/rust:1.74-slim-bookworm
     state: started
-    auto_remove: true
+    detach: true
     volumes:
       - /home/tf2server/build-relay:/build
-    command: /build/build.sh
+    command:
+      - /build/build.sh
 
 - name: Wait for container to close
   wait_for:
