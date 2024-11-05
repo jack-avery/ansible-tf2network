@@ -21,13 +21,8 @@
   containers.podman.podman_image:
     name: jackavery/base-tf2server
     tag: latest
-    source: build
-    force_tag: true
-    force_source: true
+    path: ~/build/base
     build:
-      nocache: true
-      pull: true
-      rm: true
+      cache: no
+      force_rm: true
       platform: linux/amd64
-      path: ~/build/base
-    state: present
