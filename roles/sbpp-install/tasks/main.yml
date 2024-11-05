@@ -24,20 +24,22 @@
         WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
 
 - name: Create SourceBans volume
-  state: quadlet
-  name: sourcebans-{{ network_shortname }}
-  quadlet_options:
-    - |
-      [Install]
-      WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
+  containers.podman.podman_volume:
+    state: quadlet
+    name: sourcebans-{{ network_shortname }}
+    quadlet_options:
+      - |
+        [Install]
+        WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
 
 - name: Create MariaDB volume
-  state: quadlet
-  name: mariadb-{{ network_shortname }}
-  quadlet_options:
-    - |
-      [Install]
-      WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
+  containers.podman.podman_volume:
+    state: quadlet
+    name: mariadb-{{ network_shortname }}
+    quadlet_options:
+      - |
+        [Install]
+        WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
 
 - name: Template kube.j2
   ansible.builtin.template:
