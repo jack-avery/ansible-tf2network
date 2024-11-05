@@ -14,7 +14,7 @@ These playbooks only work with [systemd](https://systemd.io/)-based hosts, which
 > NixOS users: a flake is provided for convenience, just run `nix develop`.
 
 2. On all hosts (dedicated servers):
-- 1. `sudo apt install -y podman podman-compose` - Install Podman and Podman-compose.
+- 1. `sudo apt install -y podman kubernetes` - Install Podman and Kubernetes.
 - 2. `sudo useradd -Um tf2server` - Create the `tf2server`.
 - 3. `sudo loginctl enable-linger tf2server` - Enable systemd service lingering on the user.
 
@@ -52,7 +52,7 @@ This is because it's downloading the full TF2 server.<br>
 **It is possible that Ansible will *SILENTLY* time out while waiting if it takes too long!**<br>
 Watch for `jackavery/base-tf2server` to show up in `podman image ls`. If it's there, you can Ctrl+C Ansible.
 
-**Do not re-run `sbpp-install` once you've installed SB++!**
+**Do not re-run `make sbpp-install` once you've installed SB++!**
 This is because it starts the container with intent to install SourceBans++.<br>
 **This also means it will wipe your existing data, including user punishments and server configuration.**
 
@@ -67,13 +67,13 @@ Using the `discord_relay` plugin (depends on `discord` plugin, uses a webhook in
 ### 👏 Hands-off Maintenance
 This playbook set comes with a robust and simple auto-update script that ensures your servers update as soon as a new version of Team Fortress 2 is available. This is done by rebuilding from *scratch*, instead of updating the existing image, so as to maintain [image immutability](https://kubernetes.io/blog/2018/03/principles-of-container-app-design/). Servers are restarted once daily at a time set per-host as to prevent [server clock errors](https://www.youtube.com/watch?v=RdTJHVG_IdU). The relay plugin facilitates chat logs with user IDs for use by moderators for moderation decisions. This leads to a seamless 24/7 server experience with quality-of-life for your moderation team.
 
-### 🛠️ Podman and Ansible, confined scope
-**ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Podman to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your host record in `inventory.yml` at the new IP.
+### 🛠️ Podman and Ansible, confined scope, highly secure
+**ansible-tf2network** uses Ansible to provide a user-friendly and extensive configuration interface, and Podman to make your deploys consistent regardless of host. If you upgrade or move hosts, all you need to do is point your host record in `inventory.yml` at the new IP. Multiple measures have been put in place to ensure 
 
 Since the playbooks keep their activity contained within the `tf2server` user folder with *no* actions performed as root, cleaning up a host after using **ansible-tf2network** can be done with these commands:
-1. `podman compose -f /home/tf2server/podman-compose_{network_shortname}.yml down` - Teardown the network
-2. `userdel -r tf2server` - Delete their user
-3. `podman image prune -a` - Remove all unused Podman images
+1. `userdel -r tf2server` - Delete their user
+2. `systemctl daemon-reload` - Reload systemd (to teardown their containers)
+3. `podman system prune -a` - Prune Podman
 
 ### 📚 Default, Ruleset, and Instance level configuration
 **ansible-tf2network** server configuration has 3 scopes: default, ruleset, and instance. Overriding configuration from outer scopes is possible within inner scopes, e.g., ruleset config overrides default config, and instance config overrides both.
