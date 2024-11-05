@@ -3,7 +3,7 @@ Description=ansible-tf2network: {{ network_shortname }} servers
 
 [Kube]
 Yaml=/home/tf2server/{{ network_shortname }}.kube
-Network=net_{{ network_shortname }}.network
+Network=net-{{ network_shortname }}.network
 
 [Install]
 WantedBy=multi-user.target default.target
