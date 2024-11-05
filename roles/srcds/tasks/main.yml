@@ -147,10 +147,8 @@
   containers.podman.podman_image:
     name: "srcds-{{ network_shortname }}-{{ item.name }}"
     tag: "latest"
-    source: build
+    path: ~/build/servers/{{ network_shortname }}/{{ item.name }}
+    state: build
     build:
-      path: ~/build/servers/{{ network_shortname }}/{{ item.name }}
-    state: present
-    force_source: true
-    force_tag: true
+      cache: false
   loop: "{{ targets.instances }}"
