@@ -22,7 +22,7 @@
     name: jackavery/base-tf2server
     tag: latest
     path: ~/build/base
+    state: build
     build:
-      cache: no
+      cache: false
       force_rm: true
-      platform: linux/amd64
