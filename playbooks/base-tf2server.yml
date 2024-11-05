@@ -1,5 +1,5 @@
 ---
-- name: Build (or update) base server image on host
+- name: Build base server image on host
   hosts: tf2
   roles:
     - base-tf2server
