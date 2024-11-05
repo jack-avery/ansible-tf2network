@@ -8,9 +8,15 @@ spec:
     - name: "srcds-{{ network_shortname }}-{{ item.name }}"
       image: "srcds-{{ network_shortname }}-{{ item.name }}:latest"
       ports:
-        - "{{ item.port }}:{{ item.port }}"
-        - "{{ item.port }}:{{ item.port }}/udp"
-        - "{{ item.port + 5 }}:{{ item.port + 5 }}/udp"
+        - containerPort: {{ item.port }}
+          hostPort: {{ item.port }}
+          protocol: TCP
+        - containerPort: {{ item.port }}
+          hostPort: {{ item.port }}
+          protocol: UDP
+        - containerPort: {{ item.port + 5 }}
+          hostPort: {{ item.port + 5}}
+          protocol: UDP
       args:
         - -cpus
         - "1"

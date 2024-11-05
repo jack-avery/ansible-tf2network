@@ -9,7 +9,9 @@ spec:
       env:
         - INSTALL: "false"
       ports:
-        - "{{ sbpp_html_port }}:8080"
+        - containerPort: 8080
+          hostPort: {{ sbpp_html_port }}
+          protocol: TCP
       volumes:
         - sourcebans-{{ network_shortname }}:/var/www/html/
     - name: "db_{{ network_shortname }}"
@@ -32,4 +34,6 @@ spec:
         - /home/tf2server/sbpp/{{ network_shortname }}/config:/config
         - /home/tf2server/ssh-init:/custom-cont-init.d:ro
       ports:
-        - "{{ sbpp_host_ssh_port }}:2222"
+        - containerPort: 2222
+          hostPort: {{ sbpp_host_ssh_port }}
+          protocol: TCP
