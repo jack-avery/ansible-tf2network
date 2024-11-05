@@ -15,24 +15,31 @@
   delegate_to: localhost
   timeout: 10
 
-- name: Template srcds.container.j2
-  ansible.builtin.template:
-    src: "srcds.container.j2"
-    dest: "~/.config/containers/systemd/srcds-{{ network_shortname }}-{{ item.name }}.container"
-    mode: 0755
-  loop: "{{ targets.instances }}"
-
-- name: Template ssh.container.j2
-  ansible.builtin.template:
-    src: "ssh.container.j2"
-    dest: "~/.config/containers/systemd/ssh-{{ network_shortname }}.container"
-    mode: 0755
-  when: not targets.is_metrics
-
 - name: Create Podman network
   containers.podman.podman_network:
     name: net-{{ network_shortname }}
     state: quadlet
+    quadlet_options:
+      - |
+        [Install]
+        WantedBy=ansible-tf2network_{{ network_shortname }}.service multi-user.target default.target
+
+- name: Template kube.j2
+  ansible.builtin.template:
+    src: "kube.yaml.j2"
+    dest: "~/{{ network_shortname }}.yaml"
+    mode: 0755
+
+- name: Template quadlet.j2
+  ansible.builtin.template:
+    src: "quadlet.kube.j2"
+    dest: "~/.config/containers/systemd/ansible-tf2network_{{ network_shortname }}.kube"
+    mode: 0755
+
+- name: systemd user daemon reload
+  ansible.builtin.systemd_service:
+    scope: user
+    daemon_reload: true
 
 - name: Install restart cronjob
   ansible.builtin.cron:
@@ -40,7 +47,7 @@
     weekday: "*"
     minute: "0"
     hour: "{{ daily_restart_hour_utc }}"
-    job: "podman compose -f /home/tf2server/podman-compose_{{ network_shortname }}.yml down && podman compose -f /home/tf2server/podman-compose_{{ network_shortname }}.yml up -d"
+    job: "podman pod restart ansible-tf2network_{{ network_shortname }}"
 
 - name: Copy updater script
   copy:

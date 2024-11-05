@@ -14,14 +14,45 @@
     state: directory
     mode: 0755
 
-- name: Transfer podman-compose.yml
+- name: Create Podman network
+  containers.podman.podman_network:
+    name: net-{{ network_shortname }}
+    state: quadlet
+    quadlet_options:
+      - |
+        [Install]
+        WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
+
+- name: Create SourceBans volume
+  state: quadlet
+  name: sourcebans-{{ network_shortname }}
+  quadlet_options:
+    - |
+      [Install]
+      WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
+
+- name: Create MariaDB volume
+  state: quadlet
+  name: mariadb-{{ network_shortname }}
+  quadlet_options:
+    - |
+      [Install]
+      WantedBy=ansible-tf2network_{{ network_shortname }}-metrics.service multi-user.target default.target
+
+- name: Template kube.j2
   ansible.builtin.template:
-    src: podman-compose.yml.j2
-    dest: ~/sbpp/{{ network_shortname }}/podman-compose.yml
-    mode: 0755
+    src: "kube.yaml.j2"
+    dest: "~/sbpp/{{ network_shortname }}.yaml"
+    mode: 0700
 
-- name: podman compose down
-  shell: podman compose -f ~/sbpp/{{ network_shortname }}/podman-compose.yml down
+- name: Template quadlet.j2
+  ansible.builtin.template:
+    src: "quadlet.kube.j2"
+    dest: "~/.config/containers/systemd/ansible-tf2network_{{ network_shortname }}-metrics.kube"
+    mode: 0744
 
-- name: podman compose up
-  shell: podman compose -f ~/sbpp/{{ network_shortname }}/podman-compose.yml up -d
+- name: systemd user daemon reload
+  ansible.builtin.systemd_service:
+    scope: user
+    daemon_reload: true
+

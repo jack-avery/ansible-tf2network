@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ansible-tf2network_{{ network_shortname }}
+spec:
+  containers:
+  - name: "sourcebans-{{ network_shortname }}"
+    image: docker.io/crinis/sourcebans:2.0.0
+    env:
+      - INSTALL: "true"
+    ports:
+      - "{{ sbpp_html_port }}:8080"
+    volumes:
+      - sourcebans-{{ network_shortname }}:/var/www/html/
+  - name: "db-{{ network_shortname }}"
+    image: docker.io/library/mariadb:10
+    env:
+      - MYSQL_USER: sourcebans
+      - MYSQL_PASWORD: {{ sbpp_user_password }}
+      - MYSQL_DATABASE: sourcebans
+      - MYSQL_ROOT_PASSWORD: {{ sbpp_root_password }}
+    volumes:
+      - mariadb-{{ network_shortname }}:/var/lib/mysql

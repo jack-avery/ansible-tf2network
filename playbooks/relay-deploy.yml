@@ -14,13 +14,15 @@
       containers.podman.podman_container:
         name: "{{ network_shortname }}_relay"
         image: rust:1.74-slim-bookworm
-        state: started
-        restart: true
-        restart_policy: "unless-stopped"
+        state: quadlet
         env:
           DISCORD_TOKEN: "{{ discord_relay_bot_token }}"
           RCON_USERS: "{{ discord_relay_rcon_users | map('string') | join(':') }}"
         volumes:
-          - /home/tf2server/build-relay/target/release/ansible-tf2network-relay:/main
-          - /home/tf2server/{{ network_shortname }}-manifest.yml:/manifest.yml
+          - "/home/tf2server/build-relay/target/release/ansible-tf2network-relay:/main"
+          - "/home/tf2server/{{ network_shortname }}-manifest.yml:/manifest.yml"
         command: /main
+        quadlet_options:
+          - |
+            [Install]
+            WantedBy=default.target

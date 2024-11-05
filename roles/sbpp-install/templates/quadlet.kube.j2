@@ -1,0 +1,9 @@
+[Unit]
+Description=ansible-tf2network: {{ network_shortname }} sourcebans
+
+[Kube]
+Yaml=/home/tf2server/sbpp/{{ network_shortname }}.kube
+Network=net_{{ network_shortname }}.network
+
+[Install]
+WantedBy=multi-user.target default.target

@@ -25,7 +25,7 @@
         "sourcebans"
         {
                 "driver"                        "default"
-                "host"                          "{{ network_shortname }}-ssh"
+                "host"                          "ssh-{{ network_shortname }}"
                 "database"                      "sourcebans"
                 "user"                          "sourcebans"
                 "pass"                          "{{ sbpp_user_password }}"
@@ -35,7 +35,7 @@
         "sourcebans"
         {
                 "driver"                        "default"
-                "host"                          "db"
+                "host"                          "db-{{ network_shortname }}"
                 "database"                      "sourcebans"
                 "user"                          "sourcebans"
                 "pass"                          "{{ sbpp_user_password }}"
