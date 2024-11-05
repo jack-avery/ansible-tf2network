@@ -37,3 +37,8 @@
     src: "kube.yaml.j2"
     dest: "~/sbpp/{{ network_shortname }}.yaml"
     mode: 0700
+
+- name: systemd user daemon reload
+  ansible.builtin.systemd_service:
+    scope: user
+    daemon_reload: true
