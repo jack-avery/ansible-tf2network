@@ -1,6 +1,9 @@
 [Unit]
 Description=ansible-tf2network: {{ network_shortname }} sourcebans
 
+[Service]
+RemainAfterExit=yes
+
 [Kube]
 Yaml=/home/tf2server/sbpp/{{ network_shortname }}/kube.yaml
 Network=net-{{ network_shortname }}.network

@@ -1,6 +1,9 @@
 [Unit]
 Description=ansible-tf2network: {{ network_shortname }} servers
 
+[Service]
+RemainAfterExit=yes
+
 [Kube]
 Yaml=/home/tf2server/{{ network_shortname }}.yaml
 Network=net-{{ network_shortname }}.network
