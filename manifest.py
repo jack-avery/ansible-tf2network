@@ -52,9 +52,7 @@ def load_ansible_variables() -> dict:
     logging.info("Discovering secrets...")
     secrets: list[str] = []
     secrets += [
-        file
-        for file in os.listdir("host_vars")
-        if not file.endswith(".sample")
+        file for file in os.listdir("host_vars") if not file.endswith(".sample")
     ]
     logging.debug(secrets)
 
@@ -94,9 +92,7 @@ def load_ansible_variables() -> dict:
                 secrets_file.write(original)
 
         else:
-            instances = {
-                instance["name"]: instance for instance in vars["instances"]
-            }
+            instances = {instance["name"]: instance for instance in vars["instances"]}
             del vars["instances"]
             host_vars[host]["host"] = vars
             host_vars[host]["vars"] = instances
@@ -126,18 +122,20 @@ def create_manifest(inventory: dict, globals: dict, vars: dict) -> dict:
             else:
                 stv_enabled = globals["stv_enabled"]
 
-            instances.append({
-                "internal_name": instance_name,
-                "hostname": vars[host]["vars"][instance_name]["hostname"],
-                "ip": f"{ip}:{base_port + (vars[host]['host']['srcds_reserve_ports'] * i)}",
-                "rcon_pass": vars[host]["secret"][instance_name]["rcon_pass"],
-                "relay_channel": vars[host]["vars"][instance_name].get("relay_channel", None),
-                "stv_enabled": stv_enabled
-            })
+            instances.append(
+                {
+                    "internal_name": instance_name,
+                    "hostname": vars[host]["vars"][instance_name]["hostname"],
+                    "ip": f"{ip}:{base_port + (vars[host]['host']['srcds_reserve_ports'] * i)}",
+                    "rcon_pass": vars[host]["secret"][instance_name]["rcon_pass"],
+                    "relay_channel": vars[host]["vars"][instance_name].get(
+                        "relay_channel", None
+                    ),
+                    "stv_enabled": stv_enabled,
+                }
+            )
 
-    manifest = {
-        "hosts": instances
-    }
+    manifest = {"hosts": instances}
 
     logging.debug(manifest)
     return manifest
