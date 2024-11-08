@@ -1,5 +1,0 @@
-{
-    "rust-analyzer.linkedProjects": [
-        "roles/relay/files/Cargo.toml" // ansible-tf2network-relay
-    ]
-}
