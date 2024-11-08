@@ -11,6 +11,11 @@
     state: directory
     mode: 0755
 
+- name: Clear old SourceMod
+  ansible.builtin.file:
+    path: ~/build/sm/{{ network_shortname }}/sm
+    state: absent
+
 - name: Create network sm directory
   ansible.builtin.file:
     path: ~/build/sm/{{ network_shortname }}/sm
@@ -31,41 +36,35 @@
     dest: ~/build/sm/{{ network_shortname }}/sm_version
   register: sm_file
 
-- name: Slurp MetaMod version (if new version)
+- name: Slurp MetaMod version
   ansible.builtin.slurp:
     src: "{{ mm_file.dest }}"
   register: mm_version_slurp
-  when: (mm_file.changed)
 
-- name: Slurp SourceMod version (if new version)
+- name: Slurp SourceMod version
   ansible.builtin.slurp:
     src: "{{ sm_file.dest }}"
   register: sm_version_slurp
-  when: (sm_file.changed)
 
 - name: Load MetaMod version (if new version)
   set_fact:
     mm_version: "{{ mm_version_slurp['content'] | b64decode }}"
-  when: (mm_file.changed)
 
 - name: Load SourceMod version (if new version)
   set_fact:
     sm_version: "{{ sm_version_slurp['content'] | b64decode }}"
-  when: (sm_file.changed)
 
 - name: Download MetaMod
   ansible.builtin.unarchive:
     src: "https://mms.alliedmods.net/mmsdrop/1.11/{{ mm_version }}"
     dest: ~/build/sm/{{ network_shortname }}/sm
     remote_src: true
-  when: (mm_file.changed)
 
 - name: Download SourceMod
   ansible.builtin.unarchive:
     src: "https://sm.alliedmods.net/smdrop/1.11/{{ sm_version }}"
     dest: ~/build/sm/{{ network_shortname }}/sm
     remote_src: true
-  when: (sm_file.changed)
 
 - name: Copy extensions & plugin sources
   ansible.posix.synchronize:
