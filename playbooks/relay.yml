@@ -1,5 +1,24 @@
 ---
-- name: Deploy Discord relay
+- name: Start up the network relay bot
   hosts: metrics
-  roles:
-    - relay
+  tasks:
+    - name: Perform setup
+      ansible.builtin.include_tasks: setup.yml
+
+    - name: Copy manifest.yml
+      ansible.posix.synchronize:
+        src: "{{ playbook_dir }}/../manifest.yml"
+        dest: ~/{{ network_shortname }}-manifest.yml
+    
+    - name: Start container
+      community.docker.docker_container:
+        name: "{{ network_shortname }}_relay"
+        image: "jackavery/ansible-tf2network-relay:latest"
+        state: started
+        restart: true
+        restart_policy: "unless-stopped"
+        env:
+          DISCORD_TOKEN: "{{ discord_relay_bot_token }}"
+          RCON_USERS: "{{ discord_relay_rcon_users | map('string') | join(':') }}"
+        volumes:
+          - /home/tf2server/{{ network_shortname }}-manifest.yml:/manifest.yml

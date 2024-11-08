@@ -46,9 +46,8 @@ There is a pre-commit hook that you should enable to ensure you don't commit any
 5. `make sm` - Distribute and build SourceMod.
 6. `make srcds` - Build instance images.
 7. `make deploy` - Start containers & setup crontab for the TF2 servers.
-8. `make relay` - If configured & enabled, build the Discord -> Server relay/RCON bot on your `metrics` host.
-9. `make relay-deploy` - Deploy the bot on your `metrics` host.
-> `make all` or simply `make` is an alias for `make sm srcds deploy relay relay-deploy`<br>
+8. `make relay` - If configured & enabled, deploy the Discord -> Server relay/RCON bot on your `metrics` host.
+> `make all` or simply `make` is an alias for `make sm srcds deploy relay`<br>
 > You can update your admins/reserved slots at any time with `make admins`
 
 **`make base` can take a long time!**
