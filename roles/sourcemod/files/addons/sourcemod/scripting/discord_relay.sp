@@ -37,7 +37,7 @@ public void OnPluginStart()
     g_cWebhook = CreateConVar("discord_relay_webhook", "relay", "Config key from configs/discord.cfg. Includes only all chat.");
     g_cFullWebhook = CreateConVar("discord_relay_full_webhook", "relay_full", "Config key from configs/discord.cfg. Includes all and team chat with SteamIDs.")
     g_cAPIKey = CreateConVar("discord_relay_apikey", "", "Steam API Key for profile pictures (https://steamcommunity.com/dev/apikey).", FCVAR_PROTECTED);
-    
+
     RegAdminCmd("discord_relay_say", ReceiveMessage, ADMFLAG_ROOT, "");
 
     HookEvent("player_connect", OnPlayerConnect);
@@ -52,7 +52,7 @@ public void OnMapStart()
     char map[PLATFORM_MAX_PATH];
     GetCurrentMap(map, sizeof(map));
     Discord_EscapeString(map, sizeof(map))
-    
+
     char sMSG[2048] = MSG_MAPCHANGE;
     ReplaceString(sMSG, sizeof(sMSG), "{MAP}", map);
 
@@ -95,9 +95,9 @@ public void OnClientAuthorized(int client, const char[] auth)
     g_cAPIKey.GetString(apiKey, sizeof(apiKey));
 
     if(StrEqual(apiKey, ""))
-	{
-		return;
-	}
+    {
+        return;
+    }
 
     g_sAvatarURL[client][0] = '\0';
     char szSteamID64[32];
@@ -158,7 +158,7 @@ public void OnTransferCompleted(Handle hRequest, bool bFailure, bool bRequestSuc
     SteamWorks_GetHTTPResponseBodyData(hRequest, sData, iBodyLength);
 
     delete hRequest;
-    
+
     APIWebResponse(sData, client);
 }
 
@@ -198,7 +198,13 @@ stock void Relay_EscapeString(char[] string, int maxlen)
 {
     ReplaceString(string, maxlen, "@", "＠");
     ReplaceString(string, maxlen, "\"", "\'");
-    ReplaceString(string, maxlen, "\\", "/");
+    for (int i = 0; i < maxlen; i++)
+    {
+        if (string[i] == 92)
+        {
+            string[i] = 47;
+        }
+    }
 }
 
 public Action TeamChatHook(int client, int args)
@@ -226,7 +232,7 @@ public void HandleChat(int client, int args, bool isAllChat)
 
     char sAuth[32];
     GetClientAuthId(client, AuthId_Steam2, sAuth, sizeof(sAuth));
-    
+
     char sName[32];
     GetClientName(client, sName, sizeof(sName));
     Relay_EscapeString(sName, sizeof(sName));
