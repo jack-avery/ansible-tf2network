@@ -29,6 +29,7 @@ main() {
 
     echo ""
     echo "[$(date +'%D %H:%M:%S')] ($$) Checking..."
+    UPDATE_TIMEOUT=30
     LATEST=$(docker run --quiet --pull always --rm --entrypoint=/bin/bash cm2network/steamcmd -c "timeout $UPDATE_TIMEOUT ./steamcmd.sh +login anonymous +app_info_update 232250 +app_info_print 232250 +quit" | perl -n -e'/"buildid"\s+"([    0-9]+)"/ && print "$1\n"' | head -n1)
 
     if [ ! -f current_tf2_buildid ]; then
@@ -39,7 +40,6 @@ main() {
         exit 0
     fi
     CURRENT=$(cat current_tf2_buildid)
-    UPDATE_TIMEOUT=30
 
     echo "[$(date +'%D %H:%M:%S')] Current: $CURRENT; Latest: $LATEST"
 
