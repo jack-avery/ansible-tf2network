@@ -64,6 +64,34 @@ mapcycles:
     maps:
       - pl_upward
 
+  swishcast_trainwreck_event_day1:
+    mapconfig:
+      general:
+        all: # time limits, map changes managed by game master
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 0
+
+    maps:
+      - cp_2train
+      - cp_aqua
+      - cp_redfort_b5
+      - pl_cranetop_b8
+
+  swishcast_trainwreck_event_day2:
+    mapconfig:
+      general:
+        all: # time limits, map changes managed by game master
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 0
+
+    maps:
+      - ctf_wetwerks # this one has special files, i really don't know if it's going to work.
+      - 2tpl_mine_alpine2_final
+      - cp_2train_night_fix_a3
+      - pl_zig_z2a
+
   swishcast_2008_event:
     mapconfig:
       general:
