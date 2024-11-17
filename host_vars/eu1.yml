@@ -13,12 +13,12 @@ instances:
     ruleset: standard
     relay_channel: 1238569871910895626
 
-  - name: eu1-2
-    hostname: "[EU] Swishcast Central [Casual]"
-    maxplayers: 24
-    mapcycle: swishcast_regular
-    ruleset: standard
-    relay_channel: 1293340686908919808
+# - name: eu1-2
+#   hostname: "[EU] Swishcast Central [Casual]"
+#   maxplayers: 24
+#   mapcycle: swishcast_regular
+#   ruleset: standard
+#   relay_channel: 1293340686908919808
 
     # most plugin configurations support instance- and ruleset-level (tf2.yml) overrides
     # on top of the MOTD, tags, plugins, and more
