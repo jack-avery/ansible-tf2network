@@ -48,6 +48,18 @@
   when: item.stat.exists
   loop: "{{ stat.results }}"
 
+- name: Copy materials to /tf/materials
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/materials"
+    dest: ~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/materials
+    recursive: true
+
+- name: Copy particles to /tf/particles
+  ansible.posix.synchronize:
+    src: "{{ role_path }}/files/particles"
+    dest: ~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf/particles
+    recursive: true
+
 # Map config
 
 - name: Make mapcfg directory
