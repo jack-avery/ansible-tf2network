@@ -5,12 +5,8 @@ __pycache__
 .vault_pass.sh
 roles/ssh-gen/files
 
-# maps (this can get pretty big)
-roles/srcds/files/maps
-
-# ansible-tf2network-relay compiled binaries
-roles/relay/files/target
-roles/relay/files/Cargo.lock
+# custom srcds files (this is network dependent, so not important)
+roles/srcds/files
 
 # logs and manifest
 manifest_logs
