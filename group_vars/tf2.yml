@@ -87,7 +87,7 @@ mapcycles:
           mp_timelimit: 0
 
     maps:
-      - ctf_wetwerks # this one has special files, i really don't know if it's going to work.
+      - ctf_control_A4
       - 2tpl_mine_alpine2_final
       - cp_2train_night_fix_a3
       - pl_zig_z2a
