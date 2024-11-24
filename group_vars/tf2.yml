@@ -73,6 +73,7 @@ mapcycles:
           mp_timelimit: 0
 
     maps:
+      - falling_cp # this is here to have it transferred
       - cp_2train
       - cp_aqua
       - cp_redfort_b5
@@ -87,10 +88,31 @@ mapcycles:
           mp_timelimit: 0
 
     maps:
+      - cp_2train # waiting map
       - ctf_control_A4
       - 2tpl_mine_alpine2_final
       - cp_2train_night_fix_a3
       - pl_zig_z2a
+
+  as_seen_on_swishcast:
+    mapconfig:
+      general:
+        all:
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 30
+
+    maps:
+      - cp_2train
+      - falling_cp
+      - cp_aqua
+      - cp_redfort_b5
+      - 2tpl_mine_alpine2_final
+      - cp_2train_night_fix_a3
+      - ctf_mach4
+      - ctf_snofort_final
+      - pl_haywood_snickers_b5a
+      - cp_toy_fort_beta2
 
   swishcast_2008_event:
     mapconfig:
