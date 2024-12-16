@@ -93,6 +93,37 @@ mapcycles:
       - 2tpl_mine_alpine2_final
       - cp_2train_night_fix_a3
       - pl_zig_z2a
+  
+  swishcast_2024_xmas_day1:
+    mapconfig:
+      general:
+        all:
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 30
+
+    maps:
+      - koth_aquapump_a1a
+      - workshop/2104785623 # snowpiercer
+      - workshop/2081770490 # snowbase
+      - workshop/3361032068 # freezetag speleo
+      - workshop/3361557780 # freezetag melchior
+      - workshop/3361186611 # freezetag slaughter
+  
+  swishcast_2024_xmas_day2:
+    mapconfig:
+      general:
+        all:
+          mp_winlimit: 0
+          mp_maxrounds: 0
+          mp_timelimit: 30
+
+    maps:
+      - workshop/3362948939 # gavle
+      - workshop/835383478 # 2fort 3rdoct
+      - workshop/2954029711 # winter ridge
+      - workshop/3361730430 # freezetag aspen
+      - workshop/3360981389 # freezetag himalaya
 
   as_seen_on_swishcast:
     mapconfig:
