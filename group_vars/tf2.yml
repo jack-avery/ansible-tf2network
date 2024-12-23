@@ -144,6 +144,10 @@ mapcycles:
       - ctf_snofort_final
       - pl_haywood_snickers_b5a
       - cp_toy_fort_beta2
+      - koth_aquapump_a1a
+      - workshop/3361032068 # freezetag speleo
+      - workshop/3361557780 # freezetag melchior
+      - workshop/3361730430 # freezetag aspen
 
   swishcast_2008_event:
     mapconfig:
