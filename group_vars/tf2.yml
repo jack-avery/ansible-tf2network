@@ -409,7 +409,7 @@ default_vdfs:
     default:
       Advertisements:
         "1":
-          chat: "{blue}Check out SwishCast on the Mann Magazine Youtube Channel!"
+          chat: "{blue}Check out SwishCast Podcast on YouTube!"
 
 ###
 # Plugin default configurations
