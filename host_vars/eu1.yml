@@ -8,7 +8,7 @@ cpuset_offset: 0
 instances:
   - name: eu1-1
     hostname: "[EU] Swishcast Central"
-    maxplayers: 24
+    maxplayers: 32
     mapcycle: as_seen_on_swishcast
     ruleset: standard
     relay_channel: 1238569871910895626
