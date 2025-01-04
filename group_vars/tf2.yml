@@ -133,6 +133,12 @@ mapcycles:
           mp_maxrounds: 0
           mp_timelimit: 30
 
+          sm_crh_blu_snipers: -1
+      
+      maps:
+        ctf_shooting_gallery_v3:
+          sm_crh_blu_snipers: 0
+
     maps:
       - cp_2train
       - falling_cp
@@ -145,6 +151,10 @@ mapcycles:
       - pl_haywood_snickers_b5a
       - cp_toy_fort_beta2
       - koth_aquapump_a1a
+      - pl_donkeykong_final
+      - pl_cranetop_b8
+      - ctf_shooting_gallery_b3
+      - ctf_hallofdeath
       - workshop/3361032068 # freezetag speleo
       - workshop/3361557780 # freezetag melchior
       - workshop/3361730430 # freezetag aspen
