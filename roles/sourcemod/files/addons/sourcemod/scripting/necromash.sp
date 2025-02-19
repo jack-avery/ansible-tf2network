@@ -6,7 +6,7 @@
 
 bool g_bHammered[MAXPLAYERS+1];
 
-char g_strHitSounds[10][54] = {
+char g_strHitSounds[10][55] = {
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_01.mp3",
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_03.mp3",
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_04.mp3",
@@ -19,7 +19,7 @@ char g_strHitSounds[10][54] = {
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_13.mp3"
 }
 
-char g_strMissSounds[12][59] = {
+char g_strMissSounds[12][60] = {
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_miss_02.mp3",
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_miss_03.mp3",
 	"vo/halloween_merasmus/sf14_merasmus_necromasher_miss_04.mp3",

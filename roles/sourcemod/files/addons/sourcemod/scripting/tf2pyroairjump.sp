@@ -70,10 +70,15 @@ public OnPluginStart()
 }
 
 public OnConVarChanged_PluginVersion( Handle:hConVar, const String:strOldValue[], const String:strNewValue[] )
+{
 	if( strcmp( strNewValue, PLUGIN_VERSION, false ) != 0 )
 		SetConVarString( hConVar, PLUGIN_VERSION, true, true );
+}
+
 public OnConVarChanged( Handle:hConVar, const String:strOldValue[], const String:strNewValue[] )
+{
 	OnConfigsExecuted();
+}
 
 public OnConfigsExecuted()
 {

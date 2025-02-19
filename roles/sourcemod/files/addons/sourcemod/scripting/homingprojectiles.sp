@@ -36,8 +36,15 @@ public OnPluginStart()
 	LoadTranslations("common.phrases");
 }
 
-public OnClientPutInServer(client) g_HomingEnabled[client] = false;
-public OnClientDisconnect_Post(client) g_HomingEnabled[client] = false;
+public OnClientPutInServer(client)
+{
+	g_HomingEnabled[client] = false;
+}
+
+public OnClientDisconnect_Post(client)
+{
+	g_HomingEnabled[client] = false;
+}
 
 public Action:Command_Name(client, args)
 {
