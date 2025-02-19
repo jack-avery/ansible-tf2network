@@ -32,7 +32,7 @@
 - name: Save latest SourceMod version to file
   ignore_errors: true
   ansible.builtin.get_url:
-    url: "https://sm.alliedmods.net/smdrop/1.11/sourcemod-latest-linux"
+    url: "https://sm.alliedmods.net/smdrop/1.12/sourcemod-latest-linux"
     dest: ~/build/sm/{{ network_shortname }}/sm_version
   register: sm_file
 
@@ -62,7 +62,7 @@
 
 - name: Download SourceMod
   ansible.builtin.unarchive:
-    src: "https://sm.alliedmods.net/smdrop/1.11/{{ sm_version }}"
+    src: "https://sm.alliedmods.net/smdrop/1.12/{{ sm_version }}"
     dest: ~/build/sm/{{ network_shortname }}/sm
     remote_src: true
 
