@@ -66,8 +66,8 @@ public Event_ArenaRoundStart(Handle:event, const String:name[], bool:dontBroadca
 ToggleObjectiveState(bool:newState)
 {
   /* Things to enable or disable */
-  new String:targets[5][25] = {"team_control_point_master","team_control_point","trigger_capture_area","item_teamflag","func_capturezone"};
-  new String:input[7] = "Disable";
+  new String:targets[5][26] = {"team_control_point_master","team_control_point","trigger_capture_area","item_teamflag","func_capturezone"};
+  new String:input[8] = "Disable";
   if(newState) input = "Enable";
 
   /* Loop through things that should be enabled/disabled, and push it as an input */

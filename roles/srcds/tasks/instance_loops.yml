@@ -49,12 +49,14 @@
   loop: "{{ stat.results }}"
 
 - name: Copy materials to /tf/materials
+  ignore_errors: true
   ansible.posix.synchronize:
     src: "{{ role_path }}/files/materials"
     dest: ~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf
     recursive: true
 
 - name: Copy particles to /tf/particles
+  ignore_errors: true
   ansible.posix.synchronize:
     src: "{{ role_path }}/files/particles"
     dest: ~/build/servers/{{ network_shortname }}/{{ instance.name }}/tf

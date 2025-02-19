@@ -7,7 +7,9 @@
 #define REPORT_MSG "{\"username\":\"{BOTNAME}\", \"content\":\"{MENTION}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"{HOSTNAME} (steam://connect/{SERVER_IP}:{SERVER_PORT}){REFER_ID}\",\"fields\": [{\"title\": \"Reason\",\"value\": \"{REASON}\",\"short\": true},{\"title\": \"Reporter\",\"value\": \"{REPORTER_NAME} [{REPORTER_ID}](https://steamid.io/lookup/{REPORTER_ID})\",\"short\": true},{\"title\": \"Target\",\"value\": \"{TARGET_NAME} [{TARGET_ID}](https://steamid.io/lookup/{TARGET_ID})\",\"short\": true}]}]}"
 #define CLAIM_MSG "{\"username\":\"{BOTNAME}\", \"content\":\"{MSG}\",\"attachments\": [{\"color\": \"{COLOR}\",\"title\": \"{HOSTNAME} (steam://connect/{SERVER_IP}:{SERVER_PORT})\",\"fields\": [{\"title\": \"Admin\",\"value\": \"{ADMIN}\",\"short\": false}]}]}"
 
-char sSymbols[25][1] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+// This line is complaining about the destination array size being mismatched/too small,
+// But it compiles locally... disabling for now.
+char sSymbols[25][2] = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
 
 char g_sHostPort[6];
 char g_sServerName[256];
