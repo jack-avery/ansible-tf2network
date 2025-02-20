@@ -2,10 +2,6 @@
 - name: Perform setup
   ansible.builtin.include_tasks: setup.yml
 
-- name: debug
-  debug:
-    var: targets
-
 - name: Announce update
   ignore_errors: true
   rcon:

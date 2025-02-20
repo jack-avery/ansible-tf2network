@@ -46,11 +46,11 @@
     src: "{{ sm_file.dest }}"
   register: sm_version_slurp
 
-- name: Load MetaMod version (if new version)
+- name: Load MetaMod version
   set_fact:
     mm_version: "{{ mm_version_slurp['content'] | b64decode }}"
 
-- name: Load SourceMod version (if new version)
+- name: Load SourceMod version
   set_fact:
     sm_version: "{{ sm_version_slurp['content'] | b64decode }}"
 
