@@ -1,35 +1,28 @@
-network_shortname: sc
+network_shortname: raspy
 
 # FastDL Base URL
 fastdl_url: "https://jackavery.ca/fastdl/tf/"
 
 # Tags to include on all servers
 global_tags:
-  - alltalk
-  - nodmgspread
-  - cp
-  - ctf
-  - pl
-  - pd
-  - 5cp
-  - swishcast
+  - raspy
 
 # Default MOTD
-htmlmotd: https://swishcast.tiiny.site
+htmlmotd: False
 motd: |
-  Welcome to Swishcast Central!
-  The official server of the only TF2 Podcast!
+  WELCOME TO rINSTAGIB.
 
-  Rules:
-  No bigotry (Sexism, Racism, Transphobia, etc)
-  No NSFW behaviour or imagery (Sprays, decals, VC)
-  Be Respectful.
+  YOUR ROCKET LAUNCHER ONLY DEALS DAMAGE ON DIRECT HITS.
+  YOUR ROCKET HITS WILL ONE-HIT KILL.
 
-  A lot of our rules are common sense, just because it's not up here doesn't mean
-  you won't get banned for it (eg. hacking, scamming)
-  Bans or kicks will be handed out on a case to case basis.
+  YOUR SECONDARY IS REPLACED WITH A RAILGUN.
+  MOMENTUM IS KEY. DEAL MORE DAMAGE THE FASTER YOU MOVE.
 
-  BUT MOST OF ALL HAVE FUN!!!!!!
+  YOUR MELEE HITS WILL ONE-HIT KILL.
+
+  YOUR BUNNYHOPPING IS AUTOMATIC.
+  YOUR AIR CONTROL IS STRONGER.
+  YOUR AMMUNITION IS INFINITE.
 
 # Link to SourceBans website
 sourcebans:
@@ -40,354 +33,102 @@ stv_enabled: false
 
 # Common "rulesets"
 rulesets:
-  standard:
+  rinstagib:
     servercfg:
-      - tf_weapon_criticals 1
+      - tf_weapon_criticals 0
       - tf_use_fixed_weaponspreads 1
-      - tf_spawn_glows_duration 10
-      - tf_spec_xray 1
+      - tf_spawn_glows_duration 0
+      - tf_spec_xray 0
       - tf_preround_push_from_damage_enable 1
       - tf_avoidteammates_pushaway 0
+      - sv_airaccelerate 150
+      - sv_gravity 700
       - sv_alltalk 1
-      - sm_advertisements_interval 180
-      - sv_vote_issue_kick_allowed 0
-      - mp_idlemaxtime 15
-      - sv_timeout 900
-      - mp_forceautoteam 1
-      - mp_autoteambalance_delay 60
-      - mp_autoteambalance_warning_delay 30
-      - mp_teams_unbalance_limit 1
+      - mp_friendlyfire 1
+      - mp_match_end_at_timelimit 1
+      - tf_arena_use_queue 0
+      - tf_arena_first_blood 0
+      - mp_tournament 1
+      - mp_chattime 0
+      - sw_gamedesc_override "rINSTAGIB"
+      - sm_aia_extrastuff 0
+      - sm_classrestrict_red_soldiers -1
+      - sm_classrestrict_red_scouts 0
+      - sm_classrestrict_red_pyros 0
+      - sm_classrestrict_red_demomen 0
+      - sm_classrestrict_red_heavies 0
+      - sm_classrestrict_red_engineers 0
+      - sm_classrestrict_red_medics 0
+      - sm_classrestrict_red_snipers 0
+      - sm_classrestrict_red_spies 0
+
+    tags:
+      - alltalk
+      - instagib
+      - rinstagib
+
+    plugins:
+      - soap_tf2dm
+      - chillydm
+      - AdvancedInfiniteAmmo
+      - classrestrict
+      - rinstagib
+      - speedo
+      - tf-bhop
+      - tf2attributes
+      - unrestricted_fov
+      - sw_gamedesc_override
+      - hwn_cosmetic_enabler
+
+    # override default plugin configs like so:
+    cfgs:
+      mapchooser:
+        sm_mapvote_start: "1.0"
 
 # List of maps
 mapcycles:
-  default:
+  rinstagib:
     maps:
+      - cp_process_final_d # rinstagib edit
+      - cp_sunshine
       - pl_upward
-
-  swishcast_trainwreck_event_day1:
-    mapconfig:
-      general:
-        all: # time limits, map changes managed by game master
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 0
-
-    maps:
-      - falling_cp # this is here to have it transferred
-      - cp_2train
-      - cp_aqua
-      - cp_redfort_b5
-      - pl_cranetop_b8
-
-  swishcast_trainwreck_event_day2:
-    mapconfig:
-      general:
-        all: # time limits, map changes managed by game master
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 0
-
-    maps:
-      - cp_2train # waiting map
-      - ctf_control_A4
-      - 2tpl_mine_alpine2_final
-      - cp_2train_night_fix_a3
-      - pl_zig_z2a
-  
-  swishcast_2024_xmas_day1:
-    mapconfig:
-      general:
-        all:
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 30
-
-    maps:
-      - koth_aquapump_a1a
-      - workshop/2104785623 # snowpiercer
-      - workshop/2081770490 # snowbase
-      - workshop/3361032068 # freezetag speleo
-      - workshop/3361557780 # freezetag melchior
-      - workshop/3361186611 # freezetag slaughter
-  
-  swishcast_2024_xmas_day2:
-    mapconfig:
-      general:
-        all:
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 30
-
-    maps:
-      - workshop/3362948939 # gavle
-      - workshop/835383478 # 2fort 3rdoct
-      - workshop/2954029711 # winter ridge
-      - workshop/3361730430 # freezetag aspen
-      - workshop/3360981389 # freezetag himalaya
-
-  as_seen_on_swishcast:
-    mapconfig:
-      general:
-        all:
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 30
-
-          sm_crh_blu_snipers: -1
-      
-      maps:
-        ctf_shooting_gallery_v3:
-          sm_crh_blu_snipers: 0
-
-    maps:
-      - cp_2train
-      - falling_cp
-      - cp_aqua
-      - cp_redfort_b5
-      - 2tpl_mine_alpine2_final
-      - cp_2train_night_fix_a3
-      - ctf_mach4
-      - ctf_snofort_final
-      - pl_haywood_snickers_b5a
-      - cp_toy_fort_beta2
-      - koth_aquapump_a1a
-      - pl_donkeykong_final
-      - pl_cranetop_b8
-      - ctf_shooting_gallery_b3
-      - ctf_hallofdeath
-      - workshop/3361032068 # freezetag speleo
-      - workshop/3361557780 # freezetag melchior
-      - workshop/3361730430 # freezetag aspen
-
-  swishcast_2008_event:
-    mapconfig:
-      general:
-        all:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-          mp_timelimit: 0
-
-          sm_crh_blu_snipers: -1
-      maps:
-        ctf_2fort_classic_v1:
-          mp_timelimit: 30
-        ctf_snofort_final:
-          mp_timelimit: 30
-
-        ctf_shooting_gallery_v3:
-          sm_crh_blu_snipers: 0
-
-    maps:
-      - ctf_hallofdeath
-      - cp_toy_fort_beta2
-      - cp_warehouse_b8
-      - cp_desertfortress
-      - ctf_shooting_gallery_b3
-      - falling_cp
-      - ctf_2fort_classic_v1
-      - cp_wolf2_b1
-      - pl_donkeykong_final
-      - cp_dock2_v1
-      - cp_smbcastle2
-      - pl_haywood_snickers_b5a
-      - ctf_snofort_final
-      - ctf_mach4
-
-  swishcast_arena_event:
-    mapconfig:
-      general:
-        all:
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 20
-    maps:
-      - arena_byre
-      - arena_granary
-      - arena_lumberyard
-      - arena_nucleus
-      - arena_offblast_final
-      - arena_perks
-      - arena_ravine
-      - arena_sawmill
-      - arena_watchtower
-      - arena_well
-      - workshop/3344944274 # arena_parkourcivilization
-      - workshop/698887534 # Shelter
-      - workshop/475946266 # Goldtooth
-      - workshop/2849495579 # Landfall
-      - workshop/2083578446 # Seize
-      - workshop/3324748186 # Commune
-
-  swishcast_regular:
-    mapconfig:
-      general:
-        all:
-          mp_winlimit: 0
-          mp_maxrounds: 0
-          mp_timelimit: 0
-      gametype:
-        cp:
-          mp_winlimit: 2
-        ctf:
-          tf_flag_caps_per_round: 3
-          mp_winlimit: 1
-          mp_timelimit: 30
-        koth:
-          mp_winlimit: 2
-        pd:
-          mp_winlimit: 1
-        pl:
-          mp_maxrounds: 2
-        plr:
-          mp_maxrounds: 1
-          mp_timelimit: 20
-        sd:
-          mp_maxrounds: 2
-      maps:
-        # a/d cp use maxrounds intead
-        # thank you valve for making a/d use same prefix as 3/5cp
-        cp_dustbowl:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_altitude:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_gorge:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_gravelpit:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_junction_final:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_mercenarypark:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_mossrock:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_mountainlab:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_steel:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        workshop/cp_fulgur_rc2a.ugc2068252300:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        workshop/cp_cold_era_rc1.ugc3070747049:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_overgrown:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_hadal:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-        cp_burghausen:
-          mp_winlimit: 0
-          mp_maxrounds: 2
-
-    maps:
-      - cp_mountainlab
-      - cp_brew
-      - cp_mossrock
-      - ctf_pelicanpeak
-      - ctf_applejack
-      - ctf_doublecross
-      - ctf_landfall
-      - cp_snakewater
-      - cp_granary
-      - cp_gullywash
-      - cp_steel
-      - cp_reckoner
-      - koth_cascade
-      - koth_highpass
-      - koth_lakeside_final
-      - koth_sawmill
-      - koth_rotunda
-      - koth_sharkbay
-      - pd_atom_smash
-      - pl_borneo
-      - pl_badwater
-      - pl_camber
-      - pl_phoenix
-      - pl_vineyard_rc8b
-      - pl_thundermountain
-      - pl_emerge
-      - plr_bananabay
-      - pl_snowycoast
-      - pd_selbyen
-      - pd_galleria
-      - sd_doomsday
-
-      # summer maps
-      - pl_embargo
-      - pl_odyssey
-      - koth_megaton
-      - koth_cachoeira
-      - cp_overgrown
-      - cp_hadal
-      - cp_canaveral_5cp
-      - cp_burghausen
-
-
-      # workshop
-      - workshop/3228889882 # PL Yokohama - https://steamcommunity.com/sharedfiles/filedetails/?id=3228889882
-      - workshop/3066697592 # CTF Sidewinder - https://steamcommunity.com/sharedfiles/filedetails/?id=3066697592
-      - workshop/3070747049 # CP Cold Era - https://steamcommunity.com/sharedfiles/filedetails/?id=3070747049
-      - workshop/3072550679 # PL Icy Flats - https://steamcommunity.com/sharedfiles/filedetails/?id=3072550679
-      - workshop/3184765963 # KOTH Manners Avenue - https://steamcommunity.com/sharedfiles/filedetails/?id=3184765963
-      - workshop/483740681  # CTF Convoy - https://steamcommunity.com/sharedfiles/filedetails/?id=483740681
-      - workshop/731436616  # KOTH Trenchfoot - https://steamcommunity.com/sharedfiles/filedetails/?id=731436616
-      - workshop/3126094575 # PL Shatter - https://steamcommunity.com/sharedfiles/filedetails/?id=3126094575
-      - workshop/1238849347 # PL Shoreleave - https://steamcommunity.com/sharedfiles/filedetails/?id=1238849347
-      - workshop/1712845210 # KOTH Slaughter - https://steamcommunity.com/sharedfiles/filedetails/?id=1712845210
-      - workshop/1130780387 # KOTH Luftangriff - https://steamcommunity.com/sharedfiles/filedetails/?id=1130780387
-      - workshop/2068252300 # CP Fulgur - https://steamcommunity.com/sharedfiles/filedetails/?id=2068252300
-      - workshop/696554453  # CTF Aerospace - https://steamcommunity.com/sharedfiles/filedetails/?id=696554453
-      - workshop/2811632094 # PL Vineyard - https://steamcommunity.com/sharedfiles/filedetails/?id=2811632094
-      - workshop/2969573312 # PL Eruption - https://steamcommunity.com/sharedfiles/filedetails/?id=2969573312
-      - workshop/2706731700 # Improved 2fort - https://steamcommunity.com/sharedfiles/filedetails/?id=2706731700
+      - plr_hightower_dv1 # rinstagib edit
+      - cp_orange_gamerland_classic_d # rinstagib edit
+      - koth_lakeside_final_dv1 # rinstagib edit
 
 # Plugins to include on every server
 base_plugins:
   - admin-flatfile
   - adminhelp
   - adminmenu
-  - advertisements
   - antiflood
-  - AutoKickProtector
   - basechat
   - basecomm
   - basecommands
   - basetriggers
-  - ClassRestrictionsForHumans
   - clientprefs
-  - discord
-  - discord_relay
-  - discord_sourcebans
-  - discord_sourcecomms
-  - extendedmapconfig
-  - fixstvslot
+  # - discord
+  # - discord_relay
+  # - discord_sourcebans
+  # - discord_sourcecomms
+  # - fixstvslot
   - funcommands
   - funvotes
   - links
   - nextmap
   - playercommands
   - reservedslots
-  - sbpp_admcfg
-  - sbpp_checker
-  - sbpp_comms
-  - sbpp_main
-  - sbpp_sleuth
+  # - sbpp_admcfg
+  # - sbpp_checker
+  # - sbpp_comms
+  # - sbpp_main
+  # - sbpp_sleuth
   - sm_nocontracker
   - sounds
   - spraytrace
   - stac
   - votescramble
-  - waitingdoors
+  # - waitingdoors
 
   # - basebans
   # - basevotes
@@ -412,14 +153,7 @@ default_vdfs:
       Links:
         "1":
           command: sm_discord
-          link: https://discord.gg/CykAHkzkhx
-
-  advertisements:
-    location: /tf/addons/sourcemod/configs/advertisements.txt
-    default:
-      Advertisements:
-        "1":
-          chat: "{blue}Check out SwishCast Podcast on YouTube!"
+          link: https://discord.gg/V5Z29SXtsY
 
 ###
 # Plugin default configurations

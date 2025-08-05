@@ -1,0 +1,15 @@
+# https://developer.valvesoftware.com/wiki/Sv_region
+srcds_region: 0
+srcds_base_port: 27015
+srcds_reserve_ports: 10
+daily_restart_hour_utc: 12
+cpuset_offset: 0
+
+instances:
+  - name: ri
+    hostname: "RINSTAGIB"
+    maxplayers: 12
+    mapcycle: rinstagib
+    ruleset: rinstagib
+    timelimit: 15
+    relay_channel: 1299542496766066850
