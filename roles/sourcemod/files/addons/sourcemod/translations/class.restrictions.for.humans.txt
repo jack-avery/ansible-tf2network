@@ -1,0 +1,22 @@
+"Phrases"
+{
+	"full_teams"
+	{
+		"en"		"All classes are full on both RED and BLU! Moving you to spectators!"
+	}
+
+	"red_full_but_not_blu"
+	{
+		"en"		"The RED team is full! Changing your team to BLU."
+	}
+
+	"blu_full_but_not_red"
+	{
+		"en"		"The BLU team is full! Changing your team to RED."
+	}
+
+	"full_class"
+	{
+		"en"		"The class you picked is full! Selecting a random free class."
+	}
+}

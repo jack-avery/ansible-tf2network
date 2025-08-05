@@ -41,7 +41,7 @@
 				"windows"
 				{
 					"signature"		"CTFPlayer::AddObject()"
-					"offset"		"37"
+					"offset"		"53"
 				}
 			}
 			"offsetof(CTFPlayer::m_flRespawnTimeOverride)"
@@ -72,34 +72,33 @@
 			// virtual offsets
 			"CBaseCombatCharacter::Weapon_Switch()"
 			{
-				"windows"	"274"
-				"linux"		"275"
-			}
-			"CBaseCombatCharacter::Weapon_ShootPosition()"
-			{
 				"windows"	"275"
 				"linux"		"276"
 			}
+			"CBaseCombatCharacter::Weapon_ShootPosition()"
+			{
+				"windows"	"276"
+				"linux"		"277"
+			}
 			"CBaseCombatWeapon::GetSlot()"
 			{
-				"windows"	"333"
-				"linux"		"339"
+				"windows"	"334"
+				"linux"		"340"
 			}
 			"CBaseEntity::GetMaxHealth()"
 			{
-				"windows"	"122"
-				"linux"		"123"
+				"windows"	"123"
+				"linux"		"124"
 			}
 			"CBaseEntity::IsBaseCombatWeapon()"
 			{
-				"windows"	"91"
-				"linux"		"92"
+				"windows"	"92"
+				"linux"		"93"
 			}
 			"CBaseEntity::IsWearable()"
 			{
-				"windows"	"92"
-				"linux"		"93"
-				"mac"		"93"
+				"windows"	"93"
+				"linux"		"94"
 			}
 			"CBaseEntity::TakeHealth()"
 			{
@@ -108,24 +107,23 @@
 			}
 			"CTFWeaponBase::CanAttack()"
 			{
-				"windows"	"425"
-				"linux"		"432"
+				"windows"	"428"
+				"linux"		"435"
 			}
 			"CTFWeaponBase::GetMaxClip1()"
 			{
-				"windows"	"324"
-				"linux"		"330"
+				"windows"	"325"
+				"linux"		"331"
 			}
 			"CTFWeaponBase::GetWeaponID()"
 			{
-				"windows"	"380"
-				"linux"		"386"
+				"windows"	"382"
+				"linux"		"388"
 			}
 			"CTFPlayer::EquipWearable()"
 			{
-				"windows"	"438"
-				"linux"		"439"
-				"mac"		"439"
+				"windows"	"439"
+				"linux"		"440"
 			}
 			
 			// member offsets
@@ -139,8 +137,8 @@
 			}
 			"CTFPlayer::m_flLastDamageTime"
 			{
-				"linux"		"8968"
-				"windows"	"8964"
+				"linux"		"8980"
+				"windows"	"8972"
 			}
 			"CTFPlayerShared::m_pOuter"
 			{
@@ -251,7 +249,7 @@
 			{
 				// we only use this to get offsetof(CTFPlayer::m_aObjects) on Windows
 				"library"		"server"
-				"windows"		"\x55\x8B\xEC\x51\x53\x56\x57\x8B\x7D\x08\x8B\xD9\x85\xFF\x74\x2A\x8B\x07\x8B\xCF\xFF\x50\x08\x8B\x00\xEB\x2A\x83\xC8\xFF\x33\xF6\x89\x45\xFC\x39\xB3\x44\x23\x00\x00"
+				"windows"		"\x55\x8B\xEC\x51\x53\x56\x57\x8B\x7D\x08\x8B\xD9\x85\xFF\x74\x2A\x8B\x07\x8B\xCF\xFF\x50\x08\x8B\x00\xEB\x2A\x83\xC8\xFF\x33\xF6\x89\x45\xFC\x39\xB3\x2A\x23\x00\x00"
 			}
 			"CTFPlayer::GetEntityForLoadoutSlot()"
 			{
@@ -272,7 +270,7 @@
 				// function is x-ref to CTFPlayer::TeamFortress_CalculateMaxSpeed
 				"library"		"server"
 				"linux"			"@_ZN9CTFPlayer21TeamFortress_SetSpeedEv"
-				"windows"		"\x55\x8B\xEC\x83\xEC\x28\xA1\x2A\x2A\x2A\x2A\x56"
+				"windows"		"\x55\x8B\xEC\x83\xEC\x24\xA1\x2A\x2A\x2A\x2A\x56\x8B\xF1\x89\x75\xF0"
 			}
 			"CTFPlayer::GetObject()"
 			{
@@ -314,7 +312,7 @@
 				// first non-virtual call after semi-unique xref to "Player.Spawn"
 				"library"		"server"
 				"linux"			"@_ZN15CTFPlayerShared13RemoveAllCondEv"
-				"windows"		"\x55\x8B\xEC\x83\xEC\x20\x53\x56\x8B\xF1\x57\x8D\x9E\xE0\x00\x00\x00"
+				"windows"		"\x55\x8B\xEC\x83\xEC\x0C\x53\x56\x8B\xF1\x57\x8D\x9E\xE0\x00\x00\x00"
 			}
 			"GetTFConditionName()"
 			{

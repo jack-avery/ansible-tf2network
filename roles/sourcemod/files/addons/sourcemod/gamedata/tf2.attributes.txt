@@ -64,7 +64,7 @@
 			"CEconItemSchema::GetAttributeDefinition"	//(int), returns CEconItemAttributeDefinition*
 			{
 				"library"			"server"
-				"windows"			"\x55\x8B\xEC\x83\xEC\x2A\x53\x56\x8B\xD9\x8D\x2A\x2A\x57"
+				"windows"			"\x55\x8B\xEC\x56\x8B\xF1\x8D\x45\x08\x50\x8D\x8E\xBC\x01\x00\x00"
 				"linux"				"@_ZN15CEconItemSchema22GetAttributeDefinitionEi"
 				"mac"				"@_ZN15CEconItemSchema22GetAttributeDefinitionEi"
 			}
@@ -138,7 +138,7 @@
 			{
 				// called with x-ref string "hidden maxhealth non buffed"
 				"library"			"server"
-				"windows"			"\x55\x8B\xEC\x83\xEC\x10\x53\x56\x57\xFF\x75\x08"
+				"windows"			"\x55\x8B\xEC\x83\xEC\x08\x53\x56\x57\xFF\x75\x08\x8B\xD9"
 				"linux"				"@_ZN9CTFPlayer21RemoveCustomAttributeEPKc"
 				"mac"				"@_ZN9CTFPlayer21RemoveCustomAttributeEPKc"
 			}
@@ -150,6 +150,19 @@
 				"windows"			"\x55\x8B\xEC\x8B\x45\x08\x8B\x48\x10"
 				"linux"				"@_Z43CopyStringAttributeValueToCharPointerOutputPK17CAttribute_StringPPKc"
 				"mac"				"@_Z43CopyStringAttributeValueToCharPointerOutputPK17CAttribute_StringPPKc"
+			}
+		}
+		"Keys"
+		{
+			// user-facing error messages so we stop getting badgered about "Could not initialize call to CEconItemSchema::GetItemDefinition"
+			"PluginFailMessage"
+			{
+				"windows"			""
+				"windows64"			"This plugin is currently not supported on 64-bit servers.  See https://github.com/FlaminSarge/tf2attributes/issues/50 and make sure you are NOT launching the server with srcds_win64 / tf_win64."
+				"linux"				""
+				"linux64"			"This plugin is currently not supported on 64-bit servers.  See https://github.com/FlaminSarge/tf2attributes/issues/50 and make sure you are NOT launching the server with srcds_run_64."
+				"mac"				"This plugin is no longer supported on Mac."
+				"mac64"				"This plugin is no longer supported on Mac.  Especially not on the nonexistent 64-bit version of SRCDS."
 			}
 		}
 	}
